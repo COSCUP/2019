@@ -14,7 +14,9 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "nuxt": "^1.4.0"
+    "nuxt": "^1.4.0",
+    "nuxt-property-decorator": "^1.2.0",
+    "vuex-class": "^0.3.0"
   },
   "devDependencies": {
     "@types/node": "^10.0.0",
