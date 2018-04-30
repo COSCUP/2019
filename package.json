@@ -17,10 +17,13 @@
     "nuxt": "^1.4.0"
   },
   "devDependencies": {
+    "@types/node": "^10.0.0",
     "babel-eslint": "^8.2.1",
     "eslint": "^4.15.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",
-    "eslint-plugin-vue": "^4.0.0"
+    "eslint-plugin-vue": "^4.0.0",
+    "ts-loader": "^3.5.0",
+    "typescript": "^2.8.3"
   }
 }
