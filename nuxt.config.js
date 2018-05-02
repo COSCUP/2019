@@ -36,6 +36,7 @@ module.exports = {
     }
   },
   modules: [
+    "~/modules/fetch.js",
     "~/modules/typescript.js"
   ]
 }
