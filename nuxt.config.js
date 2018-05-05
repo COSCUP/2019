@@ -3,11 +3,11 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'coscup-2018',
+    title: 'COSCUP',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'COSCUP 2018 website' }
+      { hid: 'description', name: 'description', content: 'COSCUP 2018' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -33,7 +33,7 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    }
+    },
   },
   modules: [
     "~/modules/fetch.js",
