@@ -37,6 +37,16 @@ module.exports = {
   },
   modules: [
     "~/modules/fetch.js",
-    "~/modules/typescript.js"
+    "~/modules/typescript.js",
+    ['nuxt-i18n', {
+      parsePages: false,
+      locales: [
+        { code: 'en',    iso: 'en-US', file: 'en.ts' },
+        { code: 'zh-TW', iso: 'zh-TW', file: 'zh-TW.ts' },
+      ],
+      defaultLocale: 'zh-TW',
+      langDir: 'languages/',
+      lazy: true,
+    }],
   ]
 }

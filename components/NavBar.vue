@@ -1,22 +1,22 @@
 <template>
   <nav>
     <div class="logo">
-      <nuxt-link to="/">
+      <nuxt-link :to="localePath('index')">
         <img src="~/assets/logo-200.png" />
       </nuxt-link>
     </div>
     <ul class="pages container">
-      <li><nuxt-link to="/">about</nuxt-link></li>
-      <li><nuxt-link to="/schedules">schedules</nuxt-link></li>
-      <li><nuxt-link to="/directions">directions</nuxt-link></li>
-      <li><nuxt-link to="/sponsors">sponsors</nuxt-link></li>
-      <li><nuxt-link to="/staffs">staffs</nuxt-link></li>
-      <li><a href="https://blog.coscup.org" target="_blank">blog</a></li>
+      <li><nuxt-link :to="localePath('index')">{{ $t('pages.about') }}</nuxt-link></li>
+      <li><nuxt-link :to="localePath('schedules')">{{ $t('pages.schedules') }}</nuxt-link></li>
+      <li><nuxt-link :to="localePath('directions')">{{ $t('pages.directions') }}</nuxt-link></li>
+      <li><nuxt-link :to="localePath('sponsors')">{{ $t('pages.sponsors') }}</nuxt-link></li>
+      <li><nuxt-link :to="localePath('staffs')">{{ $t('pages.staffs') }}</nuxt-link></li>
+      <li><a href="https://blog.coscup.org" target="_blank">{{ $t('pages.blog') }}</a></li>
     </ul>
     <div class="languages">
       <ul>
-        <li><a href="/">En</a></li>
-        <li><a href="/">繁</a></li>
+        <li><nuxt-link :to="switchLocalePath('en')">En</nuxt-link></li>
+        <li><nuxt-link :to="switchLocalePath('zh-TW')">繁</nuxt-link></li>
       </ul>
     </div>
   </nav>
