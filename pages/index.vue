@@ -39,7 +39,7 @@ export default class extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   min-height: 100vh;
   display: flex;
