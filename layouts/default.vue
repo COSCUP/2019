@@ -22,8 +22,11 @@ export default class extends Vue {
 }
 </script>
 
-
 <style>
+:root {
+  --accent: rgb(59, 156, 96);
+}
+
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 18px;
@@ -40,8 +43,17 @@ html {
   margin: 0;
 }
 
+body {
+  background-color: rgb(245, 252, 245);
+}
+
 a {
   text-decoration: none;
+  color: var(--accent);
+
+  &:hover, &:focus {
+    color: color(var(--accent) a(40%))
+  }
 }
 
 ul > li {
@@ -57,5 +69,9 @@ ul > li {
 <style scoped>
 div {
   padding-top: 3.6rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

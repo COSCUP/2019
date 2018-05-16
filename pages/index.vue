@@ -1,15 +1,17 @@
 <template>
-  <section class="container">
-    <section class="header">
+  <main class="index">
+    <Card class="topic">
       <h1>COSCUP 2018</h1>
       <h2>{{ description }}</h2>
-      <div class="location"></div>
-    </section>
-    <section class="registration">
-      <span>{{ registration.start_at }}</span>
-      <span>{{ registration.end_at }}</span>
-    </section>
-  </section>
+      {{ place }}
+    </Card>
+    <Card class="container">
+      <section class="registration">
+        <span>{{ registration.start_at }}</span>
+        <span>{{ registration.end_at }}</span>
+      </section>
+    </Card>
+  </main>
 </template>
 
 <script lang="ts">
@@ -26,12 +28,19 @@ import {
   name as mainStoreName
 } from '~/store/main'
 
+import Card from '~/components/Card.vue'
+
 const MainState = namespace(mainStoreName, State)
 
-@Component
+@Component({
+  components: {
+    Card,
+  }
+})
 export default class extends Vue {
   @MainState description
   @MainState registration
+  @MainState place
 
   async fetch({ store: { dispatch } }) {
     await dispatch(`${mainStoreName}/fetchData`)
@@ -40,11 +49,41 @@ export default class extends Vue {
 </script>
 
 <style scoped>
-.container {
-  min-height: 100vh;
+:root {
+  --accent: rgb(59, 156, 96);
+}
+
+main.index {
+  width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topic {
+  width: 100%;
+  margin: 0 !important;
+  padding: 4em 2em !important;
+  min-height: 80vh;
+  height: 100%;
+  max-height: 80vh;
+
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.topic h1 {
+  color: var(--accent);
+  font-size: 4em;
+  line-height: 1.2em;
+  padding-bottom: .4em;
+
+  text-align: center;
+}
+
+.topic h2 {
   text-align: center;
 }
 </style>
