@@ -48,5 +48,13 @@ module.exports = {
       langDir: 'languages/',
       lazy: true,
     }],
-  ]
+    ['@nuxtjs/moment', [
+      /* en is embedded inside moment.js */
+      'zh-tw',
+      'ja',
+    ]],
+  ],
+  plugins: [
+    '~/plugins/i18n.ts',
+  ],
 }

@@ -14,6 +14,8 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@nuxtjs/moment": "^1.0.0",
+    "moment": "^2.22.1",
     "nuxt": "^1.4.0",
     "nuxt-i18n": "^3.2.3",
     "nuxt-property-decorator": "^1.2.0",
