@@ -1,10 +1,8 @@
 <template>
   <nav>
-    <div class="logo">
-      <nuxt-link :to="localePath('index')">
-        <img src="~/assets/logo-200.png" />
-      </nuxt-link>
-    </div>
+    <nuxt-link class="logo" :to="localePath('index')">
+      <img src="~/assets/logo-200.png" />
+    </nuxt-link>
     <ul class="pages container">
       <li><nuxt-link :to="localePath('index')">{{ $t('pages.about') }}</nuxt-link></li>
       <li><nuxt-link :to="localePath('schedules')">{{ $t('pages.schedules') }}</nuxt-link></li>
@@ -13,18 +11,16 @@
       <li><nuxt-link :to="localePath('staffs')">{{ $t('pages.staffs') }}</nuxt-link></li>
       <li><a href="https://blog.coscup.org" target="_blank">{{ $t('pages.blog') }}</a></li>
     </ul>
-    <div class="languages">
-      <ul>
-        <li><nuxt-link :to="switchLocalePath('en')">En</nuxt-link></li>
-        <li><nuxt-link :to="switchLocalePath('zh-TW')">繁</nuxt-link></li>
-      </ul>
-    </div>
+    <ul class="languages">
+      <li><nuxt-link :to="switchLocalePath('en')">En</nuxt-link></li>
+      <li><nuxt-link :to="switchLocalePath('zh-TW')">繁</nuxt-link></li>
+    </ul>
   </nav>
 </template>
 
 <style scoped>
-nav, .logo a, .languages li a {
-  height: 4em;
+nav {
+  height: 3.6rem;
 }
 
 nav {
@@ -34,8 +30,8 @@ nav {
 
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: space-between;
 
   position: fixed;
   left: 0;
@@ -45,12 +41,9 @@ nav {
 }
 
 .logo {
-  flex-grow: 1;
+  padding: 0 1em;
   display: flex;
-}
-
-.logo a {
-  padding: 1em;
+  align-items: center;
 
   border-right: 1px solid #e9e9e9;
 }
@@ -61,45 +54,32 @@ nav {
 }
 
 .pages {
-  align-self: center;
-
   display: flex;
   flex-direction: row;
   padding: 0 1em;
-  margin-left: auto;
 
-  justify-content: flex-start;
-  align-items: center;
+  align-items: stretch;
 }
 
 .pages li {
   flex-grow: 1;
-
-  text-align: center;
+  display: flex;
 }
 
 .pages li a {
-  padding: 1.4em 1.2em;
-
-  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .languages {
   display: flex;
-  flex-grow: 1;
-
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.languages ul {
-  display: flex;
   flex-direction: row;
-  padding: 0 .5em;
-  margin-left: auto;
-
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
+
+  padding: 0;
 
   border-left: 1px solid #e9e9e9;
 }
@@ -114,5 +94,13 @@ nav {
   padding: 0 .5em;
 
   text-align: center;
+}
+
+.languages li:first-child a {
+  padding-left: 1em;
+}
+
+.languages li:last-child a {
+  padding-right: 1em;
 }
 </style>
