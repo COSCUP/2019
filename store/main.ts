@@ -32,7 +32,8 @@ export const actions: Actions<State, RootState> = {
   },
 
   async fetchData({ commit, rootState }) {
-    const endpoint = rootState[endpointStateName].main
+    const locale = rootState.i18n.locale
+    const endpoint = rootState[endpointStateName][locale].main
     const response = await fetch(endpoint)
     const datas = await response.json()
 

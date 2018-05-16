@@ -10,11 +10,16 @@ import {
   State as EndpointState,
 } from './endpoints'
 import {
+  name as I18nName,
+  State as I18nState,
+} from './i18n'
+import {
   name as MainName,
 } from './main'
 
 export type RootState = {
-  endpoints: EndpointState
+  [EndpointName]: EndpointState,
+  [I18nName]: I18nState,
 }
 
 export interface Actions<S, R> extends ActionTree<S, R> {
