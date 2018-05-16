@@ -7,4 +7,6 @@ export default interface Language {
     staffs: string
     blog: string
   }
+
+  register: string
 }

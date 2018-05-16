@@ -9,6 +9,7 @@ const language : Language = {
     staffs: '工作人員',
     blog: '部落格',
   },
+  register: '報名'
 }
 
 export default language

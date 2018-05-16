@@ -9,6 +9,7 @@ const language : Language = {
     staffs: 'Staff',
     blog: 'Blog',
   },
+  register: 'Registration'
 }
 
 export default language

@@ -6,10 +6,9 @@
       {{ place }}
     </Card>
     <Card class="container">
-      <section class="registration">
-        <span>{{ registration.start_at }}</span>
-        <span>{{ registration.end_at }}</span>
-      </section>
+      <h1>{{ $t('register') }}</h1>
+      <span>{{ registration.start_at | moment }}</span> ~
+      <span>{{ registration.end_at | moment }}</span>
     </Card>
   </main>
 </template>
@@ -24,6 +23,8 @@ import {
   State,
   namespace,
 } from 'vuex-class'
+import moment from 'moment'
+
 import {
   name as mainStoreName
 } from '~/store/main'
@@ -35,6 +36,11 @@ const MainState = namespace(mainStoreName, State)
 @Component({
   components: {
     Card,
+  },
+  filters: {
+    moment(val) {
+      return moment(val).format('ll LT')
+    }
   }
 })
 export default class extends Vue {
