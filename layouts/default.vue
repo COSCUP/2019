@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar />
-    <nuxt/>
+    <nuxt />
   </div>
 </template>
 
@@ -11,7 +11,7 @@ import {
   Vue,
 } from 'nuxt-property-decorator'
 
-import NavBar from '~/components/NavBar.vue';
+import NavBar from '~/components/NavBar.vue'
 
 @Component({
   components: {

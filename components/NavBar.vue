@@ -19,6 +19,10 @@
 </template>
 
 <style scoped>
+:root {
+  --accent: rgb(59, 156, 96);
+}
+
 nav {
   height: 3.6rem;
 }
@@ -71,6 +75,15 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  color: hsl(0, 0%, 60%);
+}
+
+.pages li a.nuxt-link-exact-active {
+  color: var(--accent);
+
+  border-top: 4px transparent solid;
+  border-bottom: 4px var(--accent) solid;
 }
 
 .languages {
