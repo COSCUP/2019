@@ -9,7 +9,10 @@ const language : Language = {
     staffs: 'Staff',
     blog: 'Blog',
   },
-  register: 'Registration'
+  register: 'Registration',
+  sponsors: {
+    sortBy: 'Sorted in dictionary order'
+  }
 }
 
 export default language

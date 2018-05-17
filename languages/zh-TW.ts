@@ -9,7 +9,10 @@ const language : Language = {
     staffs: '工作人員',
     blog: '部落格',
   },
-  register: '報名'
+  register: '報名',
+  sponsors: {
+    sortBy: '依字典序排序',
+  }
 }
 
 export default language

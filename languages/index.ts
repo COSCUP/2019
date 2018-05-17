@@ -9,4 +9,8 @@ export default interface Language {
   }
 
   register: string
+
+  sponsors: {
+    sortBy: string
+  }
 }
