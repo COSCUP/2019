@@ -57,4 +57,7 @@ module.exports = {
   plugins: [
     '~/plugins/i18n.ts',
   ],
+  generate: {
+    fallback: true,
+  },
 }
