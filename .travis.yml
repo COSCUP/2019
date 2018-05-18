@@ -6,13 +6,24 @@ script:
   - npm run build
 
 deploy:
-  provider: pages
-  local-dir: .nuxt/dist/
-  skip-cleanup: true
-  target-branch: gh-pages
-  github-token: $GITHUB_TOKEN
-  keep-history: true
-  on:
-    branch:
-      - master
-      - deploy
+  - provider: pages
+    local-dir: .nuxt/dist/
+    skip-cleanup: true
+    repo: COSCUP/coscup2018-website-staging
+    target-branch: gh-pages
+    github-token: $GITHUB_TOKEN
+    keep-history: true
+    on:
+      branch:
+        - dev
+        - staging
+  - provider: pages
+    local-dir: .nuxt/dist/
+    skip-cleanup: true
+    target-branch: gh-pages
+    github-token: $GITHUB_TOKEN
+    keep-history: true
+    on:
+      branch:
+        - master
+        - production
