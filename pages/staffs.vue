@@ -1,13 +1,13 @@
 <template>
   <main class="staffs">
-    <section class="department" v-for="department in departments" :key="department.name">
-      <h1>{{ department.name }}</h1>
+    <Card class="container" v-for="group in groupedStaffs" :key="group.name">
+      <h1>{{ group.name }}</h1>
       <ul>
-        <li v-for="staff in department.staffs" :key="staff.name">
+        <li v-for="staff in group.people" :key="staff.name">
           {{ staff.name }}
         </li>
       </ul>
-    </section>
+    </Card>
   </main>
 </template>
 
@@ -16,29 +16,51 @@ import {
   Component,
   Vue,
 } from 'nuxt-property-decorator'
+import {
+  Action,
+  State,
+  namespace,
+} from 'vuex-class'
 
-interface Department {
-  name: String,
-  staffs: [Staff]
-}
+import {
+  name as staffsStoreName,
+  State as staffsState,
+} from '~/store/staffs'
 
-interface Staff {
-  name: String
-}
+import Card from '~/components/Card.vue'
 
-@Component
+const StaffsState = namespace(staffsStoreName, State)
+
+@Component({
+  components: {
+    Card,
+  },
+})
 export default class extends Vue {
-  dummyData : [Department] = [
-    {
-      name: 'Foo',
-      staffs: [
-        { name: 'StaffA' }
-      ]
-    }
-  ]
+  @StaffsState('groups') groupedStaffs: staffsState
 
-  get departments() {
-    return this.dummyData
+  async fetch({ store: { dispatch } }) {
+    await dispatch(`${staffsStoreName}/fetchData`)
   }
 }
 </script>
+
+<style scoped>
+main.staffs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2em;
+}
+
+main.staffs ul {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+main.staffs li {
+  margin-right: 2.5em;
+}
+</style>
