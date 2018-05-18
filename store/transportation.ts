@@ -19,6 +19,7 @@ export const types = {
 
 export type State = {
   address: string
+  place: string
   location: {
     lat: number
     lng: number

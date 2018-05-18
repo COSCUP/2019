@@ -61,16 +61,12 @@ import {
 import {
   name as transportationStoreName,
 } from '~/store/transportation'
-import {
-  name as mainStoreName
-} from '~/store/main'
 
 
 import Card from '~/components/Card.vue'
 import Sponsor from '~/components/Sponsor.vue'
 
 const TransportationState = namespace(transportationStoreName, State)
-const MainState = namespace(mainStoreName, State)
 
 @Component({
   components: {
@@ -85,7 +81,7 @@ export default class extends Vue {
   @TransportationState location
   @TransportationState address
   @TransportationState('transportation') transportations
-  @MainState place
+  @TransportationState place
 
   infoWindowOpened : boolean = true
 
