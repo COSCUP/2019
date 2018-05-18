@@ -22,6 +22,10 @@ import {
   State as SponsorsState,
 } from './sponsors'
 import {
+  name as StaffsName,
+  State as StaffsState,
+} from './staffs'
+import {
   name as TransportName,
   State as TransportState,
 } from './transportation'
@@ -31,6 +35,7 @@ export type RootState = {
   [I18nName]: I18nState
   [MainName]: MainState
   [SponsorsName]: SponsorsState
+  [StaffsName]: StaffsState
   [TransportName]: TransportState
 }
 
@@ -41,6 +46,7 @@ export interface Actions<S, R> extends ActionTree<S, R> {
 const modulesNeedToBeInit = [
   MainName,
   SponsorsName,
+  StaffsName,
   TransportName,
 ]
 
