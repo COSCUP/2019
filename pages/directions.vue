@@ -105,6 +105,7 @@ main.direction {
   height: 100vh;
   max-height: 70vh;
   min-height: 320px;
+  margin-bottom: 2em;
 }
 
 .transportations {
@@ -118,6 +119,5 @@ main.direction {
 .transportations .method {
   width: 50%;
   min-width: 320px;
-  margin-bottom: -2em;
 }
 </style>
