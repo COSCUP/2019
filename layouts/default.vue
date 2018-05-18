@@ -1,14 +1,36 @@
 <template>
-  <div>
-    <nuxt/>
+  <div class="root">
+    <NavBar />
+    <nuxt />
   </div>
 </template>
 
+<script lang="ts">
+import {
+  Component,
+  Vue,
+} from 'nuxt-property-decorator'
+
+import NavBar from '~/components/NavBar.vue'
+
+@Component({
+  components: {
+    NavBar,
+  },
+})
+export default class extends Vue {
+}
+</script>
+
 <style>
+:root {
+  --accent: rgb(59, 156, 96);
+}
+
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
+  font-size: 18px;
+  line-height: 2em;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
@@ -21,32 +43,35 @@ html {
   margin: 0;
 }
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
+body {
+  background-color: rgb(245, 252, 245);
+}
+
+a {
   text-decoration: none;
-  padding: 10px 30px;
+  color: var(--accent);
+
+  &:hover, &:focus {
+    color: color(var(--accent) a(40%))
+  }
 }
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
+ul > li {
+  list-style: none;
 }
 
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
+.container {
+  width: 60%;
+  max-width: 1280px;
 }
+</style>
 
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+<style scoped>
+.root {
+  padding-top: 3.6rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

@@ -3,11 +3,11 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'coscup-2018',
+    title: 'COSCUP',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'COSCUP 2018 website' }
+      { hid: 'description', name: 'description', content: 'COSCUP 2018' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -16,7 +16,7 @@ module.exports = {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: 'rgba(59, 156, 96, 0.4)' },
   /*
   ** Build configuration
   */
@@ -33,9 +33,37 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    }
+    },
+    vendors: [
+      'babel-polyfill',
+    ],
   },
   modules: [
-    "~/modules/typescript.js"
-  ]
+    "~/modules/fetch.js",
+    "~/modules/typescript.js",
+    ['nuxt-i18n', {
+      parsePages: false,
+      locales: [
+        { code: 'en',    iso: 'en-US', file: 'en.ts' },
+        { code: 'zh-TW', iso: 'zh-TW', file: 'zh-TW.ts' },
+      ],
+      defaultLocale: 'zh-TW',
+      langDir: 'languages/',
+      lazy: true,
+    }],
+    ['@nuxtjs/moment', [
+      /* en is embedded inside moment.js */
+      'zh-tw',
+      'ja',
+    ]],
+    ['~/modules/google-maps.js', {
+      key: 'AIzaSyBXDjcMb0gqT_UwYSYSsA6WlJr3tu1uRyc',
+    }],
+  ],
+  plugins: [
+    '~/plugins/i18n.ts',
+  ],
+  generate: {
+    fallback: true,
+  },
 }
