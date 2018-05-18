@@ -34,6 +34,9 @@ module.exports = {
         })
       }
     },
+    vendors: [
+      'babel-polyfill',
+    ],
   },
   modules: [
     "~/modules/fetch.js",
@@ -53,6 +56,9 @@ module.exports = {
       'zh-tw',
       'ja',
     ]],
+    ['~/modules/google-maps.js', {
+      key: 'AIzaSyBXDjcMb0gqT_UwYSYSsA6WlJr3tu1uRyc',
+    }],
   ],
   plugins: [
     '~/plugins/i18n.ts',
