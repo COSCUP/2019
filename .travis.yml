@@ -3,11 +3,11 @@ node_js:
   - "8"
 
 script:
-  - npm run build
+  - npm run generate
 
 deploy:
   - provider: pages
-    local-dir: .nuxt/dist/
+    local-dir: dist/
     skip-cleanup: true
     repo: COSCUP/coscup2018-website-staging
     target-branch: gh-pages
@@ -19,7 +19,7 @@ deploy:
         - dev
         - staging
   - provider: pages
-    local-dir: .nuxt/dist/
+    local-dir: dist/
     skip-cleanup: true
     target-branch: gh-pages
     github-token: $GITHUB_TOKEN
