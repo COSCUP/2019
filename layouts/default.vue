@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="root">
     <NavBar />
     <nuxt />
   </div>
@@ -67,7 +67,7 @@ ul > li {
 </style>
 
 <style scoped>
-div {
+.root {
   padding-top: 3.6rem;
 
   display: flex;
