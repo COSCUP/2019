@@ -10,6 +10,9 @@
       <span>{{ registration.start_at | moment }}</span> ~
       <span>{{ registration.end_at | moment }}</span>
     </Card>
+    <Card class="container">
+      關於放這裡……
+    </Card>
   </main>
 </template>
 
@@ -68,7 +71,6 @@ main.index {
 
 .topic {
   width: 100%;
-  margin: 0 !important;
   padding: 4em 2em !important;
   min-height: 80vh;
   height: 100%;
