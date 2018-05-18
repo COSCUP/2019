@@ -21,12 +21,17 @@ import {
   name as SponsorsName,
   State as SponsorsState,
 } from './sponsors'
+import {
+  name as TransportName,
+  State as TransportState,
+} from './transportation'
 
 export type RootState = {
-  [EndpointName]: EndpointState,
-  [I18nName]: I18nState,
-  [MainName]: MainState,
-  [SponsorsName]: SponsorsState,
+  [EndpointName]: EndpointState
+  [I18nName]: I18nState
+  [MainName]: MainState
+  [SponsorsName]: SponsorsState
+  [TransportName]: TransportState
 }
 
 export interface Actions<S, R> extends ActionTree<S, R> {
@@ -36,6 +41,7 @@ export interface Actions<S, R> extends ActionTree<S, R> {
 const modulesNeedToBeInit = [
   MainName,
   SponsorsName,
+  TransportName,
 ]
 
 export const actions: Actions<{}, RootState> = {
