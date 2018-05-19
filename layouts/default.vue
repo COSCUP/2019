@@ -2,6 +2,7 @@
   <div class="root">
     <NavBar />
     <nuxt />
+    <Footer />
   </div>
 </template>
 
@@ -12,10 +13,12 @@ import {
 } from 'nuxt-property-decorator'
 
 import NavBar from '~/components/NavBar.vue'
+import Footer from '~/components/Footer.vue'
 
 @Component({
   components: {
     NavBar,
+    Footer,
   },
 })
 export default class extends Vue {
