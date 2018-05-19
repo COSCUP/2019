@@ -43,20 +43,10 @@ export interface Actions<S, R> extends ActionTree<S, R> {
   nuxtServerInit(context: ActionContext<S, R>): void
 }
 
-const modulesNeedToBeInit = [
-  MainName,
-  SponsorsName,
-  StaffsName,
-  TransportName,
-]
-
 export const actions: Actions<{}, RootState> = {
   async nuxtServerInit({ dispatch }) {
     // We should init Endpoints first
     await dispatch(`${EndpointName}/nuxtServerInit`, { root: true })
-    // Then we can load all datas parallelly
-    await Promise.all(modulesNeedToBeInit.map((namespace) => (
-      dispatch(`${namespace}/nuxtServerInit`, { root: true })
-    )))
+    await dispatch(`${MainName}/nuxtServerInit`, { root: true })
   }
 }
