@@ -65,6 +65,7 @@ module.exports = {
       locales: locales,
       defaultLocale: 'zh-TW',
     }],
+    '@nuxtjs/sitemap',
   ],
   plugins: [
     {
@@ -75,5 +76,9 @@ module.exports = {
   ],
   generate: {
     fallback: true,
+  },
+  sitemap: {
+    hostname: 'https://2018.coscup.org',
+    generate: true,
   },
 }
