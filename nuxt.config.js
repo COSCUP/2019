@@ -67,7 +67,10 @@ module.exports = {
     }],
   ],
   plugins: [
-    '~/plugins/nuxt-client-init.ts',
+    {
+      src: '~/plugins/nuxt-client-init.ts',
+      ssr: false,
+    },
     '~/plugins/i18n.ts',
   ],
   generate: {
