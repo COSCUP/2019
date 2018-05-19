@@ -1,3 +1,8 @@
+const locales = [
+  { code: 'en',    iso: 'en-US', file: 'en.ts' },
+  { code: 'zh-TW', iso: 'zh-TW', file: 'zh-TW.ts' },
+]
+
 module.exports = {
   /*
   ** Headers of the page
@@ -43,10 +48,7 @@ module.exports = {
     "~/modules/typescript.js",
     ['nuxt-i18n', {
       parsePages: false,
-      locales: [
-        { code: 'en',    iso: 'en-US', file: 'en.ts' },
-        { code: 'zh-TW', iso: 'zh-TW', file: 'zh-TW.ts' },
-      ],
+      locales: locales,
       defaultLocale: 'zh-TW',
       langDir: 'languages/',
       lazy: true,
@@ -58,6 +60,10 @@ module.exports = {
     ]],
     ['~/modules/google-maps.js', {
       key: 'AIzaSyBXDjcMb0gqT_UwYSYSsA6WlJr3tu1uRyc',
+    }],
+    ['~/modules/static-route.js', {
+      locales: locales,
+      defaultLocale: 'zh-TW',
     }],
   ],
   plugins: [
