@@ -93,6 +93,7 @@ module.exports = {
       {
         set: '@fortawesome/fontawesome-free-solid',
         icons: [
+          'faExternalLinkAlt',
           'faBullhorn',
         ],
       },
