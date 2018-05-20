@@ -18,6 +18,10 @@ import {
   State as MainState,
 } from './main'
 import {
+  name as AboutName,
+  State as AboutState,
+} from './about'
+import {
   name as SponsorsName,
   State as SponsorsState,
 } from './sponsors'
@@ -34,6 +38,7 @@ export type RootState = {
   [EndpointName]: EndpointState
   [I18nName]: I18nState
   [MainName]: MainState
+  [AboutName]: AboutState
   [SponsorsName]: SponsorsState
   [StaffsName]: StaffsState
   [TransportName]: TransportState

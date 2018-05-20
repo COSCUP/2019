@@ -10,8 +10,12 @@
       <span>{{ registration.start_at | moment }}</span> ~
       <span>{{ registration.end_at | moment }}</span>
     </Card>
-    <Card class="container">
-      關於放這裡……
+    <Card class="about container">
+      <article>
+        <p v-for="(paragraph, idx) in articleParagraphs" :key=idx>
+          {{ paragraph }}
+        </p>
+      </article>
     </Card>
   </main>
 </template>
@@ -31,10 +35,14 @@ import moment from 'moment'
 import {
   name as mainStoreName
 } from '~/store/main'
+import {
+  name as aboutStoreName,
+} from '~/store/about'
 
 import Card from '~/components/Card.vue'
 
 const MainState = namespace(mainStoreName, State)
+const AboutState = namespace(aboutStoreName, State)
 
 @Component({
   components: {
@@ -50,9 +58,14 @@ export default class extends Vue {
   @MainState description
   @MainState registration
   @MainState place
+  @AboutState('article') aboutArticle
 
   async fetch({ store: { dispatch } }) {
-    await dispatch(`${mainStoreName}/fetchData`)
+    await dispatch(`${aboutStoreName}/fetchData`)
+  }
+
+  get articleParagraphs() {
+    return this.aboutArticle.split(/\r\n?|\n\r?/g)
   }
 }
 </script>
@@ -93,5 +106,15 @@ main.index {
 
 .topic h2 {
   text-align: center;
+}
+
+.about article {
+  margin-bottom: -1em;
+}
+
+.about article p {
+  margin-bottom: 1em;
+
+  text-indent: 2.5em;
 }
 </style>

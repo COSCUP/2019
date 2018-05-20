@@ -16,6 +16,7 @@ export const name = 'endpoints'
 
 export enum Apis {
   main = 'main',
+  about = 'about',
   programs = 'programs',
   sponsors = 'sponsors',
   transportation = 'transportation',
