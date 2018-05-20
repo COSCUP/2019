@@ -9,15 +9,15 @@
         {{ year }}
       </a>
     </div>
-    <!-- <div class="socials container">
-      <a v-for="(link, social) in social_network"
-        :key="social"
-        :href="link"
+    <div class="socials container">
+      <a v-for="network in socialNetworks"
+        :key="network.name"
+        :href="network.link"
         target="_blank"
       >
-        {{ social }}
+        <Icon :icon="network.icon" />
       </a>
-    </div> -->
+    </div>
   </footer>
 </template>
 
@@ -37,10 +37,33 @@ import {
 
 const MainState = namespace(mainStoreName, State)
 
+const socialIconMapping = {
+  blog: ['fab', 'blogger'],
+  facebook: ['fab', 'facebook'],
+  flickr: ['fab', 'flickr'],
+  google_plus: ['fab', 'google-plus'],
+  plurk: ['ext', 'plurk'],
+  twitter: ['fab', 'twitter'],
+  youtube: ['fab', 'youtube'],
+  telegram_group: ['fab', 'telegram'],
+  telegram_channel: 'bullhorn',
+}
+
 @Component
 export default class extends Vue {
   @MainState previous_websites
-  @MainState social_network
+  @MainState('social_network') socialNetworkLinks
+
+  get socialIconMapping() { return socialIconMapping }
+
+  get socialNetworks() {
+    return Object.entries(this.socialNetworkLinks).map(([name, link]) => ({
+      name,
+      link,
+      icon: socialIconMapping[name],
+      title: name,
+    }))
+  }
 }
 </script>
 
@@ -59,7 +82,6 @@ footer {
   background-color: var(--secondary);
   box-shadow: inset 0px 6px 12px -12px rgba(0, 0, 0, 0.5);
   color: var(--accent);
-  font-size: .9em;
 
   display: flex;
   flex-direction: column;
@@ -78,11 +100,27 @@ footer a {
 .years, .socials {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .years a,
 .socials a {
-  margin: 0 .5em;
+  flex-grow: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.years {
+  font-size: .9em;
+}
+
+.socials {
+  font-size: 1.6em;
+}
+
+.socials a {
+  padding: .2em 0;
 }
 </style>

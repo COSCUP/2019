@@ -38,6 +38,11 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
+
+      // Tree shaking fontAwesome icons
+      ['fontawesome-free-solid', 'fontawesome-free-brands'].forEach((iconset) => {
+        config.resolve.alias[`@fortawesome/${iconset}$`] = `@fortawesome/${iconset}/shakable.es.js`
+      })
     },
     vendors: [
       'babel-polyfill',
@@ -66,6 +71,7 @@ module.exports = {
       defaultLocale: 'zh-TW',
     }],
     '@nuxtjs/sitemap',
+    'nuxt-fontawesome',
   ],
   plugins: [
     {
@@ -80,5 +86,35 @@ module.exports = {
   sitemap: {
     hostname: 'https://2018.coscup.org',
     generate: true,
+  },
+  fontawesome: {
+    component: 'Icon',
+    imports: [
+      {
+        set: '@fortawesome/fontawesome-free-solid',
+        icons: [
+          'faBullhorn',
+        ],
+      },
+      {
+        set: '@fortawesome/fontawesome-free-brands',
+        icons: [
+          /* Social networks */
+          'faBlogger',
+          'faFacebook',
+          'faFlickr',
+          'faGooglePlus',
+          'faTwitter',
+          'faYoutube',
+          'faTelegram',
+        ],
+      },
+      {
+        set: '~/fonticons',
+        icons: [
+          'extPlurk',
+        ],
+      },
+    ],
   },
 }
