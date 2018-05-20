@@ -1,8 +1,6 @@
-import Vue from 'vue'
 import {
   ActionContext,
   ActionTree,
-  GetterTree,
   MutationTree,
 } from 'vuex'
 import {
@@ -14,7 +12,6 @@ import {
 import {
   Languages,
 } from './i18n'
-import { fail } from 'assert';
 
 export const name = 'main'
 

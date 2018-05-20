@@ -1,9 +1,6 @@
 import {
   ActionTree,
   ActionContext,
-  GetterTree,
-  mapGetters,
-  mapState,
 } from 'vuex';
 import {
   name as EndpointName,
@@ -50,7 +47,7 @@ export interface Actions<S, R> extends ActionTree<S, R> {
 
 export const actions: Actions<{}, RootState> = {
   async nuxtServerInit({ dispatch }) {
-    // We should init Endpoints first
+    // We should init Endpoints and Main datas first
     await dispatch(`${EndpointName}/nuxtServerInit`, { root: true })
     await dispatch(`${MainName}/nuxtServerInit`, { root: true })
   }

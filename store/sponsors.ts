@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import {
   ActionContext,
   ActionTree,
@@ -61,15 +60,10 @@ export const getters: Getters<State, RootState> = {
 }
 
 export interface Actions<S, R> extends ActionTree<S, R> {
-  nuxtServerInit(context: ActionContext<S, R>): void
   fetchData(context: ActionContext<S, R>): void
 }
 
 export const actions: Actions<State, RootState> = {
-  async nuxtServerInit({ dispatch }) {
-    await dispatch('fetchData')
-  },
-
   async fetchData({ commit, rootState }) {
     const locale = rootState.i18n.locale
     const endpoint = rootState[endpointStateName][locale].sponsors
