@@ -2,6 +2,7 @@ import {
   ActionContext,
   ActionTree,
   MutationTree,
+  Plugin,
 } from 'vuex'
 import {
   RootState,
@@ -10,6 +11,7 @@ import {
   name as endpointStateName,
 } from './endpoints'
 import {
+  name as i18nStateName,
   Languages,
 } from './i18n'
 
@@ -108,4 +110,20 @@ export const mutations: MutationTree<State> = {
     Object.entries(datas)
       .forEach(([key, value]) => (state[key] = value))
   }
+}
+
+export const pluginHook: Plugin<any> = (store) => {
+  store.subscribe(({ type, payload }, rootState) => {
+    if (type !== `${i18nStateName}/I18N_SET_LOCALE`) return;
+
+    // Skip if endpoint is not loaded,
+    // this could happened while nuxt-i18n module just loaded.
+    // Don't be scared, after nuxt is completely loaded,
+    // nuxtServerInit will do the same thing.
+    const { __loaded: endpointLoaded } = rootState[endpointStateName]
+    if (!endpointLoaded) return;
+
+    const locale = payload
+    store.dispatch(`${name}/fetchData`, { locale })
+  })
 }

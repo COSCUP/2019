@@ -33,9 +33,13 @@ export type APIEndpoints = {
   }
 }
 
-export type State = APIEndpoints
+export type State = APIEndpoints & {
+  __loaded: boolean
+}
 
 export const state = (): State => ({
+  __loaded: false,
+
   'zh-TW': {},
   en: {},
   ja: {},
@@ -67,6 +71,8 @@ export const actions: Actions<State, RootState> = {
 
 export const mutations: MutationTree<State> = {
   [types.UPDATE_API](state, apis: APIEndpoints) {
+    state.__loaded = true
+
     for (let key in apis) {
       state[key] = apis[key]
     }

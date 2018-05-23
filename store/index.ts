@@ -13,6 +13,7 @@ import {
 import {
   name as MainName,
   State as MainState,
+  pluginHook as MainHook,
 } from './main'
 import {
   name as AboutName,
@@ -52,3 +53,7 @@ export const actions: Actions<{}, RootState> = {
     await dispatch(`${MainName}/nuxtServerInit`, { root: true })
   }
 }
+
+export const plugins = [
+  MainHook,
+]
