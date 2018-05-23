@@ -31,7 +31,7 @@ export default class extends Vue {
 }
 
 html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Noto Sans', Helvetica, Arial, sans-serif;
   font-size: 18px;
   line-height: 2em;
   -ms-text-size-adjust: 100%;
@@ -39,6 +39,10 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+}
+
+html[lang=zh-TW] {
+  font-family: 'Noto Sans TC', '微軟正黑體', 'Microsoft JhengHei', '蘋方-繁', sans-serif;
 }
 
 *, *:before, *:after {

@@ -15,7 +15,13 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'COSCUP 2018' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      /* Webfonts */
+      { rel: 'stylesheet', type: 'text/css', href: '//fonts.googleapis.com/css?family=Noto+Sans' },
+      { rel: 'stylesheet', type: 'text/css', href: '//fonts.googleapis.com/earlyaccess/notosanstc.css' },
+      /* DNS prefetching */
+      { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
+      { rel: 'dns-prefetch', href: '//fonts.gstatic.com' },
     ]
   },
   /*
