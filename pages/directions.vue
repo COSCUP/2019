@@ -7,15 +7,15 @@
     >
       <MapCluster>
         <MapInfoWindow
+          ref="locationInfoWindow"
           :position="location"
-          :opened="infoWindowOpened"
+          :opened="true"
           :options="{
             pixelOffset: {
               width: 0,
               height: -42,
             },
           }"
-          @closeclick="infoWindowOpened = false"
         >
           <h4>{{ place }}</h4>
           {{ address }}
@@ -23,7 +23,7 @@
         <MapMarker
           :position="location"
           :clickable="true"
-          @click="infoWindowOpened = true"
+          @click="openInfoWindow"
         />
       </MapCluster>
     </Map>
@@ -83,10 +83,13 @@ export default class extends Vue {
   @TransportationState('transportation') transportations
   @TransportationState place
 
-  infoWindowOpened : boolean = true
-
   async fetch({ store: { dispatch } }) {
     await dispatch(`${transportationStoreName}/fetchData`)
+  }
+
+  openInfoWindow() {
+    const infoWindow : any = this.$refs.locationInfoWindow
+    infoWindow._openInfoWindow()
   }
 }
 </script>
