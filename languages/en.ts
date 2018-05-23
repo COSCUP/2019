@@ -11,8 +11,11 @@ const language : Language = {
   },
   register: 'Registration',
   sponsors: {
-    sortBy: 'Sorted in dictionary order'
-  }
+    sortBy: 'Sorted in dictionary order',
+  },
+  venue: {
+    openInGoogleMaps: 'Open in Google Maps',
+  },
 }
 
 export default language

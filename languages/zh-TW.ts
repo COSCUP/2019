@@ -12,7 +12,10 @@ const language : Language = {
   register: '報名',
   sponsors: {
     sortBy: '依字典序排序',
-  }
+  },
+  venue: {
+    openInGoogleMaps: '在 Google Maps 中開啓',
+  },
 }
 
 export default language

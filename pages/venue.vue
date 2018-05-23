@@ -24,6 +24,11 @@
         :clickable="true"
         @click="openInfoWindow"
       />
+      <template slot="visible">
+        <div class="open-in-gm-controller">
+          <ExternalLink :href="googleMapsDirectionUrl">{{ $t('venue.openInGoogleMaps') }}</ExternalLink>
+        </div>
+      </template>
     </Map>
     <div class="transportations container">
       <div class="method"
@@ -63,15 +68,16 @@ import {
   name as transportationStoreName,
 } from '~/store/transportation'
 
-
 import Card from '~/components/Card.vue'
 import Sponsor from '~/components/Sponsor.vue'
+import ExternalLink from '~/components/ExternalLink.vue'
 
 const TransportationState = namespace(transportationStoreName, State)
 
 @Component({
   components: {
     Card,
+    ExternalLink,
     Map,
     MapMarker,
     MapInfoWindow,
@@ -85,6 +91,12 @@ export default class extends Vue {
 
   async fetch({ store: { dispatch } }) {
     await dispatch(`${transportationStoreName}/fetchData`)
+  }
+
+  get googleMapsDirectionUrl() {
+    const { lat, lng } = this.location
+
+    return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`
   }
 
   openInfoWindow() {
@@ -113,6 +125,31 @@ main.direction {
   max-height: 70vh;
   min-height: 320px;
   margin-bottom: 2em;
+}
+
+.location .open-in-gm-controller {
+  position: absolute;
+  height: 28px;
+  bottom: 13px;
+  right: 38px;
+  margin: 10px;
+  padding: 0 .5em;
+
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+  border-radius: 2px;
+
+  font-size: 13px;
+  line-height: 28px;
+}
+
+.open-in-gm-controller a {
+  color: rgb(86, 86, 86);
+
+  &:hover,
+  &:focus {
+    color: #000;
+  }
 }
 
 .transportations {
