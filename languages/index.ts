@@ -2,7 +2,7 @@ export default interface Language {
   pages: {
     about: string
     schedules: string
-    directions: string
+    venue: string
     sponsors: string
     staffs: string
     blog: string

@@ -4,7 +4,7 @@ const language : Language = {
   pages: {
     about: 'About',
     schedules: 'Schedules',
-    directions: 'Direction',
+    venue: 'Venue',
     sponsors: 'Sponsors',
     staffs: 'Staff',
     blog: 'Blog',
