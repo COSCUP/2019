@@ -129,6 +129,7 @@ main.direction {
 .transportations .method {
   display: inline-block;
 
+  width: 100%;
   min-width: 320px;
 }
 
