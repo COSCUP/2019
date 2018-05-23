@@ -5,27 +5,25 @@
       :center="location"
       :zoom="16"
     >
-      <MapCluster>
-        <MapInfoWindow
-          ref="locationInfoWindow"
-          :position="location"
-          :opened="true"
-          :options="{
-            pixelOffset: {
-              width: 0,
-              height: -42,
-            },
-          }"
-        >
-          <h4>{{ place }}</h4>
-          {{ address }}
-        </MapInfoWindow>
-        <MapMarker
-          :position="location"
-          :clickable="true"
-          @click="openInfoWindow"
-        />
-      </MapCluster>
+      <MapInfoWindow
+        ref="locationInfoWindow"
+        :position="location"
+        :opened="true"
+        :options="{
+          pixelOffset: {
+            width: 0,
+            height: -42,
+          },
+        }"
+      >
+        <h4>{{ place }}</h4>
+        {{ address }}
+      </MapInfoWindow>
+      <MapMarker
+        :position="location"
+        :clickable="true"
+        @click="openInfoWindow"
+      />
     </Map>
     <div class="transportations container">
       <div class="method"
@@ -57,7 +55,6 @@ import {
 } from 'vuex-class'
 import {
   Map,
-  Cluster as MapCluster,
   Marker as MapMarker,
   InfoWindow as MapInfoWindow,
 } from 'vue2-google-maps'
@@ -76,7 +73,6 @@ const TransportationState = namespace(transportationStoreName, State)
   components: {
     Card,
     Map,
-    MapCluster,
     MapMarker,
     MapInfoWindow,
   },
