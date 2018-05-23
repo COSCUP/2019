@@ -34,7 +34,11 @@
       >
         <Card>
           <h4>{{ direction.name }}</h4>
-          {{ direction.description }}
+          <article>
+            <p v-for="(paragraph, idx) in getParagraphs(direction.description)" :key=idx>
+              {{ paragraph }}
+            </p>
+          </article>
         </Card>
       </div>
     </div>
@@ -91,6 +95,10 @@ export default class extends Vue {
     const infoWindow : any = this.$refs.locationInfoWindow
     infoWindow._openInfoWindow()
   }
+
+  getParagraphs(article) {
+    return article.split(/\r\n?|\n\r?/g)
+  }
 }
 </script>
 
@@ -114,13 +122,21 @@ main.direction {
 .transportations {
   flex-grow: 1;
 
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: block;
+  column-count: 2;
 }
 
 .transportations .method {
-  width: 50%;
+  display: inline-block;
+
   min-width: 320px;
+}
+
+.transportations .method article {
+  margin-bottom: -1em;
+}
+
+.transportations .method article p {
+  min-height: 1em;
 }
 </style>
