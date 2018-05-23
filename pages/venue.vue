@@ -156,7 +156,13 @@ main.direction {
   flex-grow: 1;
 
   display: block;
-  column-count: 2;
+  column-count: 1;
+}
+
+@media(min-width: 840px) {
+  .transportations {
+    column-count: 2;
+  }
 }
 
 .transportations .method {

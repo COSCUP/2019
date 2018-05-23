@@ -106,6 +106,7 @@ footer a {
 .years a,
 .socials a {
   flex-grow: 1;
+  padding: 0 4px;
 
   display: flex;
   justify-content: center;

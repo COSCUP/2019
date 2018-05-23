@@ -68,8 +68,20 @@ ul > li {
 }
 
 .container {
-  width: 60%;
+  width: 100%;
   max-width: 1280px;
+}
+
+@media(min-width: 840px) {
+  .container {
+    width: 80%;
+  }
+}
+
+@media(min-width: 1300px) {
+  .container {
+    width: 70%;
+  }
 }
 </style>
 
