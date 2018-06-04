@@ -14,7 +14,7 @@
             </RatioBox>
           </a>
           <div class="description">
-            <h1><a :href="sponsor.link" :title="sponsor.name">{{ sponsor.name }}</a></h1>
+            <h1><a :href="sponsor.link" :title="sponsor.name" target="_blank">{{ sponsor.name }}</a></h1>
             {{ sponsor.intro }}
           </div>
         </div>
