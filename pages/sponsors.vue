@@ -4,7 +4,20 @@
       <h1>{{ lv.title }}</h1>
       <h4>{{ $t('sponsors.sortBy') }}</h4>
       <div class="sponsors">
-        <Sponsor v-for="spnsr in lv.sponsors" :key="spnsr.name" :sponsor="spnsr" />
+        <div v-for="sponsor in lv.sponsors"
+          :key="sponsor.name"
+          class="sponsor"
+          >
+          <a class="logo" :href="sponsor.link" :title="sponsor.name" target="_blank">
+            <RatioBox ratio="1:1" style="text-align: center;">
+              <img :src="sponsor.image" />
+            </RatioBox>
+          </a>
+          <div class="description">
+            <h1><a :href="sponsor.link" :title="sponsor.name">{{ sponsor.name }}</a></h1>
+            {{ sponsor.intro }}
+          </div>
+        </div>
       </div>
     </Card>
   </main>
@@ -27,14 +40,14 @@ import {
 } from '~/store/sponsors'
 
 import Card from '~/components/Card.vue'
-import Sponsor from '~/components/Sponsor.vue'
+import RatioBox from '~/components/RatioBox.vue'
 
 const SponsorsGetter = namespace(sponsorsStoreName, Getter)
 
 @Component({
   components: {
     Card,
-    Sponsor,
+    RatioBox,
   },
 })
 export default class extends Vue {
@@ -56,8 +69,45 @@ main.sponsors {
   padding-top: 2em;
 }
 
-div.sponsors {
+main.sponsors div.sponsors {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+
+.sponsors .sponsor {
+  flex-basis: 20%;
+
+  display: flex;
+  flex-direction: row;
+
+  padding: 1em;
+  margin: .5em 0;
+
+  transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    transform .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.sponsors .sponsor:hover {
+  box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.sponsors .sponsor .description {
+  flex-basis: 80%;
+  padding: 0 1em;
+}
+
+.sponsors .sponsor .description h1 {
+  font-size: 1.2em;
+}
+
+.sponsors .sponsor .logo {
+  flex-basis: 20%;
+}
+
+.sponsors .sponsor .logo img {
+  max-height: 100%;
+  max-width: 100%;
 }
 </style>

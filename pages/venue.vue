@@ -45,6 +45,7 @@
         </Card>
       </div>
     </div>
+    <SponsorFooter />
   </main>
 </template>
 
@@ -69,7 +70,7 @@ import {
 } from '~/store/transportation'
 
 import Card from '~/components/Card.vue'
-import Sponsor from '~/components/Sponsor.vue'
+import SponsorFooter from '~/components/SponsorFooter.vue'
 import ExternalLink from '~/components/ExternalLink.vue'
 
 const TransportationState = namespace(transportationStoreName, State)
@@ -81,6 +82,7 @@ const TransportationState = namespace(transportationStoreName, State)
     Map,
     MapMarker,
     MapInfoWindow,
+    SponsorFooter,
   },
 })
 export default class extends Vue {

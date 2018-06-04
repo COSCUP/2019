@@ -22,6 +22,7 @@ import {
 import {
   name as SponsorsName,
   State as SponsorsState,
+  pluginHook as SponsorsHook,
 } from './sponsors'
 import {
   name as StaffsName,
@@ -51,9 +52,11 @@ export const actions: Actions<{}, RootState> = {
     // We should init Endpoints and Main datas first
     await dispatch(`${EndpointName}/nuxtServerInit`, { root: true })
     await dispatch(`${MainName}/nuxtServerInit`, { root: true })
+    await dispatch(`${SponsorsName}/nuxtServerInit`, { root: true })
   }
 }
 
 export const plugins = [
   MainHook,
+  SponsorsHook,
 ]

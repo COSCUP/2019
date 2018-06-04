@@ -8,6 +8,7 @@
         </li>
       </ul>
     </Card>
+    <SponsorFooter />
   </main>
 </template>
 
@@ -28,12 +29,14 @@ import {
 } from '~/store/staffs'
 
 import Card from '~/components/Card.vue'
+import SponsorFooter from '~/components/SponsorFooter.vue'
 
 const StaffsState = namespace(staffsStoreName, State)
 
 @Component({
   components: {
     Card,
+    SponsorFooter,
   },
 })
 export default class extends Vue {

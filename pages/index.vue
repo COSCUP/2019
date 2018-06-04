@@ -17,6 +17,7 @@
         </p>
       </article>
     </Card>
+    <SponsorFooter />
   </main>
 </template>
 
@@ -40,6 +41,7 @@ import {
 } from '~/store/about'
 
 import Card from '~/components/Card.vue'
+import SponsorFooter from '~/components/SponsorFooter.vue'
 
 const MainState = namespace(mainStoreName, State)
 const AboutState = namespace(aboutStoreName, State)
@@ -47,6 +49,7 @@ const AboutState = namespace(aboutStoreName, State)
 @Component({
   components: {
     Card,
+    SponsorFooter,
   },
   filters: {
     moment(val) {
