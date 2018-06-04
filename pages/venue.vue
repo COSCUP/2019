@@ -91,6 +91,10 @@ export default class extends Vue {
   @TransportationState('transportation') transportations
   @TransportationState place
 
+  mounted() {
+    this.$store.dispatch('clientsFirstFetch', this.fetch)
+  }
+
   async fetch({ store: { dispatch } }) {
     await dispatch(`${transportationStoreName}/fetchData`)
   }

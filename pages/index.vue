@@ -63,6 +63,10 @@ export default class extends Vue {
   @MainState place
   @AboutState('article') aboutArticle
 
+  mounted() {
+    this.$store.dispatch('clientsFirstFetch', this.fetch)
+  }
+
   async fetch({ store: { dispatch } }) {
     await dispatch(`${aboutStoreName}/fetchData`)
   }

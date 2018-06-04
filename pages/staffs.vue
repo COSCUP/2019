@@ -42,6 +42,10 @@ const StaffsState = namespace(staffsStoreName, State)
 export default class extends Vue {
   @StaffsState('groups') groupedStaffs: staffsState
 
+  mounted() {
+    this.$store.dispatch('clientsFirstFetch', this.fetch)
+  }
+
   async fetch({ store: { dispatch } }) {
     await dispatch(`${staffsStoreName}/fetchData`)
   }

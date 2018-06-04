@@ -1,5 +1,5 @@
 <template>
-  <main class="sponsors">
+  <main class="sponsors" :class="[__loaded ? 'y' : 'n']">
     <Card class="level container" v-for="lv in sponsorsByLevel" :key="lv.title">
       <h1>{{ lv.title }}</h1>
       <h4>{{ $t('sponsors.sortBy') }}</h4>
@@ -57,6 +57,10 @@ const SponsorsGetter = namespace(sponsorsStoreName, Getter)
 export default class extends Vue {
   @SponsorsGetter('byLevel')
   sponsorsByLevel: SponsorsByLevel
+
+  mounted() {
+    this.$store.dispatch('clientsFirstFetch', this.fetch)
+  }
 
   async fetch({ store: { dispatch } }) {
     await dispatch(`${sponsorsStoreName}/fetchData`)

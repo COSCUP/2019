@@ -1,6 +1,7 @@
 import {
   ActionTree,
   ActionContext,
+  MutationTree,
 } from 'vuex';
 import {
   name as EndpointName,
@@ -33,7 +34,15 @@ import {
   State as TransportState,
 } from './transportation'
 
-export type RootState = {
+export const types = {
+  CLIENT_FETCHED: 'client_fetched',
+}
+
+export type State = {
+  clientFetched: Boolean
+}
+
+export type RootState = State & {
   [EndpointName]: EndpointState
   [I18nName]: I18nState
   [MainName]: MainState
@@ -43,16 +52,34 @@ export type RootState = {
   [TransportName]: TransportState
 }
 
+export const state = (): State => ({
+  clientFetched: false,
+} as State)
+
 export interface Actions<S, R> extends ActionTree<S, R> {
   nuxtServerInit(context: ActionContext<S, R>): void
+  clientsFirstFetch(context: ActionContext<S, R>, fetchFn: Function): void
 }
 
-export const actions: Actions<{}, RootState> = {
+export const actions: Actions<State, RootState> = {
   async nuxtServerInit({ dispatch }) {
     // We should init Endpoints and Main datas first
     await dispatch(`${EndpointName}/nuxtServerInit`, { root: true })
     await dispatch(`${MainName}/nuxtServerInit`, { root: true })
     await dispatch(`${SponsorsName}/nuxtServerInit`, { root: true })
+  },
+
+  clientsFirstFetch(store, fetchFn) {
+    if (store.state.clientFetched) return;
+
+    store.commit(types.CLIENT_FETCHED)
+    fetchFn({ store })
+  }
+}
+
+export const mutations: MutationTree<State> = {
+  [types.CLIENT_FETCHED](state) {
+    state.clientFetched = true
   }
 }
 
