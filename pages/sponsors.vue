@@ -15,7 +15,11 @@
           </a>
           <div class="description">
             <h1><a :href="sponsor.link" :title="sponsor.name" target="_blank">{{ sponsor.name }}</a></h1>
-            {{ sponsor.intro }}
+            <article>
+              <p v-for="(paragraph, idx) in getParagraphs(sponsor.intro)" :key="idx">
+                {{ paragraph }}
+              </p>
+            </article>
           </div>
         </div>
       </div>
@@ -56,6 +60,10 @@ export default class extends Vue {
 
   async fetch({ store: { dispatch } }) {
     await dispatch(`${sponsorsStoreName}/fetchData`)
+  }
+
+  getParagraphs(article) {
+    return article.split(/\r\n?|\n\r?/g)
   }
 }
 </script>
