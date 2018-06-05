@@ -1,9 +1,15 @@
 <template>
   <main class="index">
     <Card class="topic">
-      <h1>COSCUP 2018</h1>
-      <h2>{{ description }}</h2>
-      {{ place }}
+      <div class="background" ref="sightContainer">
+        <Sight :width="sightWidth" :height="sightHeight"
+          :spot="{ x: sightWidth / 2.0, y: sightHeight / 2.0 }" />
+      </div>
+      <div class="foreground"> 
+        <h1>COSCUP 2018</h1>
+        <h2>{{ description }}</h2>
+        {{ place }}
+      </div>
     </Card>
     <Card class="container">
       <h1>{{ $t('register') }}</h1>
@@ -42,6 +48,7 @@ import {
 
 import Card from '~/components/Card.vue'
 import SponsorFooter from '~/components/SponsorFooter.vue'
+import Sight from '~/components/Sight.vue'
 
 const MainState = namespace(mainStoreName, State)
 const AboutState = namespace(aboutStoreName, State)
@@ -50,6 +57,7 @@ const AboutState = namespace(aboutStoreName, State)
   components: {
     Card,
     SponsorFooter,
+    Sight,
   },
   filters: {
     moment(val) {
@@ -63,8 +71,20 @@ export default class extends Vue {
   @MainState place
   @AboutState('article') aboutArticle
 
+  sightWidth: Number = 0
+  sightHeight: Number = 0
+
   mounted() {
-    this.$store.dispatch('clientsFirstFetch', this.fetch)
+    this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
+
+    this.$nextTick(() => {
+      this.measureSightSize()
+    })
+    window.addEventListener('resize', this.measureSightSize)
+  }
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.measureSightSize)
   }
 
   async fetch({ store: { dispatch } }) {
@@ -73,6 +93,13 @@ export default class extends Vue {
 
   get articleParagraphs() {
     return this.aboutArticle.split(/\r\n?|\n\r?/g)
+  }
+
+  measureSightSize() {
+    const sightContainer: any = this.$refs.sightContainer
+
+    this.sightWidth = sightContainer.clientWidth
+    this.sightHeight = sightContainer.clientHeight
   }
 }
 </script>
@@ -100,6 +127,22 @@ main.index {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.topic .background {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #fff;
+}
+
+.topic .foreground {
+  z-index: 1;
+
+  text-align: center;
 }
 
 .topic h1 {
