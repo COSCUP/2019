@@ -6,7 +6,11 @@
           :spot="{ x: sightWidth / 2.0, y: sightHeight / 2.0 }" />
       </div>
       <div class="foreground"> 
-        <h1>COSCUP 2018</h1>
+        <h1>
+          COSCUP 2018<br />
+          <span class="the-x">x<br /></span>
+          openSUSE.Asia &nbsp;GNOME.Asia<br />
+        </h1>
         <h2>{{ description }}</h2>
         {{ place }}
       </div>
@@ -154,14 +158,19 @@ main.index {
 
 .topic h1 {
   color: var(--accent);
-  font-size: 4em;
+  font-size: 2.4em;
   line-height: 1.2em;
   padding-bottom: .4em;
 
   text-align: center;
 }
 
+.topic .the-x {
+  display: none;
+}
+
 .topic h2 {
+  font-size: 1.4em;
   text-align: center;
 }
 
@@ -175,5 +184,15 @@ main.index {
   margin-bottom: 1em;
 
   text-indent: 2.5em;
+}
+
+@media(min-width: 840px) {
+  .topic {
+    font-size: 1.2em;
+  }
+  
+  .topic .the-x {
+    display: block;
+  }
 }
 </style>
