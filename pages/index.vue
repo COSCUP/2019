@@ -11,14 +11,21 @@
         {{ place }}
       </div>
     </Card>
-    <Card class="container">
+    <Card class="register container">
       <h1>{{ $t('register') }}</h1>
-      <span>{{ registration.start_at | moment }}</span> ~
-      <span>{{ registration.end_at | moment }}</span>
+      <h3>
+        <span>{{ registration.start_at | moment }}</span> ~
+        <span>{{ registration.end_at | moment }}</span>
+      </h3>
+      <article>
+        <p v-for="(paragraph, idx) in getParagraphs($t('about.welcome'))" :key="idx">
+          {{ paragraph }}
+        </p>
+      </article>
     </Card>
     <Card class="about container">
       <article>
-        <p v-for="(paragraph, idx) in articleParagraphs" :key=idx>
+        <p v-for="(paragraph, idx) in getParagraphs(aboutArticle)" :key=idx>
           {{ paragraph }}
         </p>
       </article>
@@ -91,15 +98,15 @@ export default class extends Vue {
     await dispatch(`${aboutStoreName}/fetchData`)
   }
 
-  get articleParagraphs() {
-    return this.aboutArticle.split(/\r\n?|\n\r?/g)
-  }
-
   measureSightSize() {
     const sightContainer: any = this.$refs.sightContainer
 
     this.sightWidth = sightContainer.clientWidth
     this.sightHeight = sightContainer.clientHeight
+  }
+
+  getParagraphs(article) {
+    return article.trim().split(/\r\n?|\n\r?/g)
   }
 }
 </script>
@@ -158,10 +165,12 @@ main.index {
   text-align: center;
 }
 
+.register article,
 .about article {
   margin-bottom: -1em;
 }
 
+.register article p,
 .about article p {
   margin-bottom: 1em;
 

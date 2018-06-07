@@ -10,6 +10,10 @@ export default interface Language {
 
   register: string
 
+  about: {
+    welcome: string
+  }
+
   sponsors: {
     sortBy: string
   }
