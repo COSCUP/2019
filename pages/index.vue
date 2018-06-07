@@ -26,6 +26,9 @@
           {{ paragraph }}
         </p>
       </article>
+      <div class="register-now">
+        <a :href="registration.link" target="_blank">{{ $t('about.register_now') }}</a>
+      </div>
     </Card>
     <Card class="about container">
       <article>
@@ -184,6 +187,32 @@ main.index {
   margin-bottom: 1em;
 
   text-indent: 2.5em;
+}
+
+.register .register-now {
+  text-align: center;
+  padding-top: 1em;
+}
+
+.register .register-now a {
+  margin: 0 auto;
+  padding: .6em 1.5em .7em;
+  display: inline-block;
+
+  background-color: var(--accent);
+  color: #fff;
+  line-height: 1em;
+
+  transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    margin-top .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    font-size .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.register .register-now a:hover,
+.register .register-now a:focus {
+  box-shadow: 0px .2em 12px rgba(0, 0, 0, 0.1);
+  margin-top: -.2em;
+  font-size: 1.1em;
 }
 
 @media(min-width: 840px) {
