@@ -1,10 +1,10 @@
 <template>
   <main class="staffs">
-    <Card class="container" v-for="group in groupedStaffs" :key="group.name">
-      <h1>{{ group.name }}</h1>
+    <Card class="container" v-for="team in teams" :key="team.key">
+      <h1>{{ team.title }}</h1>
       <ul>
-        <li v-for="staff in group.people" :key="staff.name">
-          {{ staff.name }}
+        <li v-for="member in team.members" :key="member.name">
+          {{ member.name }}
         </li>
       </ul>
     </Card>
@@ -25,7 +25,6 @@ import {
 
 import {
   name as staffsStoreName,
-  State as staffsState,
 } from '~/store/staffs'
 
 import Card from '~/components/Card.vue'
@@ -40,7 +39,7 @@ const StaffsState = namespace(staffsStoreName, State)
   },
 })
 export default class extends Vue {
-  @StaffsState('groups') groupedStaffs: staffsState
+  @StaffsState('teams') teams
 
   mounted() {
     this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])

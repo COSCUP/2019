@@ -17,28 +17,32 @@ export const types = {
   UPDATE: 'update'
 }
 
-type APIPeople = {
-  name: string
-  groups: string[]
-}
-
-type APIData = APIPeople[]
-
-type Group = {
+type Team = {
   name: string
 }
 
-type People = {
-  name: string
+type Member = {
+  teams: string[],
+  name: string,
+  image: string,
+}
+
+type APIData = {
+  teams: {
+    [K: string]: Team,
+  },
+  members: Member[],
 }
 
 export type State = {
-  groups: (Group & {
-    people: People[]
-  })[]
+  teams: (Team & {
+    members: Member[],
+  })[],
 }
 
-export const state = (): State => ({} as State)
+export const state = (): State => ({
+  teams: [],
+} as State)
 
 export interface Actions<S, R> extends ActionTree<S, R> {
   fetchData(context: ActionContext<S, R>): void
@@ -57,16 +61,11 @@ export const actions: Actions<State, RootState> = {
 
 export const mutations: MutationTree<State> = {
   [types.UPDATE](state, datas : APIData) {
-    state.groups = [
-      ...datas.reduce((collection, { groups }) => {
-        groups.forEach((groupName) => collection.add(groupName))
+    state.teams = Object.entries(datas.teams).map(([key, team]) => ({
+      ...team,
+      key,
 
-        return collection
-      }, new Set<string>())
-    ].map((name) => ({
-      name,
-      people: datas.filter(({ groups: belongedGroups }) => (belongedGroups.includes(name)))
-        .map(({ name }) => ({ name })),
+      members: datas.members.filter(({ teams }) => (teams.includes(key)))
     }))
   }
 }
