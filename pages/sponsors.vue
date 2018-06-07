@@ -1,5 +1,5 @@
 <template>
-  <main class="sponsors" :class="[__loaded ? 'y' : 'n']">
+  <main class="sponsors">
     <Card class="level container" v-for="lv in sponsorsByLevel" :key="lv.title">
       <h1>{{ lv.title }}</h1>
       <div class="sponsors">
