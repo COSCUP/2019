@@ -43,7 +43,7 @@ export default class extends Vue {
   @StaffsState('groups') groupedStaffs: staffsState
 
   mounted() {
-    this.$store.dispatch('clientsFirstFetch', this.fetch)
+    this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
   }
 
   async fetch({ store: { dispatch } }) {
