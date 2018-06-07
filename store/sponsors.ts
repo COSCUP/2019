@@ -56,8 +56,7 @@ export const getters: Getters<State, RootState> = {
       .map(([key, lv]) => ({
         ...lv,
 
-        sponsors: sponsors.filter((sponsor) => (sponsor.level === key))
-          .sort(({ name: l }, { name: r }) => (l.localeCompare(r))),
+        sponsors: sponsors.filter((sponsor) => (sponsor.level === key)),
       }))
 
     return collection

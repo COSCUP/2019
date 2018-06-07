@@ -16,9 +16,6 @@ const language : Language = {
       無論你是寫 Open Source 軟體的開發者、熱衷 Open Source 軟體的推廣者、熟悉 Open Source 軟體的使用者或是想了解 Open Source 軟體的新手，都歡迎你來參加一年一度全台最大的 COSCUP x GNOME.Asia x openSUSE.Asia 2018！
     `,
   },
-  sponsors: {
-    sortBy: '依字典序排序',
-  },
   venue: {
     openInGoogleMaps: '在 Google Maps 中開啓',
   },

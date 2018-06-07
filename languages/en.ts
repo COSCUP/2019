@@ -16,9 +16,6 @@ const language : Language = {
       Whoever you are an Open Source coder, a devoted Open Source promoter, an user familiar with Open Source, or even a newcomer, we sincerely welcome you to be a part of COSCUP x GNOME.Asia x openSUSE.Asia 2018!
     `,
   },
-  sponsors: {
-    sortBy: 'Sorted in dictionary order',
-  },
   venue: {
     openInGoogleMaps: 'Open in Google Maps',
   },

@@ -14,10 +14,6 @@ export default interface Language {
     welcome: string
   }
 
-  sponsors: {
-    sortBy: string
-  }
-
   venue: {
     openInGoogleMaps: string
   }

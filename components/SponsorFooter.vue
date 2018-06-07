@@ -2,7 +2,6 @@
   <section class="sponsors">
     <Card class="level container" v-for="lv in sponsorsByLevel" :key="lv.title">
       <h1>{{ lv.title }}</h1>
-      <h4>{{ $t('sponsors.sortBy') }}</h4>
       <div class="sponsors">
         <a v-for="sponsor in lv.sponsors"
           :key="sponsor.name"
