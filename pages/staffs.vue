@@ -98,7 +98,7 @@ main.staffs li .name {
   text-align: center;
   line-height: 1em;
   justify-content: center;
-  align-items: end;
+  align-items: flex-end;
 
   transition: filter .2s cubic-bezier(0.4, 0.0, 0.2, 1),
     opacity .2s cubic-bezier(0.4, 0.0, 0.2, 1);
