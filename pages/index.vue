@@ -5,11 +5,11 @@
         <Sight :width="sightWidth" :height="sightHeight"
           :spot="{ x: sightWidth / 2.0, y: sightHeight / 2.0 }" />
       </div>
-      <div class="foreground"> 
+      <div class="foreground">
         <h1>
           COSCUP 2018<br />
           <span class="the-x">x<br /></span>
-          openSUSE.Asia &nbsp;GNOME.Asia<br />
+          <span class="co-title">openSUSE.Asia&nbsp;&nbsp;GNOME.Asia</span>
         </h1>
         <h2>{{ description }}</h2>
         {{ place }}
@@ -219,9 +219,13 @@ main.index {
   .topic {
     font-size: 1.2em;
   }
-  
+
   .topic .the-x {
     display: block;
+  }
+
+  .topic .co-title {
+    padding-right: 1.5em;
   }
 }
 </style>
