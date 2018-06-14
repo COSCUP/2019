@@ -10,6 +10,7 @@ import {
 } from '.'
 import {
   name as endpointStateName,
+  API_ROOT,
 } from './endpoints'
 import {
   name as i18nStateName,
@@ -86,6 +87,11 @@ export const actions: Actions<State, RootState> = {
 export const mutations: MutationTree<State> = {
   [types.UPDATE](state, datas) {
     Object.entries(datas).forEach(([key, value]) => (state[key] = value))
+    state.sponsors = state.sponsors.map((sponsor) => ({
+      ...sponsor,
+
+      image: `${API_ROOT}${sponsor.image}`,
+    }))
   }
 }
 
