@@ -101,6 +101,7 @@ module.exports = {
         icons: [
           'faExternalLinkAlt',
           'faBullhorn',
+          'faChevronDown',
         ],
       },
       {
