@@ -87,10 +87,8 @@ main.sponsors div.sponsors {
 }
 
 .sponsors .sponsor {
-  flex-basis: 20%;
-
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   padding: 1em;
   margin: .5em 0;
@@ -120,5 +118,17 @@ main.sponsors div.sponsors {
 .sponsors .sponsor .logo img {
   max-height: 100%;
   max-width: 100%;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+@media(min-width: 840px) {
+  .sponsors .sponsor {
+    flex-direction: row;
+  }
 }
 </style>

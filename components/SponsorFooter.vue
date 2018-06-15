@@ -10,7 +10,7 @@
           class="sponsor"
           target="_blank"
           >
-          <RatioBox ratio="1:1" style="text-align: center;">
+          <RatioBox ratio="1:1">
             <img :src="sponsor.image" />
           </RatioBox>
           {{ sponsor.name }}
@@ -76,8 +76,6 @@ section.sponsors div.sponsors {
 }
 
 .sponsors .sponsor {
-  flex-basis: 20%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,6 +86,12 @@ section.sponsors div.sponsors {
 .sponsors .sponsor img {
   max-height: 100%;
   max-width: 100%;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .sponsors .sponsor:hover img {
