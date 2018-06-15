@@ -9,7 +9,7 @@
         <h1>
           COSCUP 2018<br />
           <span class="the-x">x<br /></span>
-          <span class="co-title">openSUSE.Asia&nbsp;&nbsp;GNOME.Asia</span>
+          <span class="co-title">openSUSE.Asia&nbsp; GNOME.Asia</span>
         </h1>
         <h2>{{ description }}</h2>
         {{ place }}
@@ -171,10 +171,6 @@ main.index {
 
 .topic .the-x {
   display: none;
-}
-
-.topic .co-title {
-  word-wrap: break-word;
 }
 
 .topic h2 {
