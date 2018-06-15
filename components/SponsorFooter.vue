@@ -72,7 +72,7 @@ section.sponsors {
 
 section.sponsors div.sponsors {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .sponsors .sponsor {
