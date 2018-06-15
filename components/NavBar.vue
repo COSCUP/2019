@@ -6,7 +6,7 @@
     <ul class="pages container">
       <li><nuxt-link :to="localePath('index')">{{ $t('pages.about') }}</nuxt-link></li>
       <!-- <li><nuxt-link :to="localePath('schedules')">{{ $t('pages.schedules') }}</nuxt-link></li> -->
-      <li><a href="https://blog.coscup.org/2018/04/coscup-2018-cfp-is-open.html" target="_blank">{{ $t('pages.schedules') }}</a></li>
+      <li><a href="https://blog.coscup.org/2018/05/coscup-information-about-tracks-this.html" target="_blank">{{ $t('pages.schedules') }}</a></li>
       <li><nuxt-link :to="localePath('venue')">{{ $t('pages.venue') }}</nuxt-link></li>
       <li><nuxt-link :to="localePath('sponsors')">{{ $t('pages.sponsors') }}</nuxt-link></li>
       <li><nuxt-link :to="localePath('staffs')">{{ $t('pages.staffs') }}</nuxt-link></li>
