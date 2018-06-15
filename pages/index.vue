@@ -155,6 +155,7 @@ main.index {
 
 .topic .foreground {
   z-index: 1;
+  width: 100%;
 
   text-align: center;
 }
@@ -170,6 +171,10 @@ main.index {
 
 .topic .the-x {
   display: none;
+}
+
+.topic .co-title {
+  word-wrap: break-word;
 }
 
 .topic h2 {
