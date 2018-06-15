@@ -1,6 +1,6 @@
 <template>
-  <section class="sponsors">
-    <Card class="level container" v-for="lv in sponsorsByLevel" :key="lv.title">
+  <section class="sponsors container">
+    <Card class="level" v-for="lv in sponsorsByLevel" :key="lv.title">
       <h1>{{ lv.title }}</h1>
       <div class="sponsors">
         <a v-for="sponsor in lv.sponsors"
@@ -55,16 +55,24 @@ export default class extends Vue {
 
 <style scoped>
 section.sponsors {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
   padding-top: 2em;
+
+  grid-template-columns: 1fr;
+  grid-gap: 2em;
+  font-size: .8em;
+}
+
+.sponsors .level {
+  width: 100%;
+  grid-column: 1 / span 2;
+
+  margin: 0;
 }
 
 section.sponsors div.sponsors {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .sponsors .sponsor {
@@ -84,5 +92,26 @@ section.sponsors div.sponsors {
 
 .sponsors .sponsor:hover img {
   filter: opacity(.6);
+}
+
+@media(min-width: 840px) {
+  section.sponsors {
+    grid-template-columns: 1fr 1fr;
+    font-size: 1em;
+  }
+
+  section.sponsors div.sponsors {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  .sponsors .level:nth-child(1),
+  .sponsors .level:nth-child(2) {
+    grid-column: initial;
+  }
+
+  .sponsors .level:nth-child(1) .sponsors,
+  .sponsors .level:nth-child(2) .sponsors {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 </style>
