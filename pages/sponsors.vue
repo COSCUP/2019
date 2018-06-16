@@ -90,21 +90,13 @@ main.sponsors div.sponsors {
   display: flex;
   flex-direction: column;
 
-  padding: 1em;
+  padding: 0;
   margin: .5em 0;
-
-  transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
-    transform .3s cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-.sponsors .sponsor:hover {
-  box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
 }
 
 .sponsors .sponsor .description {
   flex-basis: 80%;
-  padding: 0 1em;
+  padding: 0;
 }
 
 .sponsors .sponsor .description h1 {
@@ -129,6 +121,20 @@ main.sponsors div.sponsors {
 @media(min-width: 840px) {
   .sponsors .sponsor {
     flex-direction: row;
+
+    padding: 1em;
+
+    transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+      transform .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  .sponsors .sponsor:hover {
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .sponsors .sponsor .description {
+    padding: 0 1em;
   }
 }
 </style>
