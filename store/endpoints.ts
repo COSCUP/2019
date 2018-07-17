@@ -18,6 +18,7 @@ export enum Apis {
   main = 'main',
   about = 'about',
   programs = 'programs',
+  cohosts = 'cohosts',
   sponsors = 'sponsors',
   transportation = 'transportation',
   staffs = 'staffs',

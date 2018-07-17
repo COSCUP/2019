@@ -21,6 +21,11 @@ import {
   State as AboutState,
 } from './about'
 import {
+  name as CohostsName,
+  State as CohostsState,
+  pluginHook as CohostsHook,
+} from './cohosts'
+import {
   name as SponsorsName,
   State as SponsorsState,
   pluginHook as SponsorsHook,
@@ -47,6 +52,7 @@ export type RootState = State & {
   [I18nName]: I18nState
   [MainName]: MainState
   [AboutName]: AboutState
+  [CohostsName]: CohostsState
   [SponsorsName]: SponsorsState
   [StaffsName]: StaffsState
   [TransportName]: TransportState
@@ -66,6 +72,7 @@ export const actions: Actions<State, RootState> = {
     // We should init Endpoints and Main datas first
     await dispatch(`${EndpointName}/nuxtServerInit`, { root: true })
     await dispatch(`${MainName}/nuxtServerInit`, { root: true })
+    await dispatch(`${CohostsName}/nuxtServerInit`, { root: true })
     await dispatch(`${SponsorsName}/nuxtServerInit`, { root: true })
   },
 
@@ -85,5 +92,6 @@ export const mutations: MutationTree<State> = {
 
 export const plugins = [
   MainHook,
+  CohostsHook,
   SponsorsHook,
 ]
