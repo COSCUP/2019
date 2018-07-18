@@ -17,7 +17,7 @@ import {
   Languages,
 } from './i18n'
 
-export const name = 'sponsors'
+export const name = 'cohosts'
 
 export const types = {
   UPDATE: 'update'
@@ -27,7 +27,7 @@ type Level = {
   title: string
 }
 
-type Sponsor = {
+type Cohost = {
   name: string
   level: string
   intro: string
@@ -39,26 +39,26 @@ export type State = {
   levels: {
     [Name: string]: Level
   }
-  sponsors: Sponsor[]
+  cohosts: Cohost[]
 }
 
-export type SponsorsByLevel = (Level & {
-  sponsors: Sponsor[]
+export type CohostsByLevel = (Level & {
+  cohosts: Cohost[]
 })[]
 
 export const state = (): State => ({} as State)
 
 export interface Getters<S, R> extends GetterTree<S, R> {
-  byLevel(state: S, getters: any, rootState: R, rootGetters: any): SponsorsByLevel
+  byLevel(state: S, getters: any, rootState: R, rootGetters: any): CohostsByLevel
 }
 
 export const getters: Getters<State, RootState> = {
-  byLevel({ levels, sponsors }) {
-    const collection: SponsorsByLevel = Object.entries(levels)
+  byLevel({ levels, cohosts }) {
+    const collection: CohostsByLevel = Object.entries(levels)
       .map(([key, lv]) => ({
         ...lv,
 
-        sponsors: sponsors.filter((sponsor) => (sponsor.level === key)),
+        cohosts: cohosts.filter((cohost) => (cohost.level === key)),
       }))
 
     return collection
@@ -77,7 +77,7 @@ export const actions: Actions<State, RootState> = {
 
   async fetchData({ commit, rootState }) {
     const locale = rootState.i18n.locale
-    const endpoint = rootState[endpointStateName][locale].sponsors
+    const endpoint = rootState[endpointStateName][locale].cohosts
     const response = await fetch(endpoint)
     const datas = await response.json()
 
@@ -88,10 +88,10 @@ export const actions: Actions<State, RootState> = {
 export const mutations: MutationTree<State> = {
   [types.UPDATE](state, datas) {
     Object.entries(datas).forEach(([key, value]) => (state[key] = value))
-    state.sponsors = state.sponsors.map((sponsor) => ({
-      ...sponsor,
+    state.cohosts = state.cohosts.map((cohost) => ({
+      ...cohost,
 
-      image: `${API_ROOT}${sponsor.image}`,
+      image: `${API_ROOT}${cohost.image}`,
     }))
   }
 }

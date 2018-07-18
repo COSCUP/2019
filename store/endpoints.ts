@@ -11,13 +11,14 @@ import {
   Languages,
 } from './i18n'
 
-export const API_ROOT = 'https://api2018.coscup.org/'
+export const API_ROOT = 'https://api2018.coscup.org'
 export const name = 'endpoints'
 
 export enum Apis {
   main = 'main',
   about = 'about',
   programs = 'programs',
+  cohosts = 'cohosts',
   sponsors = 'sponsors',
   transportation = 'transportation',
   staffs = 'staffs',

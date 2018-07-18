@@ -5,6 +5,7 @@ const language : Language = {
     about: 'About',
     schedules: 'Schedules',
     venue: 'Venue',
+    cohosts: 'Co-Hosts',
     sponsors: 'Sponsors',
     staffs: 'Staff',
     blog: 'Blog',

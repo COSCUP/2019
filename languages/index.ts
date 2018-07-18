@@ -3,6 +3,7 @@ export default interface Language {
     about: string
     schedules: string
     venue: string
+    cohosts: string
     sponsors: string
     staffs: string
     blog: string
