@@ -30,6 +30,7 @@ type Level = {
 type Cohost = {
   name: string
   level: string
+  intro: string
   image: string
   link: string
 }

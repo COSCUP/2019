@@ -30,6 +30,7 @@ type Level = {
 type Sponsor = {
   name: string
   level: string
+  intro: string
   image: string
   link: string
 }
