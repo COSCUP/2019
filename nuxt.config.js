@@ -8,11 +8,14 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'COSCUP',
+    title: 'COSCUP 2018 x openSUSE.Asia x GNOME.Asia',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'COSCUP 2018' }
+      { hid: 'description', name: 'description', content: 'COSCUP 2018 x openSUSE.Asia x GNOME.Asia' },
+      { vmid: 'og:title', property: 'og:title', content: 'COSCUP 2018 x openSUSE.Asia x GNOME.Asia' },
+      { vmid: 'og:type', property: 'og:type', content: 'website' },
+      { vmid: 'og:image', property: 'og:image', content: '/assets/logo-512.png' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
