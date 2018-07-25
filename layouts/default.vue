@@ -1,6 +1,6 @@
 <template>
-  <div class="root">
-    <NavBar />
+  <div class="root" :class="{app: appMode}">
+    <NavBar v-if="!appMode" />
     <nuxt />
     <Footer />
   </div>
@@ -22,6 +22,11 @@ import Footer from '~/components/Footer.vue'
   },
 })
 export default class extends Vue {
+  appMode = false
+
+  mounted () {
+    this.appMode = window.location.search.match('mode=app') !== null
+  }
 }
 </script>
 
@@ -93,4 +98,8 @@ ul > li {
   flex-direction: column;
   align-items: center;
 }
+.root.app {
+  padding-top: 0rem;
+}
+
 </style>
