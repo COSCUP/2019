@@ -1,7 +1,7 @@
 export default interface Language {
   pages: {
     about: string
-    schedules: string
+    programs: string
     venue: string
     cohosts: string
     sponsors: string
