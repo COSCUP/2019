@@ -3,7 +3,7 @@ import Language from '.'
 const language : Language = {
   pages: {
     about: '關於',
-    schedules: '議程',
+    programs: '議程',
     venue: '交通',
     cohosts: '共同主辦',
     sponsors: '贊助',

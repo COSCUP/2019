@@ -105,6 +105,8 @@ module.exports = {
           'faExternalLinkAlt',
           'faBullhorn',
           'faChevronDown',
+          'faMapMarkerAlt',
+          'faClock',
         ],
       },
       {
@@ -128,4 +130,7 @@ module.exports = {
       },
     ],
   },
+  css: [
+    'vue2vis/dist/vue2vis.css'
+  ],
 }

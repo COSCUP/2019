@@ -46,7 +46,10 @@ export type CohostsByLevel = (Level & {
   cohosts: Cohost[]
 })[]
 
-export const state = (): State => ({} as State)
+export const state = (): State => ({
+  levels: {},
+  cohosts: [],
+} as State)
 
 export interface Getters<S, R> extends GetterTree<S, R> {
   byLevel(state: S, getters: any, rootState: R, rootGetters: any): CohostsByLevel
@@ -94,20 +97,4 @@ export const mutations: MutationTree<State> = {
       image: `${API_ROOT}${cohost.image}`,
     }))
   }
-}
-
-export const pluginHook: Plugin<any> = (store) => {
-  store.subscribe(({ type, payload }, rootState) => {
-    if (type !== `${i18nStateName}/I18N_SET_LOCALE`) return;
-
-    // Skip if endpoint is not loaded,
-    // this could happened while nuxt-i18n module just loaded.
-    // Don't be scared, after nuxt is completely loaded,
-    // nuxtServerInit will do the same thing.
-    const { __loaded: endpointLoaded } = rootState[endpointStateName]
-    if (!endpointLoaded) return;
-
-    const locale = payload
-    store.dispatch(`${name}/fetchData`, { locale })
-  })
 }

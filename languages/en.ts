@@ -3,7 +3,7 @@ import Language from '.'
 const language : Language = {
   pages: {
     about: 'About',
-    schedules: 'Schedules',
+    programs: 'Schedules',
     venue: 'Venue',
     cohosts: 'Co-Hosts',
     sponsors: 'Sponsors',

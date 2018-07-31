@@ -25,8 +25,7 @@
       </nuxt-link>
       <ul class="pages container">
         <li><nuxt-link :to="localePath('index')">{{ $t('pages.about') }}</nuxt-link></li>
-        <!-- <li><nuxt-link :to="localePath('schedules')">{{ $t('pages.schedules') }}</nuxt-link></li> -->
-        <li><a href="http://blog.coscup.org/2018/07/2018-full-programme.html" target="_blank">{{ $t('pages.schedules') }}</a></li>
+        <li><nuxt-link :to="localePath('programs')">{{ $t('pages.programs') }}</nuxt-link></li>
         <li><nuxt-link :to="localePath('venue')">{{ $t('pages.venue') }}</nuxt-link></li>
         <li><nuxt-link :to="localePath('cohosts')">{{ $t('pages.cohosts') }}</nuxt-link></li>
         <li><nuxt-link :to="localePath('sponsors')">{{ $t('pages.sponsors') }}</nuxt-link></li>
