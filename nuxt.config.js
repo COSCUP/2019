@@ -131,6 +131,7 @@ module.exports = {
 
       return routes
     },
+    concurrency: 10,
   },
   sitemap: {
     hostname: 'https://2018.coscup.org',
