@@ -78,27 +78,24 @@ export default class extends Vue {
     await dispatch(`${programsStoreName}/fetchData`)
   }
 
-  getParagraphs(article) {
-    return article.split(/\r\n?|\n\r?/g)
-  }
-
   get groupedTracks() {
-    return Object.values(this.tracks.reduce((collection, { title, ...track }) => {
-      if (!collection[title]) {
-        collection[title] = {
-          title,
+    return Object.values(this.tracks.reduce((collection, { group, ...track }) => {
+      if (!collection[group]) {
+        collection[group] = {
+          group,
           tracks: [],
         }
       }
 
-      collection[title].tracks.push(track)
+      collection[group].tracks.push(track)
 
       return collection
-    }, {})).map(({ tracks, title }) => ({
-      title,
+    }, {})).map(({ tracks, group }) => ({
+      group,
       rooms: tracks.map(({ room }) => (room)).sort((lRoom, rRoom) => (
         lRoom.localeCompare(rRoom)
       )),
+      title: tracks[0].title,
       communities: tracks[0].communities,
     })).sort(({ title: lTitle }, { title: rTitle }) => (
       lTitle.localeCompare(rTitle)
