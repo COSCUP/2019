@@ -79,16 +79,29 @@ export default class extends Vue {
     this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
   }
 
-  async fetch({ store: { dispatch } }) {
-    await dispatch(`${programsStoreName}/fetchData`)
+  head () {
+    const title = `${this.talk.title} - ${this.talk.track.title} - COSCUP 2018 x openSUSE.Asia x GNOME.Asia`
+
+    return {
+      title,
+      meta: [
+        { vmid: 'og:title', property: 'og:title', content: title },
+        { hid: 'description', name: 'description', content: this.talk.intro },
+      ]
+    }
   }
 
-  getParagraphs(article) {
-    return article.split(/\r\n?|\n\r?/g)
+  async fetch({ store: { state, dispatch }, params, error }) {
+    await dispatch(`${programsStoreName}/fetchData`)
+
+    const talk = state[programsStoreName].talks.filter(({ id }) => (id === params.id))[0]
+    if (!talk) {
+      error({ statusCode: 404, message: 'Page not found.' })
+    }
   }
 
   get talk() {
-    return this.allTalks.filter(({ id }) => (id === this.$route.params.id))[0] || {}
+    return this.allTalks.filter(({ id }) => (id === this.$route.params.id))[0]
   }
 }
 </script>
