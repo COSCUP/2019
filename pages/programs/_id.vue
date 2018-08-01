@@ -87,11 +87,11 @@ const ProgramsState = namespace(programsStoreName, State)
     SponsorFooter,
   },
   filters: {
-    getDatetime({ begin, end }) {
-      const [_, month, day, beginTime] = begin.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+0800/)
+    getDatetime({ start, end }) {
+      const [_, month, day, startTime] = start.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+0800/)
 
       return end.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+0800/, (_, endTime) => (
-        `${month}/${day} ${beginTime} - ${endTime}`
+        `${month}/${day} ${startTime} - ${endTime}`
       ))
     }
   }
@@ -112,7 +112,7 @@ export default class extends Vue {
   }
 
   get talk() {
-    return this.allTalks.filter(({ id }) => (id === this.$route.params.id))[0]
+    return this.allTalks.filter(({ id }) => (id === this.$route.params.id))[0] || {}
   }
 }
 </script>

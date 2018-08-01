@@ -145,8 +145,10 @@ export const actions: Actions<State, RootState> = {
 
             avatar: avatar ? `${API_ROOT}${avatar}` : null,
           })),
-        begin,
+        start: begin,
         end,
+        startAt: Date.parse(begin),
+        endAt: Date.parse(end),
       }))
 
       commit(types.UPDATE, {
