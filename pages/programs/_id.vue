@@ -2,56 +2,28 @@
   <main class="programs">
     <Card class="talk container">
       <h1>{{ talk.title }}</h1>
+      <h4><Icon class="icon" icon="columns" /><nuxt-link :to="localePath({ name: 'tracks-group', params: { group: talk.track.group } })">{{ talk.track.title }}</nuxt-link></h4>
       <h4><Icon class="icon" icon="map-marker-alt" />{{ talk.track.room }}</h4>
       <h4><Icon class="icon" icon="clock" />{{ talk | getDatetime }}</h4>
 
-      <article>
-        <p v-for="(paragraph, idx) in getParagraphs(talk.intro)" :key="idx">
-          {{ paragraph }}
-        </p>
-      </article>
+      <Markdown tag="article" :value="talk.intro"></Markdown>
 
-      <article class="addition" v-if="talk.addition">
-        <p v-for="(paragraph, idx) in getParagraphs(talk.addition)" :key="idx">
-          {{ paragraph }}
-        </p>
-      </article>
+      <Markdown tag="article" class="addition" :value="talk.addition"></Markdown>
     </Card>
     <Card class="container">
       <div class="speakers">
         <div v-for="speaker in talk.speakers" :key="speaker.id"
           class="speaker"
         >
-          <template v-if="speaker.link">
-            <a v-if="speaker.avatar" class="logo" :href="speaker.link" :title="speaker.name" target="_blank">
-              <RatioBox ratio="1:1" style="text-align: center;">
-                <img :src="speaker.avatar" />
-              </RatioBox>
-            </a>
-            <div class="description">
-              <h1><a :href="speaker.link" :title="speaker.name" target="_blank">{{ speaker.name }}</a></h1>
-              <article>
-                <p v-for="(paragraph, idx) in getParagraphs(speaker.intro)" :key="idx">
-                  {{ paragraph }}
-                </p>
-              </article>
-            </div>
-          </template>
-          <template v-else>
-            <span v-if="speaker.avatar" class="logo" :title="speaker.name">
-              <RatioBox ratio="1:1" style="text-align: center;">
-                <img :src="speaker.avatar" />
-              </RatioBox>
-            </span>
-            <div class="description">
-              <h1>{{ speaker.name }}</h1>
-              <article>
-                <p v-for="(paragraph, idx) in getParagraphs(speaker.intro)" :key="idx">
-                  {{ paragraph }}
-                </p>
-              </article>
-            </div>
-          </template>
+          <ASpan v-if="speaker.avatar" class="avatar" :href="speaker.link" :title="speaker.name" target="_blank">
+            <RatioBox ratio="1:1" style="text-align: center;">
+              <img :src="speaker.avatar" />
+            </RatioBox>
+          </ASpan>
+          <div class="description">
+            <h1><ASpan :href="speaker.link" :title="speaker.name" target="_blank">{{ speaker.name }}</ASpan></h1>
+            <Markdown tag="article" :value="speaker.intro"></Markdown>
+          </div>
         </div>
       </div>
     </Card>
@@ -74,24 +46,28 @@ import {
   name as programsStoreName,
 } from '~/store/programs'
 
+import ASpan from '~/components/ASpan.vue'
 import Card from '~/components/Card.vue'
 import RatioBox from '~/components/RatioBox.vue'
 import SponsorFooter from '~/components/SponsorFooter.vue'
+import Markdown from '~/components/Markdown.vue'
 
 const ProgramsState = namespace(programsStoreName, State)
 
 @Component({
   components: {
+    ASpan,
     Card,
     RatioBox,
     SponsorFooter,
+    Markdown,
   },
   filters: {
-    getDatetime({ begin, end }) {
-      const [_, month, day, beginTime] = begin.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+0800/)
+    getDatetime({ start, end }) {
+      const [_, month, day, startTime] = start.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+0800/)
 
       return end.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+0800/, (_, endTime) => (
-        `${month}/${day} ${beginTime} - ${endTime}`
+        `${month}/${day} ${startTime} - ${endTime}`
       ))
     }
   }
@@ -112,7 +88,7 @@ export default class extends Vue {
   }
 
   get talk() {
-    return this.allTalks.filter(({ id }) => (id === this.$route.params.id))[0]
+    return this.allTalks.filter(({ id }) => (id === this.$route.params.id))[0] || {}
   }
 }
 </script>
@@ -139,6 +115,8 @@ main.programs {
 
 .talk .addition {
   font-size: .8em;
+  margin-left: .8em;
+  margin-right: .8em;
 }
 
 .speakers {
@@ -159,7 +137,7 @@ main.programs {
   padding: 0;
 }
 
-.speaker .logo + .description {
+.speaker .avatar + .description {
   flex-basis: 80%;
 }
 
@@ -167,11 +145,12 @@ main.programs {
   font-size: 1.2em;
 }
 
-.speaker .logo {
+.speaker .avatar {
   flex-basis: 20%;
+  margin-right: 1em;
 }
 
-.speaker .logo img {
+.speaker .avatar img {
   max-height: 100%;
   max-width: 100%;
   margin: auto;

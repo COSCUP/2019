@@ -69,17 +69,17 @@ export default class extends Vue {
       .map(({ id, room, title }) => {
         const talks = this.$props.talks
           .filter(({ track: { id: trackId } }) => (trackId === id))
-          .sort(({ begin: lBegin, end: lEnd }, { begin: rBegin, end: rEnd }) => {
-            const cmpBegin = Date.parse(lBegin) - Date.parse(rBegin)
+          .sort(({ startAt: lStart, endAt: lEnd }, { startAt: rStart, endAt: rEnd }) => {
+            const cmpStart = lStart - rStart
 
-            return cmpBegin !== 0 ? cmpBegin : Date.parse(lEnd) - Date.parse(rEnd)
+            return cmpStart !== 0 ? cmpStart : lEnd - rEnd
           })
 
         return talks.length == 0 ? {} : {
           id,
           title,
           group: room,
-          start: talks[0].begin,
+          start: talks[0].start,
           end: talks[talks.length - 1].end,
           type: 'background',
           className: 'timetable-track',
@@ -88,23 +88,31 @@ export default class extends Vue {
         }
       }).filter(({ start, end }) => (
         start && end
-      )).sort(({ start: lStart, end: lEnd }, { start: rStart, end: rEnd }) => {
-        const cmpBegin = Date.parse(lStart) - Date.parse(rStart)
-
-        return cmpBegin !== 0 ? cmpBegin : Date.parse(lEnd) - Date.parse(rEnd)
-      })
+      ))
   }
 
   get talkItems() {
     return this.$props.talks
-      .filter(({ begin, end }) => (begin && end))
-      .map(({ begin, end, ...talk }) => ({
+      .filter(({ start, end }) => (start && end))
+      .map((talk) => ({
         ...talk,
 
         group: talk.track.room,
-        start: begin,
-        end: end,
       }))
+  }
+
+  get startAt() {
+    return new Date(this.talkItems
+        .map(({ startAt }) => (startAt))
+        .reduce((value, next) => value < next ? value : next)
+      ).toISOString()
+  }
+
+  get endAt() {
+    return new Date(this.talkItems
+      .map(({ endAt }) => (endAt))
+      .reduce((value, next) => value > next ? value : next)
+    ).toISOString()
   }
 
   get items() {
@@ -114,16 +122,45 @@ export default class extends Vue {
     ]
   }
 
+  get breakDuringTwoDays() {
+    const allDays = Object.values(this.talkItems.reduce((collection, { startAt, endAt }) => {
+      const talkStartDatetime = new Date(startAt)
+      const talkStartDayUtc = talkStartDatetime.getUTCDate()
+      const talkStartHourUtc = talkStartDatetime.getUTCHours()
+      const hourInTaiwan = talkStartHourUtc + 8
+      const dayInTaiwan = talkStartDayUtc + (hourInTaiwan >= 24 ? 1 : 0)
+
+      if (!collection[dayInTaiwan]) {
+        collection[dayInTaiwan] = {
+          startAt,
+          endAt,
+        }
+      }
+
+      if (collection[dayInTaiwan].startAt > startAt) {
+        collection[dayInTaiwan].startAt = startAt
+      }
+
+      if (collection[dayInTaiwan].endAt < endAt) {
+        collection[dayInTaiwan].endAt = endAt
+      }
+
+      return collection
+    }, {})).sort(({ startAt: l }, { startAt: r }) => (l - r))
+
+    return allDays.length === 2 ? {
+      start: new Date(allDays[0]['endAt']).toISOString(),
+      end: new Date(allDays[1]['startAt']).toISOString(),
+    } : {}
+  }
+
   get tlOptions() {
     return {
-      start: this.trackItems[0].start,
-      end: this.trackItems[this.trackItems.length - 1].end,
-      min: this.trackItems[0].start,
-      max: this.trackItems[this.trackItems.length - 1].end,
-      hiddenDates: {
-        start: '2018-08-11T17:10:00+08:00',
-        end: '2018-08-12T09:00:00+08:00'
-      },
+      start: this.startAt,
+      end: this.endAt,
+      min: this.startAt,
+      max: this.endAt,
+      hiddenDates: this.breakDuringTwoDays,
       height: this.$props.responsibleHeight ? null : '100%',
       stack: false,
       verticalScroll: true,

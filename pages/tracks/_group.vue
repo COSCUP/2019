@@ -1,13 +1,15 @@
 <template>
   <main class="tracks">
-    <div class="zoom-tip">Ctrl/Cmd + scroll to zoom</div>
-    <Timetable
-      class="timetable"
-      :talks="talks"
-      :tracks="tracks"
-      :responsibleHeight="true"
-      @click-talk="$router.push(localePath({ name: 'programs-id', params: { id: $event.id } }))"
-    />
+    <template v-if="this.talks.length > 0">
+      <div class="zoom-tip">Ctrl + scroll to zoom</div>
+      <Timetable
+        class="timetable"
+        :talks="talks"
+        :tracks="tracks"
+        :responsibleHeight="true"
+        @click-talk="$router.push(localePath({ name: 'programs-id', params: { id: $event.id } }))"
+      />
+    </template>
     <Card class="track container" v-for="track in groupedTracks" :key="track.title">
       <h1>{{ track.title }}</h1>
       <div class="communities">
@@ -15,48 +17,24 @@
           :key="community.id"
           class="community"
         >
-          <template v-if="community.link">
-            <a v-if="community.image" class="logo" :href="community.link" :title="community.title" target="_blank">
-              <RatioBox ratio="1:1" style="text-align: center;">
-                <img :src="community.image" />
-              </RatioBox>
-            </a>
-            <div class="description">
-              <h1><a :href="community.link" :title="community.title" target="_blank">{{ community.title }}</a></h1>
-              <article>
-                <p v-for="(paragraph, idx) in getParagraphs(community.intro)" :key="idx">
-                  {{ paragraph }}
-                </p>
-              </article>
-            </div>
-          </template>
-          <template v-else>
-            <span v-if="community.image" class="logo" :title="community.title">
-              <RatioBox ratio="1:1" style="text-align: center;">
-                <img :src="community.image" />
-              </RatioBox>
-            </span>
-            <div class="description">
-              <h1>{{ community.title }}</h1>
-              <article>
-                <p v-for="(paragraph, idx) in getParagraphs(community.intro)" :key="idx">
-                  {{ paragraph }}
-                </p>
-              </article>
-            </div>
-          </template>
+          <ASpan v-if="community.image" class="logo" :href="community.link" :title="community.title" target="_blank">
+            <RatioBox ratio="1:1" style="text-align: center;">
+              <img :src="community.image" />
+            </RatioBox>
+          </ASpan>
+          <div class="description">
+            <h1><ASpan :href="community.link" :title="community.title" target="_blank">{{ community.title }}</ASpan></h1>
+            <Markdown tag="article" :value="community.intro"></Markdown>
+          </div>
         </div>
       </div>
     </Card>
     <Card class="talk container" v-for="talk in talks" :key="talk.id">
       <h1><nuxt-link :to="localePath({ name: 'programs-id', params: { id: talk.id } })">{{ talk.title }}</nuxt-link></h1>
+      <h4><Icon class="icon" icon="user-alt" />{{ talk.speakers.map(({ name }) => (name)).join(', ') }}</h4>
       <h4><Icon class="icon" icon="map-marker-alt" />{{ talk.track.room }}</h4>
       <h4><Icon class="icon" icon="clock" />{{ talk | getDatetime }}</h4>
-      <div class="description">
-        <p v-for="(paragraph, idx) in getParagraphs(talk.intro)" :key="idx">
-          {{ paragraph }}
-        </p>
-      </div>
+      <Markdown tag="article" :value="talk.intro"></Markdown>
     </Card>
     <SponsorFooter />
   </main>
@@ -77,26 +55,30 @@ import {
   name as programsStoreName,
 } from '~/store/programs'
 
+import ASpan from '~/components/ASpan.vue'
 import Card from '~/components/Card.vue'
 import Timetable from '~/components/Timetable.vue'
 import RatioBox from '~/components/RatioBox.vue'
 import SponsorFooter from '~/components/SponsorFooter.vue'
+import Markdown from '~/components/Markdown.vue'
 
 const ProgramsState = namespace(programsStoreName, State)
 
 @Component({
   components: {
+    ASpan,
     Card,
     Timetable,
     RatioBox,
     SponsorFooter,
+    Markdown,
   },
   filters: {
-    getDatetime({ begin, end }) {
-      const [_, month, day, beginTime] = begin.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+0800/)
+    getDatetime({ start, end }) {
+      const [_, month, day, startTime] = start.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+0800/)
 
       return end.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+0800/, (_, endTime) => (
-        `${month}/${day} ${beginTime} - ${endTime}`
+        `${month}/${day} ${startTime} - ${endTime}`
       ))
     }
   }
@@ -118,8 +100,8 @@ export default class extends Vue {
   }
 
   get tracks() {
-    const trackTitle = this.$route.params.title
-    return this.allTracks.filter(({ title }) => (title === trackTitle))
+    const trackGroup = this.$route.params.group
+    return this.allTracks.filter(({ group }) => (group === trackGroup))
   }
 
   get talks() {
@@ -226,6 +208,10 @@ main.tracks {
   width: 1em;
   text-align: center;
   margin-right: .5em;
+}
+
+.talk article {
+  margin-top: 1em;
 }
 
 @media(min-width: 840px) {
