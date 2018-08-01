@@ -30,6 +30,7 @@ type Track = {
   room: string
   communities: Community[]
   title: string
+  group: string
 }
 
 type Speaker = {
@@ -67,6 +68,7 @@ type APIResponse = {
       room: string
       communities: string[]
       title: string
+      group: string
     }
   }
   speakers: {

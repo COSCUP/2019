@@ -128,7 +128,7 @@ export default class extends Vue {
       const talkStartDayUtc = talkStartDatetime.getUTCDate()
       const talkStartHourUtc = talkStartDatetime.getUTCHours()
       const hourInTaiwan = talkStartHourUtc + 8
-      const dayInTaiwan = talkStartDayUtc + (hourInTaiwan / 24)
+      const dayInTaiwan = talkStartDayUtc + (hourInTaiwan >= 24 ? 1 : 0)
 
       if (!collection[dayInTaiwan]) {
         collection[dayInTaiwan] = {
@@ -151,7 +151,7 @@ export default class extends Vue {
     return allDays.length === 2 ? {
       start: new Date(allDays[0]['endAt']).toISOString(),
       end: new Date(allDays[1]['startAt']).toISOString(),
-    } : null
+    } : {}
   }
 
   get tlOptions() {

@@ -81,6 +81,11 @@ module.exports = {
     }],
     '@nuxtjs/sitemap',
     'nuxt-fontawesome',
+    ['@nuxtjs/markdownit', {
+      xhtmlOut: true,
+      linkify: true,
+      breaks: true,
+    }],
   ],
   plugins: [
     {
@@ -107,6 +112,8 @@ module.exports = {
           'faChevronDown',
           'faMapMarkerAlt',
           'faClock',
+          'faColumns',
+          'faUserAlt',
         ],
       },
       {
@@ -133,4 +140,7 @@ module.exports = {
   css: [
     'vue2vis/dist/vue2vis.css'
   ],
+  markdownit: {
+    injected: true
+  },
 }

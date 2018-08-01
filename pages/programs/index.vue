@@ -1,6 +1,6 @@
 <template>
   <main class="programs">
-    <div class="zoom-tip">Ctrl/Cmd + scroll to zoom</div>
+    <div class="zoom-tip">Ctrl + scroll to zoom</div>
     <Timetable
       class="timetable"
       :talks="talks"
@@ -9,43 +9,22 @@
     />
 
     <Card class="track container" v-for="track in groupedTracks" :key="track.title">
-      <h1><nuxt-link :to="localePath({ name: 'tracks-title', params: { title: track.title } })">{{ track.title }}</nuxt-link></h1>
+      <h1><nuxt-link :to="localePath({ name: 'tracks-group', params: { group: track.group } })">{{ track.title }}</nuxt-link></h1>
       <h4><Icon class="icon" icon="map-marker-alt" />{{ track.rooms.join('/') }}</h4>
       <div class="communities">
         <div v-for="community in track.communities"
           :key="community.id"
           class="community"
         >
-          <template v-if="community.link">
-            <a v-if="community.image" class="logo" :href="community.link" :title="community.title" target="_blank">
-              <RatioBox ratio="1:1" style="text-align: center;">
-                <img :src="community.image" />
-              </RatioBox>
-            </a>
-            <div class="description">
-              <h1><a :href="community.link" :title="community.title" target="_blank">{{ community.title }}</a></h1>
-              <article>
-                <p v-for="(paragraph, idx) in getParagraphs(community.intro)" :key="idx">
-                  {{ paragraph }}
-                </p>
-              </article>
-            </div>
-          </template>
-          <template v-else>
-            <span v-if="community.image" class="logo" :title="community.title">
-              <RatioBox ratio="1:1" style="text-align: center;">
-                <img :src="community.image" />
-              </RatioBox>
-            </span>
-            <div class="description">
-              <h1>{{ community.title }}</h1>
-              <article>
-                <p v-for="(paragraph, idx) in getParagraphs(community.intro)" :key="idx">
-                  {{ paragraph }}
-                </p>
-              </article>
-            </div>
-          </template>
+          <ASpan v-if="community.image" class="logo" :href="community.link" :title="community.title" target="_blank">
+            <RatioBox ratio="1:1" style="text-align: center;">
+              <img :src="community.image" />
+            </RatioBox>
+          </ASpan>
+          <div class="description">
+            <h1><ASpan :href="community.link" :title="community.title" target="_blank">{{ community.title }}</ASpan></h1>
+            <Markdown tag="article" :value="community.intro"></Markdown>
+          </div>
         </div>
       </div>
     </Card>
@@ -68,19 +47,23 @@ import {
   name as programsStoreName,
 } from '~/store/programs'
 
+import ASpan from '~/components/ASpan.vue'
 import Card from '~/components/Card.vue'
 import Timetable from '~/components/Timetable.vue'
 import RatioBox from '~/components/RatioBox.vue'
 import SponsorFooter from '~/components/SponsorFooter.vue'
+import Markdown from '~/components/Markdown.vue'
 
 const ProgramsState = namespace(programsStoreName, State)
 
 @Component({
   components: {
+    ASpan,
     Card,
     Timetable,
     RatioBox,
     SponsorFooter,
+    Markdown,
   },
 })
 export default class extends Vue {
