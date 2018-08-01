@@ -88,11 +88,7 @@ export default class extends Vue {
         }
       }).filter(({ start, end }) => (
         start && end
-      )).sort(({ start: lStart, end: lEnd }, { start: rStart, end: rEnd }) => {
-        const cmpBegin = Date.parse(lStart) - Date.parse(rStart)
-
-        return cmpBegin !== 0 ? cmpBegin : Date.parse(lEnd) - Date.parse(rEnd)
-      })
+      ))
   }
 
   get talkItems() {
@@ -107,6 +103,20 @@ export default class extends Vue {
       }))
   }
 
+  get startAt() {
+    return new Date(this.talkItems
+        .map(({ start }) => (Date.parse(start)))
+        .reduce((value, next) => value < next ? value : next)
+      ).toISOString()
+  }
+
+  get endAt() {
+    return new Date(this.talkItems
+      .map(({ end }) => (Date.parse(end)))
+      .reduce((value, next) => value > next ? value : next)
+    ).toISOString()
+  }
+
   get items() {
     return [
       ...this.talkItems,
@@ -116,10 +126,10 @@ export default class extends Vue {
 
   get tlOptions() {
     return {
-      start: this.trackItems[0].start,
-      end: this.trackItems[this.trackItems.length - 1].end,
-      min: this.trackItems[0].start,
-      max: this.trackItems[this.trackItems.length - 1].end,
+      start: this.startAt,
+      end: this.endAt,
+      min: this.startAt,
+      max: this.endAt,
       hiddenDates: {
         start: '2018-08-11T17:10:00+08:00',
         end: '2018-08-12T09:00:00+08:00'
