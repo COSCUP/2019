@@ -10,10 +10,10 @@
         @click-talk="$router.push(localePath({ name: 'programs-id', params: { id: $event.id } }))"
       />
     </template>
-    <Card class="track container" v-for="track in groupedTracks" :key="track.title">
-      <h1>{{ track.title }}</h1>
+    <Card class="track container">
+      <h1>{{ tracks[0].title }}</h1>
       <div class="communities">
-        <div v-for="community in track.communities"
+        <div v-for="community in tracks[0].communities"
           :key="community.id"
           class="community"
         >
@@ -90,13 +90,27 @@ export default class extends Vue {
   mounted() {
     this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
   }
+  
+  head () {
+    const title = `${this.tracks[0].title} - COSCUP 2018 x openSUSE.Asia x GNOME.Asia`
 
-  async fetch({ store: { dispatch } }) {
-    await dispatch(`${programsStoreName}/fetchData`)
+    return {
+      title,
+      meta: [
+        { vmid: 'og:title', property: 'og:title', content: title },
+        { hid: 'description', name: 'description', content: title },
+        { hid: 'keywords', name: 'keywords', content: `COSCUP,${this.tracks[0].communities.map(({ title }) => (title)).join(',')}` },
+      ]
+    }
   }
 
-  getParagraphs(article) {
-    return article.split(/\r\n?|\n\r?/g)
+  async fetch({ store: { state, dispatch }, params, error }) {
+    await dispatch(`${programsStoreName}/fetchData`)
+
+    const tracks = state[programsStoreName].tracks.filter(({ group }) => (group === params.group))
+    if (tracks.length == 0) {
+      error({ statusCode: 404, message: 'Page not found.' })
+    }
   }
 
   get tracks() {
@@ -107,29 +121,6 @@ export default class extends Vue {
   get talks() {
     return this.allTalks.filter(({ track: { id: trackId } }) => (
       this.tracks.find(({ id }) => (id === trackId))
-    ))
-  }
-
-  get groupedTracks() {
-    return Object.values(this.tracks.reduce((collection, { title, ...track }) => {
-      if (!collection[title]) {
-        collection[title] = {
-          title,
-          tracks: [],
-        }
-      }
-
-      collection[title].tracks.push(track)
-
-      return collection
-    }, {})).map(({ tracks, title }) => ({
-      title,
-      rooms: tracks.map(({ room }) => (room)).sort((lRoom, rRoom) => (
-        lRoom.localeCompare(rRoom)
-      )),
-      communities: tracks[0].communities,
-    })).sort(({ title: lTitle }, { title: rTitle }) => (
-      lTitle.localeCompare(rTitle)
     ))
   }
 }
