@@ -218,6 +218,11 @@ main.tracks {
   margin-top: 1em;
 }
 
+.community article,
+.talk article {
+  word-wrap: break-word;
+}
+
 @media(min-width: 840px) {
   .zoom-tip {
     display: block;
