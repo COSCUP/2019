@@ -1,3 +1,5 @@
+const fetch = require('node-fetch')
+
 const locales = [
   { code: 'en',    iso: 'en-US', file: 'en.ts' },
   { code: 'zh-TW', iso: 'zh-TW', file: 'zh-TW.ts' },
@@ -8,11 +10,14 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'COSCUP',
+    title: 'COSCUP 2018 x openSUSE.Asia x GNOME.Asia',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'COSCUP 2018' }
+      { hid: 'description', name: 'description', content: 'COSCUP 2018 x openSUSE.Asia x GNOME.Asia' },
+      { vmid: 'og:title', property: 'og:title', content: 'COSCUP 2018 x openSUSE.Asia x GNOME.Asia' },
+      { vmid: 'og:type', property: 'og:type', content: 'website' },
+      { vmid: 'og:image', property: 'og:image', content: '/assets/logo-512.png' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -78,6 +83,11 @@ module.exports = {
     }],
     '@nuxtjs/sitemap',
     'nuxt-fontawesome',
+    ['@nuxtjs/markdownit', {
+      xhtmlOut: true,
+      linkify: true,
+      breaks: true,
+    }],
   ],
   plugins: [
     {
@@ -88,6 +98,40 @@ module.exports = {
   ],
   generate: {
     fallback: true,
+    routes: async function () {
+      const API_ROOT = 'https://api2018.coscup.org'
+      const apiRootResponse = await fetch(API_ROOT)
+      const { index: langs = {} } = await apiRootResponse.json()
+
+      const firstLangProgramsResponse = await fetch(`${API_ROOT}${Object.values(langs)[0].programs}`)
+      const programs = await firstLangProgramsResponse.json()
+
+      const routes = []
+      Object.keys(
+        Object.values(programs.tracks)
+          .reduce((collection, { group }) => {
+            collection[group] = true
+
+            return collection
+          }, {})
+      ).forEach(function (group) {
+        routes.push({
+          route: `/tracks/${group}`,
+          payload: null,
+        })
+      })
+
+      Object.values(programs.talks)
+        .forEach(function ({ talk }) {
+          routes.push({
+            route: `/programs/${talk}`,
+            payload: null,
+          })
+        })
+
+      return routes
+    },
+    concurrency: 10,
   },
   sitemap: {
     hostname: 'https://2018.coscup.org',
@@ -102,6 +146,10 @@ module.exports = {
           'faExternalLinkAlt',
           'faBullhorn',
           'faChevronDown',
+          'faMapMarkerAlt',
+          'faClock',
+          'faColumns',
+          'faUserAlt',
         ],
       },
       {
@@ -124,5 +172,11 @@ module.exports = {
         ],
       },
     ],
+  },
+  css: [
+    'vue2vis/dist/vue2vis.css'
+  ],
+  markdownit: {
+    injected: true
   },
 }

@@ -16,6 +16,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free-brands": "^5.0.13",
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
+    "@nuxtjs/markdownit": "^1.2.1",
     "@nuxtjs/moment": "^1.0.0",
     "@nuxtjs/sitemap": "^0.1.1",
     "moment": "^2.22.1",
@@ -24,6 +25,7 @@
     "nuxt-i18n": "^3.2.3",
     "nuxt-property-decorator": "^1.2.0",
     "vue2-google-maps": "^0.9.7",
+    "vue2vis": "^0.0.13",
     "vuex-class": "^0.3.0",
     "whatwg-fetch": "^2.0.4"
   },

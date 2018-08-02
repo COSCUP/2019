@@ -26,10 +26,10 @@ module.exports = function ({ locales = [], defaultLocale }) {
       }
 
       return flattenPaths
-    }, []).map((route) => ({
+    }, []).map((route) => (typeof route === 'string' ? {
       route,
       payload: null,
-    }))
+    } : route))
   )
 
   this.nuxt.hook('generate:extendRoutes', function (routes) {

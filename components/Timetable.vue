@@ -1,0 +1,228 @@
+<template>
+  <no-ssr>
+    <Timeline
+      :items="items"
+      :groups="groups"
+      :options="tlOptions"
+      @click="onClick"
+    />
+  </no-ssr>
+</template>
+
+<script lang="ts">
+import {
+  Component,
+  Vue,
+} from 'nuxt-property-decorator'
+import {
+  Timeline,
+} from 'vue2vis'
+
+@Component({
+  components: {
+    Timeline,
+  },
+  inheritAttrs: false,
+  props: {
+    talks: {
+      type: Array,
+      required: true,
+    },
+    tracks: {
+      type: Array,
+      required: true,
+    },
+    responsibleHeight: {
+      type: Boolean,
+      default: false,
+    },
+  },
+})
+export default class extends Vue {
+  onClick(ev) {
+    const item = this.items.filter(({ id }) => (id === ev.item))[0]
+
+    if (ev.what === 'item') {
+      this.$emit('click-talk', item)
+    }
+  }
+
+  getTime(v) {
+    return v.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+0800/, (_, time) => time)
+  }
+
+  get groups() {
+    return Object.values(this.$props.tracks.reduce((collection, { room }) => {
+      if (!collection[room]) {
+        collection[room] = {
+          id: room,
+          content: room,
+        }
+      }
+
+      return collection
+    }, {}))
+  }
+
+  get trackItems() {
+    return this.$props.tracks
+      .map(({ id, room, title }) => {
+        const talks = this.$props.talks
+          .filter(({ track: { id: trackId } }) => (trackId === id))
+          .sort(({ startAt: lStart, endAt: lEnd }, { startAt: rStart, endAt: rEnd }) => {
+            const cmpStart = lStart - rStart
+
+            return cmpStart !== 0 ? cmpStart : lEnd - rEnd
+          })
+
+        return talks.length == 0 ? {} : {
+          id,
+          title,
+          group: room,
+          start: talks[0].start,
+          end: talks[talks.length - 1].end,
+          type: 'background',
+          className: 'timetable-track',
+
+          isTrack: true,
+        }
+      }).filter(({ start, end }) => (
+        start && end
+      ))
+  }
+
+  get talkItems() {
+    return this.$props.talks
+      .filter(({ start, end }) => (start && end))
+      .map((talk) => ({
+        ...talk,
+
+        group: talk.track.room,
+      }))
+  }
+
+  get startAt() {
+    return new Date(this.talkItems
+        .map(({ startAt }) => (startAt))
+        .reduce((value, next) => value < next ? value : next)
+      ).toISOString()
+  }
+
+  get endAt() {
+    return new Date(this.talkItems
+      .map(({ endAt }) => (endAt))
+      .reduce((value, next) => value > next ? value : next)
+    ).toISOString()
+  }
+
+  get items() {
+    return [
+      ...this.talkItems,
+      ...this.trackItems,
+    ]
+  }
+
+  get breakDuringTwoDays() {
+    const allDays = Object.values(this.talkItems.reduce((collection, { startAt, endAt }) => {
+      const talkStartDatetime = new Date(startAt)
+      const talkStartDayUtc = talkStartDatetime.getUTCDate()
+      const talkStartHourUtc = talkStartDatetime.getUTCHours()
+      const hourInTaiwan = talkStartHourUtc + 8
+      const dayInTaiwan = talkStartDayUtc + (hourInTaiwan >= 24 ? 1 : 0)
+
+      if (!collection[dayInTaiwan]) {
+        collection[dayInTaiwan] = {
+          startAt,
+          endAt,
+        }
+      }
+
+      if (collection[dayInTaiwan].startAt > startAt) {
+        collection[dayInTaiwan].startAt = startAt
+      }
+
+      if (collection[dayInTaiwan].endAt < endAt) {
+        collection[dayInTaiwan].endAt = endAt
+      }
+
+      return collection
+    }, {})).sort(({ startAt: l }, { startAt: r }) => (l - r))
+
+    return allDays.length === 2 ? {
+      start: new Date(allDays[0]['endAt']).toISOString(),
+      end: new Date(allDays[1]['startAt']).toISOString(),
+    } : {}
+  }
+
+  get tlOptions() {
+    return {
+      start: this.startAt,
+      end: this.endAt,
+      min: this.startAt,
+      max: this.endAt,
+      hiddenDates: this.breakDuringTwoDays,
+      height: this.$props.responsibleHeight ? null : '100%',
+      stack: false,
+      verticalScroll: true,
+      selectable: false,
+      zoomKey: 'ctrlKey',
+      zoomMin: 5 * 60 * 1000,
+      template: (item, element, data) => {
+        const { start, end, title } = item
+        return item.isBackground ? '' : item.isTrack ? (`
+          <h1>${title}</h1>
+        `) : (`
+          <small>${this.getTime(start)} - ${this.getTime(end)}</small>
+          <h1>${title}</h1>
+        `)
+      },
+      margin: {
+        item: {
+          horizontal: 20,
+          vertical: 40,
+        },
+      },
+      groupOrder: ({ id: lId }, { id: rId }) => (
+        lId.localeCompare(rId)
+      ),
+    }
+  }
+}
+</script>
+
+<style>
+.vis-timeline {
+  font-size: 14px;
+}
+.vis-foreground .vis-item {
+  margin-top: .6em;
+  cursor: pointer;
+}
+
+.vis-item.community h1 {
+  margin: 0;
+}
+
+.vis-item-content {
+  line-height: 1em;
+}
+
+.vis-item h1 {
+  margin-top: 5px;
+  font-size: 1em;
+  font-weight: normal;
+  line-height: 1.2em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.vis-item.timetable-track h1 {
+  margin-top: 0;
+}
+
+.vis-item h4 {
+  font-size: 1em;
+  font-weight: normal;
+  line-height: 1em;
+  margin: 4px 0;
+}
+</style>

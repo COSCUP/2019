@@ -52,7 +52,7 @@ export interface Actions<S, R> extends ActionTree<S, R> {
 
 export const actions: Actions<State, RootState> = {
   async nuxtServerInit({ commit }) {
-    const response = await fetch(API_ROOT)
+    const response = await fetch(`${API_ROOT}/index.json`)
     const { index: data = {} } = await response.json()
     const apisWithLangs: APIEndpoints = Object.entries(Languages)
       .reduce((langs, [langCode, apiLang]) => {
