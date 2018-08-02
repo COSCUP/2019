@@ -15,11 +15,11 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
       { hid: 'description', name: 'description', content: 'COSCUP 2018 x openSUSE.Asia x GNOME.Asia' },
-      { vmid: 'og:title', property: 'og:title', content: 'COSCUP 2018 x openSUSE.Asia x GNOME.Asia' },
-      { vmid: 'og:type', property: 'og:type', content: 'website' },
-      { vmid: 'og:image', property: 'og:image', content: 'https://2018.coscup.org/logo-512.png' },
-      { vmid: 'og:image:width', property: 'og:image:width', content: '512' },
-      { vmid: 'og:image:height', property: 'og:image:height', content: '512' }
+      { hid: 'og:title', property: 'og:title', content: 'COSCUP 2018 x openSUSE.Asia x GNOME.Asia' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:image', property: 'og:image', content: 'https://2018.coscup.org/logo-512.png' },
+      { hid: 'og:image:width', property: 'og:image:width', content: '512' },
+      { hid: 'og:image:height', property: 'og:image:height', content: '512' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

@@ -8,7 +8,7 @@
       @click-talk="open($router.resolve(localePath({ name: 'programs-id', params: { id: $event.id } })))"
     />
 
-    <Card class="container">
+    <Card class="page-title container">
       <h1>{{ $t('programs.tracks') }}</h1>
     </Card>
 
@@ -81,7 +81,7 @@ export default class extends Vue {
   async fetch({ store: { dispatch } }) {
     await dispatch(`${programsStoreName}/fetchData`)
   }
-  
+
   open(link) {
     window.open(link.href, '_blank')
   }
@@ -139,8 +139,11 @@ main.programs {
   height: 100vh;
   max-height: 75vh;
   min-height: 320px;
-  margin-bottom: 2em;
   background: #fff;
+}
+
+.programs .page-title {
+  margin-top: 2em;
 }
 
 .track .icon {
@@ -199,7 +202,7 @@ main.programs {
   .timetable {
     max-height: 80vh;
   }
-    
+
   .zoom-tip {
     display: block;
   }

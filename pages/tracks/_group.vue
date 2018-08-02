@@ -103,7 +103,7 @@ export default class extends Vue {
     return {
       title,
       meta: [
-        { vmid: 'og:title', property: 'og:title', content: title },
+        { hid: 'og:title', property: 'og:title', content: title },
         { hid: 'description', name: 'description', content: title },
         { hid: 'keywords', name: 'keywords', content: `COSCUP,${this.tracks[0].communities.map(({ title }) => (title)).join(',')}` },
       ]
