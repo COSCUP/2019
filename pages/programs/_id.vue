@@ -92,6 +92,8 @@ export default class extends Vue {
   }
 
   async fetch({ store: { state, dispatch }, params, error }) {
+    if (!params) return
+    
     await dispatch(`${programsStoreName}/fetchData`)
 
     const talk = state[programsStoreName].talks.filter(({ id }) => (id === params.id))[0]
@@ -124,6 +126,7 @@ main.programs {
 
 .talk article {
   margin-top: 1em;
+  word-wrap: break-word;
 }
 
 .talk .addition {
@@ -156,6 +159,10 @@ main.programs {
 
 .speaker .description h1 {
   font-size: 1.2em;
+}
+
+.speaker article {
+  word-wrap: break-word;
 }
 
 .speaker .avatar {

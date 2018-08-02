@@ -18,6 +18,10 @@ const language : Language = {
     `,
     register_now: 'Register now!',
   },
+  programs: {
+    tracks: 'Tracks',
+    talks: 'Talks',
+  },
   venue: {
     openInGoogleMaps: 'Open in Google Maps',
   },

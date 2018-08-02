@@ -16,6 +16,11 @@ export default interface Language {
     register_now: string
   }
 
+  programs: {
+    tracks: string,
+    talks: string,
+  }
+
   venue: {
     openInGoogleMaps: string
   }

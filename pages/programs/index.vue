@@ -1,12 +1,16 @@
 <template>
   <main class="programs">
-    <div class="zoom-tip">Ctrl + scroll to zoom</div>
+    <!-- <div class="zoom-tip">Ctrl + scroll to zoom</div> -->
     <Timetable
       class="timetable"
       :talks="talks"
       :tracks="tracks"
-      @click-talk="$router.push(localePath({ name: 'programs-id', params: { id: $event.id } }))"
+      @click-talk="open($router.resolve(localePath({ name: 'programs-id', params: { id: $event.id } })))"
     />
+
+    <Card class="container">
+      <h1>{{ $t('programs.tracks') }}</h1>
+    </Card>
 
     <Card class="track container" v-for="track in groupedTracks" :key="track.title">
       <h1><nuxt-link :to="localePath({ name: 'tracks-group', params: { group: track.group } })">{{ track.title }}</nuxt-link></h1>
@@ -77,6 +81,10 @@ export default class extends Vue {
   async fetch({ store: { dispatch } }) {
     await dispatch(`${programsStoreName}/fetchData`)
   }
+  
+  open(link) {
+    window.open(link.href, '_blank')
+  }
 
   get groupedTracks() {
     return Object.values(this.tracks.reduce((collection, { group, ...track }) => {
@@ -113,6 +121,7 @@ main.programs {
 }
 
 .zoom-tip {
+  display: none;
   position: relative;
   width: 50%;
   background: rgba(255, 255, 255, .6);
@@ -128,7 +137,7 @@ main.programs {
   flex-grow: 1;
   width: 100%;
   height: 100vh;
-  max-height: 85vh;
+  max-height: 75vh;
   min-height: 320px;
   margin-bottom: 2em;
   background: #fff;
@@ -167,6 +176,10 @@ main.programs {
   font-size: 1.2em;
 }
 
+.community article {
+  word-wrap: break-word;
+}
+
 .community .logo {
   flex-basis: 20%;
 }
@@ -183,6 +196,14 @@ main.programs {
 }
 
 @media(min-width: 840px) {
+  .timetable {
+    max-height: 80vh;
+  }
+    
+  .zoom-tip {
+    display: block;
+  }
+
   .community {
     flex-direction: row;
 
