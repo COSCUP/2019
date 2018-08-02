@@ -4,6 +4,7 @@
       :items="items"
       :groups="groups"
       :options="tlOptions"
+      :events="['click']"
       @click="onClick"
     />
   </no-ssr>
@@ -102,24 +103,32 @@ export default class extends Vue {
   }
 
   get startAt() {
-    return new Date(this.talkItems
+    return this.talkItems
         .map(({ startAt }) => (startAt))
         .reduce((value, next) => value < next ? value : next)
-      ).toISOString()
   }
 
   get endAt() {
-    return new Date(this.talkItems
+    return this.talkItems
       .map(({ endAt }) => (endAt))
       .reduce((value, next) => value > next ? value : next)
-    ).toISOString()
   }
 
-  get items() {
-    return [
-      ...this.talkItems,
-      ...this.trackItems,
-    ]
+  get defaultViewRange() {
+    const boxSize = 3 * 60 * 60 * 1000 // 3 hrs
+    const halfBoxSize = Math.floor(boxSize / 2)
+
+    const nowAt = Date.now()
+    const preferedStartAt = nowAt - halfBoxSize
+
+    const startAt = preferedStartAt < this.startAt ? this.startAt : preferedStartAt
+    const preferedEndAt = startAt + halfBoxSize
+    const endAt = this.endAt < preferedEndAt ? this.endAt : preferedEndAt
+
+    return {
+      start: startAt,
+      end: endAt,
+    }
   }
 
   get breakDuringTwoDays() {
@@ -154,18 +163,41 @@ export default class extends Vue {
     } : {}
   }
 
+  get dayTwoBackground() {
+    return ((this.breakDuringTwoDays.end) ?
+      [
+        {
+          start: this.breakDuringTwoDays.end,
+          end: new Date(this.endAt).toISOString(),
+          type: 'background',
+          className: 'day-two',
+
+          isBackground: true,
+        }
+      ] : [])
+  }
+
+  get items() {
+    return [
+      ...this.talkItems,
+      ...this.trackItems,
+      ...this.dayTwoBackground,
+    ]
+  }
+
   get tlOptions() {
     return {
-      start: this.startAt,
-      end: this.endAt,
-      min: this.startAt,
-      max: this.endAt,
+      ...this.defaultViewRange,
+      min: new Date(this.startAt).toISOString(),
+      max: new Date(this.endAt).toISOString(),
       hiddenDates: this.breakDuringTwoDays,
-      height: this.$props.responsibleHeight ? null : '100%',
+      ...(this.$props.responsibleHeight ? {} : {
+        height: '100%',
+      }),
       stack: false,
-      verticalScroll: true,
+      // verticalScroll: true,
       selectable: false,
-      zoomKey: 'ctrlKey',
+      // zoomKey: 'ctrlKey',
       zoomMin: 5 * 60 * 1000,
       template: (item, element, data) => {
         const { start, end, title } = item
@@ -224,5 +256,15 @@ export default class extends Vue {
   font-weight: normal;
   line-height: 1em;
   margin: 4px 0;
+}
+
+.vis-item.day-two {
+  background-color: rgba(255, 255, 239, 0.4);
+}
+
+.vis-time-axis .vis-text {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 2em;
 }
 </style>

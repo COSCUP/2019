@@ -18,6 +18,10 @@ const language : Language = {
     `,
     register_now: '點我報名',
   },
+  programs: {
+    tracks: '議程軌',
+    talks: '議程列表',
+  },
   venue: {
     openInGoogleMaps: '在 Google Maps 中開啓',
   },
