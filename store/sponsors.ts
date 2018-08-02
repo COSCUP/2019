@@ -54,6 +54,8 @@ export interface Getters<S, R> extends GetterTree<S, R> {
 
 export const getters: Getters<State, RootState> = {
   byLevel({ levels, sponsors }) {
+    if (!levels || !sponsors) return []
+
     const collection: SponsorsByLevel = Object.entries(levels)
       .map(([key, lv]) => ({
         ...lv,

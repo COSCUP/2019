@@ -1,15 +1,16 @@
 <template>
   <main class="tracks">
     <template v-if="this.talks.length > 0">
-      <div class="zoom-tip">Ctrl + scroll to zoom</div>
+      <!-- <div class="zoom-tip">Ctrl + scroll to zoom</div> -->
       <Timetable
         class="timetable"
         :talks="talks"
         :tracks="tracks"
         :responsibleHeight="true"
-        @click-talk="$router.push(localePath({ name: 'programs-id', params: { id: $event.id } }))"
+        @click-talk="open($router.resolve(localePath({ name: 'programs-id', params: { id: $event.id } })))"
       />
     </template>
+
     <Card class="track container">
       <h1>{{ tracks[0].title }}</h1>
       <div class="communities">
@@ -29,6 +30,11 @@
         </div>
       </div>
     </Card>
+
+    <Card class="container">
+      <h1>{{ $t('programs.talks') }}</h1>
+    </Card>
+
     <Card class="talk container" v-for="talk in talks" :key="talk.id">
       <h1><nuxt-link :to="localePath({ name: 'programs-id', params: { id: talk.id } })">{{ talk.title }}</nuxt-link></h1>
       <h4><Icon class="icon" icon="user-alt" />{{ talk.speakers.map(({ name }) => (name)).join(', ') }}</h4>
@@ -75,9 +81,9 @@ const ProgramsState = namespace(programsStoreName, State)
   },
   filters: {
     getDatetime({ start, end }) {
-      const [_, month, day, startTime] = start.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+0800/)
+      const [_, month, day, startTime] = start.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+08:00/)
 
-      return end.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+0800/, (_, endTime) => (
+      return end.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+08:00/, (_, endTime) => (
         `${month}/${day} ${startTime} - ${endTime}`
       ))
     }
@@ -105,12 +111,18 @@ export default class extends Vue {
   }
 
   async fetch({ store: { state, dispatch }, params, error }) {
+    if (!params) return
+
     await dispatch(`${programsStoreName}/fetchData`)
 
     const tracks = state[programsStoreName].tracks.filter(({ group }) => (group === params.group))
     if (tracks.length == 0) {
       error({ statusCode: 404, message: 'Page not found.' })
     }
+  }
+
+  open(link) {
+    window.open(link.href, '_blank')
   }
 
   get tracks() {
@@ -135,6 +147,7 @@ main.tracks {
 }
 
 .zoom-tip {
+  display: none;
   position: relative;
   width: 100%;
   background: rgb(255, 255, 255);
@@ -205,7 +218,16 @@ main.tracks {
   margin-top: 1em;
 }
 
+.community article,
+.talk article {
+  word-wrap: break-word;
+}
+
 @media(min-width: 840px) {
+  .zoom-tip {
+    display: block;
+  }
+
   .community {
     flex-direction: row;
 
