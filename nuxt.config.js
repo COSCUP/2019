@@ -17,7 +17,9 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'COSCUP 2018 x openSUSE.Asia x GNOME.Asia' },
       { vmid: 'og:title', property: 'og:title', content: 'COSCUP 2018 x openSUSE.Asia x GNOME.Asia' },
       { vmid: 'og:type', property: 'og:type', content: 'website' },
-      { vmid: 'og:image', property: 'og:image', content: '/assets/logo-512.png' }
+      { vmid: 'og:image', property: 'og:image', content: 'https://2018.coscup.org/logo-512.png' },
+      { vmid: 'og:image:width', property: 'og:image:width', content: '512' },
+      { vmid: 'og:image:height', property: 'og:image:height', content: '512' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

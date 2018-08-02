@@ -49,7 +49,7 @@ export default class extends Vue {
   }
 
   getTime(v) {
-    return v.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+0800/, (_, time) => time)
+    return v.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+08:00/, (_, time) => time)
   }
 
   get groups() {

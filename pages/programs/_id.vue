@@ -64,9 +64,9 @@ const ProgramsState = namespace(programsStoreName, State)
   },
   filters: {
     getDatetime({ start, end }) {
-      const [_, month, day, startTime] = start.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+0800/)
+      const [_, month, day, startTime] = start.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+08:00/)
 
-      return end.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+0800/, (_, endTime) => (
+      return end.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+08:00/, (_, endTime) => (
         `${month}/${day} ${startTime} - ${endTime}`
       ))
     }
@@ -87,13 +87,17 @@ export default class extends Vue {
       meta: [
         { vmid: 'og:title', property: 'og:title', content: title },
         { hid: 'description', name: 'description', content: this.talk.intro },
+        { vmid: 'twitter:label1', property: 'twitter:label1', content: 'Track' },
+        { vmid: 'twitter:data1', property: 'twitter:data1', content: this.talk.track.title },
+        { vmid: 'twitter:label2', property: 'twitter:label2', content: 'Author' },
+        { vmid: 'twitter:data2', property: 'twitter:data2', content: this.talk.speakers.map(({ name }) => (name)).join(', ') },
       ]
     }
   }
 
   async fetch({ store: { state, dispatch }, params, error }) {
     if (!params) return
-    
+
     await dispatch(`${programsStoreName}/fetchData`)
 
     const talk = state[programsStoreName].talks.filter(({ id }) => (id === params.id))[0]
