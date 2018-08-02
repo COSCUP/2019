@@ -81,9 +81,9 @@ const ProgramsState = namespace(programsStoreName, State)
   },
   filters: {
     getDatetime({ start, end }) {
-      const [_, month, day, startTime] = start.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+0800/)
+      const [_, month, day, startTime] = start.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+08:00/)
 
-      return end.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+0800/, (_, endTime) => (
+      return end.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+08:00/, (_, endTime) => (
         `${month}/${day} ${startTime} - ${endTime}`
       ))
     }
