@@ -1,6 +1,6 @@
 <template>
   <no-ssr>
-    <Timeline
+    <Timeline style="transform: translateZ(0);"
       :items="items"
       :groups="groups"
       :options="tlOptions"
@@ -223,12 +223,33 @@ export default class extends Vue {
 </script>
 
 <style>
+:root {
+  --accent: rgb(59, 156, 96);
+  --secondary: rgb(219, 238, 224);
+}
+
 .vis-timeline {
   font-size: 14px;
+  border-left: 0px;
+  border-right: 0px;
 }
+
 .vis-foreground .vis-item {
   margin-top: .6em;
   cursor: pointer;
+}
+
+.vis-item {
+  border-color: var(--accent);
+  background-color: var(--secondary);
+}
+
+.vis-item.vis-background {
+  background-color: color(var(--secondary) a(40%));
+}
+
+.vis-item.vis-background.day-two {
+  background-color: rgba(255, 255, 239, 0.4);
 }
 
 .vis-item.community h1 {
@@ -256,10 +277,6 @@ export default class extends Vue {
   font-weight: normal;
   line-height: 1em;
   margin: 4px 0;
-}
-
-.vis-item.day-two {
-  background-color: rgba(255, 255, 239, 0.4);
 }
 
 .vis-time-axis .vis-text {
