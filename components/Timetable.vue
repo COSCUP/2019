@@ -1,13 +1,15 @@
 <template>
   <no-ssr>
     <Timeline style="transform: translateZ(0);"
+      ref="timeline"
       :items="items"
       :groups="groups"
       :options="tlOptions"
-      :events="['click', 'pointerDown', 'mouseDown']"
+      :events="['click', 'pointerDown', 'mouseDown', 'changed']"
       @click="onClick"
       @pointerDown="onMouseDown"
       @mouseDown="onMouseDown"
+      @changed="onTimelineChanged"
     />
   </no-ssr>
 </template>
@@ -46,6 +48,7 @@ const CLICK_THRESHOLD = 300
 })
 export default class extends Vue {
   pointerRecord = { pageX: 0, pageY: 0, startAt: 0 }
+  changeCount = 0
 
   onMouseDown({ pageX, pageY }) {
     this.pointerRecord = {
@@ -66,6 +69,13 @@ export default class extends Vue {
 
     if (ev.what === 'item') {
       this.$emit('click-talk', item)
+    }
+  }
+
+  onTimelineChanged(ev) {
+    this.changeCount = this.changeCount + 1
+    if (this.changeCount === 2) {
+      this.$refs.timeline['redraw']()
     }
   }
 
