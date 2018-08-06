@@ -80,7 +80,7 @@ export default class extends Vue {
   }
 
   head () {
-    const title = `${this.talk.title} - ${this.talk.track.title} - COSCUP x openSUSE.Asia x GNOME.Asia 2018`
+    const title = `${this.talk.title} - ${this.talk.track.title} - COSCUP x GNOME.Asia x openSUSE.Asia 2018`
 
     return {
       title,

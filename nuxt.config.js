@@ -10,12 +10,12 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'COSCUP x openSUSE.Asia x GNOME.Asia 2018',
+    title: 'COSCUP x GNOME.Asia x openSUSE.Asia 2018',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
-      { hid: 'description', name: 'description', content: 'COSCUP x openSUSE.Asia x GNOME.Asia 2018' },
-      { hid: 'og:title', property: 'og:title', content: 'COSCUP x openSUSE.Asia x GNOME.Asia 2018' },
+      { hid: 'description', name: 'description', content: 'COSCUP x GNOME.Asia x openSUSE.Asia 2018' },
+      { hid: 'og:title', property: 'og:title', content: 'COSCUP x GNOME.Asia x openSUSE.Asia 2018' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
       { hid: 'og:image', property: 'og:image', content: 'https://2018.coscup.org/logo-512.png' },
       { hid: 'og:image:width', property: 'og:image:width', content: '512' },
