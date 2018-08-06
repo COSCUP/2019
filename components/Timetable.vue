@@ -238,6 +238,10 @@ export default class extends Vue {
       groupOrder: ({ id: lId }, { id: rId }) => (
         lId.localeCompare(rId)
       ),
+      orientation: {
+        axis: 'bottom',
+        item: 'top',
+      },
     }
   }
 }
