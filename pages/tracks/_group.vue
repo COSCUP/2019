@@ -96,9 +96,9 @@ export default class extends Vue {
   mounted() {
     this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
   }
-  
+
   head () {
-    const title = `${this.tracks[0].title} - COSCUP 2018 x openSUSE.Asia x GNOME.Asia`
+    const title = `${this.tracks[0].title} - COSCUP x GNOME.Asia x openSUSE.Asia 2018`
 
     return {
       title,

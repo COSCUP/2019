@@ -80,16 +80,16 @@ export default class extends Vue {
   }
 
   head () {
-    const title = `${this.talk.title} - ${this.talk.track.title} - COSCUP 2018 x openSUSE.Asia x GNOME.Asia`
+    const title = `${this.talk.title} - ${this.talk.track.title} - COSCUP x GNOME.Asia x openSUSE.Asia 2018`
 
     return {
       title,
       meta: [
         { hid: 'og:title', property: 'og:title', content: title },
         { hid: 'description', name: 'description', content: this.talk.intro },
-        { hid: 'twitter:label1', property: 'twitter:label1', content: 'Track' },
+        { hid: 'twitter:label1', property: 'twitter:label1', content: this.$t('programs.track') },
         { hid: 'twitter:data1', property: 'twitter:data1', content: this.talk.track.title },
-        { hid: 'twitter:label2', property: 'twitter:label2', content: 'Author' },
+        { hid: 'twitter:label2', property: 'twitter:label2', content: this.$t('programs.speakers') },
         { hid: 'twitter:data2', property: 'twitter:data2', content: this.talk.speakers.map(({ name }) => (name)).join(', ') },
       ]
     }

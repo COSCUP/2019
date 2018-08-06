@@ -17,8 +17,11 @@ export default interface Language {
   }
 
   programs: {
-    tracks: string,
-    talks: string,
+    tracks: string
+    talks: string
+
+    track: string
+    speakers: string
   }
 
   venue: {

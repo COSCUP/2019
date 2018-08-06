@@ -1,11 +1,13 @@
 <template>
   <no-ssr>
-    <Timeline
+    <Timeline style="transform: translateZ(0);"
       :items="items"
       :groups="groups"
       :options="tlOptions"
-      :events="['click']"
+      :events="['click', 'pointerDown', 'mouseDown']"
       @click="onClick"
+      @pointerDown="onMouseDown"
+      @mouseDown="onMouseDown"
     />
   </no-ssr>
 </template>
@@ -18,6 +20,9 @@ import {
 import {
   Timeline,
 } from 'vue2vis'
+
+const POINTER_THRESHOLD = 10
+const CLICK_THRESHOLD = 300
 
 @Component({
   components: {
@@ -40,7 +45,23 @@ import {
   },
 })
 export default class extends Vue {
+  pointerRecord = { pageX: 0, pageY: 0, startAt: 0 }
+
+  onMouseDown({ pageX, pageY }) {
+    this.pointerRecord = {
+      pageX,
+      pageY,
+      startAt: Date.now(),
+    }
+  }
+
   onClick(ev) {
+    if (Math.abs(ev.pageX - this.pointerRecord.pageX) > POINTER_THRESHOLD ||
+        Math.abs(ev.pageX - this.pointerRecord.pageX) > POINTER_THRESHOLD ||
+        Date.now() - this.pointerRecord.startAt > CLICK_THRESHOLD) {
+      return;
+    }
+
     const item = this.items.filter(({ id }) => (id === ev.item))[0]
 
     if (ev.what === 'item') {
@@ -217,18 +238,43 @@ export default class extends Vue {
       groupOrder: ({ id: lId }, { id: rId }) => (
         lId.localeCompare(rId)
       ),
+      orientation: {
+        axis: 'bottom',
+        item: 'top',
+      },
     }
   }
 }
 </script>
 
 <style>
+:root {
+  --accent: rgb(59, 156, 96);
+  --secondary: rgb(219, 238, 224);
+}
+
 .vis-timeline {
   font-size: 14px;
+  border-left: 0px;
+  border-right: 0px;
 }
+
 .vis-foreground .vis-item {
   margin-top: .6em;
   cursor: pointer;
+}
+
+.vis-item {
+  border-color: var(--accent);
+  background-color: var(--secondary);
+}
+
+.vis-item.vis-background {
+  background-color: color(var(--secondary) a(40%));
+}
+
+.vis-item.vis-background.day-two {
+  background-color: rgba(255, 255, 239, 0.4);
 }
 
 .vis-item.community h1 {
@@ -243,7 +289,7 @@ export default class extends Vue {
   margin-top: 5px;
   font-size: 1em;
   font-weight: normal;
-  line-height: 1.2em;
+  line-height: 1.4em;
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -256,10 +302,6 @@ export default class extends Vue {
   font-weight: normal;
   line-height: 1em;
   margin: 4px 0;
-}
-
-.vis-item.day-two {
-  background-color: rgba(255, 255, 239, 0.4);
 }
 
 .vis-time-axis .vis-text {
