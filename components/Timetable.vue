@@ -4,8 +4,10 @@
       :items="items"
       :groups="groups"
       :options="tlOptions"
-      :events="['click']"
+      :events="['click', 'pointerDown', 'mouseDown']"
       @click="onClick"
+      @pointerDown="onMouseDown"
+      @mouseDown="onMouseDown"
     />
   </no-ssr>
 </template>
@@ -18,6 +20,9 @@ import {
 import {
   Timeline,
 } from 'vue2vis'
+
+const POINTER_THRESHOLD = 10
+const CLICK_THRESHOLD = 300
 
 @Component({
   components: {
@@ -40,7 +45,23 @@ import {
   },
 })
 export default class extends Vue {
+  pointerRecord = { pageX: 0, pageY: 0, startAt: 0 }
+
+  onMouseDown({ pageX, pageY }) {
+    this.pointerRecord = {
+      pageX,
+      pageY,
+      startAt: Date.now(),
+    }
+  }
+
   onClick(ev) {
+    if (Math.abs(ev.pageX - this.pointerRecord.pageX) > POINTER_THRESHOLD ||
+        Math.abs(ev.pageX - this.pointerRecord.pageX) > POINTER_THRESHOLD ||
+        Date.now() - this.pointerRecord.startAt > CLICK_THRESHOLD) {
+      return;
+    }
+
     const item = this.items.filter(({ id }) => (id === ev.item))[0]
 
     if (ev.what === 'item') {
