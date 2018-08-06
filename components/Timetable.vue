@@ -243,7 +243,7 @@ export default class extends Vue {
   margin-top: 5px;
   font-size: 1em;
   font-weight: normal;
-  line-height: 1.2em;
+  line-height: 1.4em;
   text-overflow: ellipsis;
   overflow: hidden;
 }
