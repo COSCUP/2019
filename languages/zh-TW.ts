@@ -21,6 +21,8 @@ const language : Language = {
   programs: {
     tracks: '議程軌',
     talks: '議程列表',
+    track: '議程軌',
+    speakers: '講者',
   },
   venue: {
     openInGoogleMaps: '在 Google Maps 中開啓',

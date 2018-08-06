@@ -21,6 +21,8 @@ const language : Language = {
   programs: {
     tracks: 'Tracks',
     talks: 'Talks',
+    track: 'Track',
+    speakers: 'Speaker(s)',
   },
   venue: {
     openInGoogleMaps: 'Open in Google Maps',
