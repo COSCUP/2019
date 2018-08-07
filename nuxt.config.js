@@ -5,6 +5,46 @@ const locales = [
   { code: 'zh-TW', iso: 'zh-TW', file: 'zh-TW.ts' },
 ]
 
+const generateRoutesFromAPI = (function () {
+  var _cache = null
+
+  return async function () {
+    if (_cache) return _cache
+
+    const API_ROOT = 'https://api2018.coscup.org'
+    const apiRootResponse = await fetch(API_ROOT)
+    const { index: langs = {} } = await apiRootResponse.json()
+
+    const firstLangProgramsResponse = await fetch(`${API_ROOT}${Object.values(langs)[0].programs}`)
+    const programs = await firstLangProgramsResponse.json()
+
+    const routes = []
+    Object.keys(
+      Object.values(programs.tracks)
+        .reduce((collection, { group }) => {
+          collection[group] = true
+
+          return collection
+        }, {})
+    ).forEach(function (group) {
+      routes.push({
+        route: `/tracks/${group}`,
+        payload: null,
+      })
+    })
+
+    Object.values(programs.talks)
+      .forEach(function ({ talk }) {
+        routes.push({
+          route: `/programs/${talk}`,
+          payload: null,
+        })
+      })
+
+    return _cache = routes
+  }
+})()
+
 module.exports = {
   /*
   ** Headers of the page
@@ -96,44 +136,20 @@ module.exports = {
   ],
   generate: {
     fallback: true,
-    routes: async function () {
-      const API_ROOT = 'https://api2018.coscup.org'
-      const apiRootResponse = await fetch(API_ROOT)
-      const { index: langs = {} } = await apiRootResponse.json()
-
-      const firstLangProgramsResponse = await fetch(`${API_ROOT}${Object.values(langs)[0].programs}`)
-      const programs = await firstLangProgramsResponse.json()
-
-      const routes = []
-      Object.keys(
-        Object.values(programs.tracks)
-          .reduce((collection, { group }) => {
-            collection[group] = true
-
-            return collection
-          }, {})
-      ).forEach(function (group) {
-        routes.push({
-          route: `/tracks/${group}`,
-          payload: null,
-        })
-      })
-
-      Object.values(programs.talks)
-        .forEach(function ({ talk }) {
-          routes.push({
-            route: `/programs/${talk}`,
-            payload: null,
-          })
-        })
-
-      return routes
-    },
+    routes: generateRoutesFromAPI,
     concurrency: 10,
   },
   sitemap: {
     hostname: 'https://2018.coscup.org',
     generate: true,
+    routes: async function () {
+      const routes = await generateRoutesFromAPI()
+
+      return [
+        ...routes.map((route) => (route.route)),
+        ...routes.map((route) => (`/en${route.route}`))
+      ]
+    },
   },
   fontawesome: {
     component: 'Icon',
