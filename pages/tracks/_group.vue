@@ -111,8 +111,6 @@ export default class extends Vue {
   }
 
   async fetch({ store: { state, dispatch }, params, error }) {
-    if (!params) return
-
     await dispatch(`${programsStoreName}/fetchData`)
 
     const tracks = state[programsStoreName].tracks.filter(({ group }) => (group === params.group))

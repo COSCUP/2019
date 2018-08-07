@@ -96,8 +96,6 @@ export default class extends Vue {
   }
 
   async fetch({ store: { state, dispatch }, params, error }) {
-    if (!params) return
-
     await dispatch(`${programsStoreName}/fetchData`)
 
     const talk = state[programsStoreName].talks.filter(({ id }) => (id === params.id))[0]
