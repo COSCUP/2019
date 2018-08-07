@@ -52,10 +52,6 @@ module.exports = {
         })
       }
 
-      // Tree shaking fontAwesome icons
-      ['fontawesome-free-solid', 'fontawesome-free-brands'].forEach((iconset) => {
-        config.resolve.alias[`@fortawesome/${iconset}$`] = `@fortawesome/${iconset}/shakable.es.js`
-      })
     },
     vendors: [
       'babel-polyfill',
@@ -143,7 +139,7 @@ module.exports = {
     component: 'Icon',
     imports: [
       {
-        set: '@fortawesome/fontawesome-free-solid',
+        set: '@fortawesome/free-solid-svg-icons',
         icons: [
           'faExternalLinkAlt',
           'faBullhorn',
@@ -155,7 +151,7 @@ module.exports = {
         ],
       },
       {
-        set: '@fortawesome/fontawesome-free-brands',
+        set: '@fortawesome/free-brands-svg-icons',
         icons: [
           /* Social networks */
           'faBlogger',
