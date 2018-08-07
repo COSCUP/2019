@@ -40,6 +40,9 @@
       <h4><Icon class="icon" icon="user-alt" />{{ talk.speakers.map(({ name }) => (name)).join(', ') }}</h4>
       <h4><Icon class="icon" icon="map-marker-alt" />{{ talk.track.room }}</h4>
       <h4><Icon class="icon" icon="clock" />{{ talk | getDatetime }}</h4>
+      <h4 v-if="talk.language"><Icon class="icon" icon="comment" />{{ talk.language }}</h4>
+      <h4 v-if="talk.difficulty"><Icon class="icon" :icon="talk.difficulty | difficultyIcon" />{{ talk.difficulty }}</h4>
+      <h4 v-if="talk.audience"><Icon class="icon" icon="user-friends" />{{ talk.audience }}</h4>
       <Markdown tag="article" :value="talk.intro"></Markdown>
     </Card>
     <SponsorFooter />
@@ -86,7 +89,26 @@ const ProgramsState = namespace(programsStoreName, State)
       return end.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+08:00/, (_, endTime) => (
         `${month}/${day} ${startTime} - ${endTime}`
       ))
-    }
+    },
+    difficultyIcon(difficulty) {
+      const beginnerRegex = /Begineer|入門/i
+      const skilledRegex = /Skilled|中階/i
+      const advancedRegex = /Advanced|進階/i
+
+      const mapping = [
+        [beginnerRegex, ['far', 'star']],
+        [skilledRegex, 'star-half-alt'],
+        [advancedRegex, 'star'],
+      ]
+
+      for (const [regex, icon] of mapping) {
+        if (difficulty.match(regex)) {
+          return icon
+        }
+      }
+
+      return 'star-half-alt'
+    },
   }
 })
 export default class extends Vue {
@@ -111,8 +133,6 @@ export default class extends Vue {
   }
 
   async fetch({ store: { state, dispatch }, params, error }) {
-    if (!params) return
-
     await dispatch(`${programsStoreName}/fetchData`)
 
     const tracks = state[programsStoreName].tracks.filter(({ group }) => (group === params.group))
@@ -231,7 +251,10 @@ main.tracks {
   .community {
     flex-direction: row;
 
-    padding: 1em;
+    padding-top: 1em;
+  }
+  .community .logo + .description {
+    padding-left: 1em;
   }
 }
 </style>

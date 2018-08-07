@@ -83,7 +83,7 @@ export const actions: Actions<State, RootState> = {
     if (store.state.clientFetched) return;
 
     store.commit(types.CLIENT_FETCHED)
-    fetchFn({ store })
+    fetchFn(this.app.context)
   }
 }
 

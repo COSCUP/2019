@@ -137,7 +137,7 @@ main.programs {
   flex-grow: 1;
   width: 100%;
   height: 100vh;
-  max-height: 75vh;
+  max-height: 70vh;
   min-height: 320px;
   background: #fff;
 }
@@ -210,7 +210,11 @@ main.programs {
   .community {
     flex-direction: row;
 
-    padding: 1em;
+    padding-top: 1em;
+  }
+
+  .community .logo + .description {
+    padding-left: 1em;
   }
 }
 </style>

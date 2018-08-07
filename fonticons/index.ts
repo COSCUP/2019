@@ -3,10 +3,12 @@ import { IconPack } from '@fortawesome/fontawesome-common-types'
 import { prefix } from './constants'
 import extPlurk from './extPlurk'
 
-export default <IconPack> {
+const ext = {
   extPlurk,
 }
+
 export {
+  ext,
   prefix,
 
   extPlurk,

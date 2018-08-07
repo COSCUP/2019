@@ -50,6 +50,9 @@ type Talk = {
   title: string
   intro: string
   addition: string
+  language: string
+  difficulty: string
+  audience: string
 }
 
 type APIResponse = {
@@ -90,6 +93,9 @@ type APIResponse = {
       title: string
       intro: string
       addition: string
+      language: string
+      difficulty: string
+      audience: string
     }
   }
 }
