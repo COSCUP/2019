@@ -148,6 +148,16 @@ module.exports = {
           'faClock',
           'faColumns',
           'faUserAlt',
+          'faComment',
+          'faStar',
+          'faStarHalfAlt',
+          'faUserFriends',
+        ],
+      },
+      {
+        set: '@fortawesome/free-regular-svg-icons',
+        icons: [
+          'faStar',
         ],
       },
       {
