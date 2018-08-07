@@ -229,7 +229,10 @@ main.tracks {
   .community {
     flex-direction: row;
 
-    padding: 1em;
+    padding-top: 1em;
+  }
+  .community .logo + .description {
+    padding-left: 1em;
   }
 }
 </style>
