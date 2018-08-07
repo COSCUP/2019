@@ -7,8 +7,8 @@
       :options="tlOptions"
       :events="['click', 'pointerDown', 'mouseDown', 'changed']"
       @click="onClick"
-      @pointerDown="onMouseDown"
-      @mouseDown="onMouseDown"
+      @pointer-down="onMouseDown"
+      @mouse-down="onMouseDown"
       @changed="onTimelineChanged"
     />
   </no-ssr>
@@ -73,9 +73,13 @@ export default class extends Vue {
   }
 
   onTimelineChanged(ev) {
-    this.changeCount = this.changeCount + 1
-    if (this.changeCount === 2) {
-      this.$refs.timeline['redraw']()
+    if (this.changeCount == 2) return;
+    this.changeCount += 1
+
+    if (this.changeCount == 2) {
+      this.$nextTick(() => {
+        this.$refs.timeline['redraw']()
+      })
     }
   }
 

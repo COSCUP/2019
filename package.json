@@ -25,7 +25,7 @@
     "nuxt-i18n": "^3.2.3",
     "nuxt-property-decorator": "^1.2.0",
     "vue2-google-maps": "^0.9.7",
-    "vue2vis": "^0.0.13",
+    "vue2vis": "^0.0.15",
     "vuex-class": "^0.3.0",
     "whatwg-fetch": "^2.0.4"
   },
