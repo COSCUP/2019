@@ -15,6 +15,7 @@ export default interface Language {
   about: {
     welcome: string
     register_now: string
+    show_live_cast: string
   }
 
   programs: {

@@ -13,6 +13,12 @@
         </h1>
         <h2>{{ description }}</h2>
         {{ place }}
+        <div class="show-live-cast">
+          <a class="btn" :href="webcast.playlist" target="_blank">
+            {{ $t('about.show_live_cast') }}
+            <Icon icon="external-link-alt" />
+          </a>
+        </div>
       </div>
     </Card>
     <Card class="register container">
@@ -83,6 +89,7 @@ export default class extends Vue {
   @MainState description
   @MainState registration
   @MainState place
+  @MainState webcast
   @AboutState('article') aboutArticle
 
   sightWidth: Number = 0
@@ -176,6 +183,30 @@ main.index {
 .topic h2 {
   font-size: 1.4em;
   text-align: center;
+}
+
+.show-live-cast {
+  text-align: center;
+  padding-top: 1em;
+}
+
+.show-live-cast a {
+  margin: 0 auto;
+  padding: .6em 1.5em .7em;
+  display: inline-block;
+
+  background-color: var(--accent);
+  color: #fff;
+  line-height: 1em;
+
+  transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    margin-top .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    font-size .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.show-live-cast a:hover,
+.show-live-cast a:focus {
+  box-shadow: 0px .2em 12px rgba(0, 0, 0, 0.1);
 }
 
 .register article,
