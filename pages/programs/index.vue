@@ -20,11 +20,13 @@
           :key="community.id"
           class="community"
         >
-          <ASpan v-if="community.image" class="logo" :href="community.link" :title="community.title" target="_blank">
-            <RatioBox ratio="1:1" style="text-align: center;">
-              <img :src="community.image" />
-            </RatioBox>
-          </ASpan>
+          <no-ssr>
+            <ASpan v-if="community.image" class="logo" :href="community.link" :title="community.title" target="_blank">
+              <RatioBox ratio="1:1" style="text-align: center;">
+                <img :src="community.image" alt="" />
+              </RatioBox>
+            </ASpan>
+          </no-ssr>
           <div class="description">
             <h1><ASpan :href="community.link" :title="community.title" target="_blank">{{ community.title }}</ASpan></h1>
             <Markdown tag="article" :value="community.intro"></Markdown>
