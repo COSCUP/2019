@@ -20,7 +20,7 @@
         >
           <ASpan v-if="community.image" class="logo" :href="community.link" :title="community.title" target="_blank">
             <RatioBox ratio="1:1" style="text-align: center;">
-              <img :src="community.image" />
+              <img :src="community.image" alt="" />
             </RatioBox>
           </ASpan>
           <div class="description">
