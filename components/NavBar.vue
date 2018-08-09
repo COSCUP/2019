@@ -9,7 +9,7 @@
       </li>
       <li>
         <nuxt-link class="logo" :to="localePath('index')">
-          <img src="~/assets/logo-200.png" />
+          <img src="~/assets/logo-200.png" alt="" />
         </nuxt-link>
       </li>
       <li>
@@ -21,7 +21,7 @@
     </ul>
     <div class="nav-body">
       <nuxt-link class="logo" :to="localePath('index')">
-        <img src="~/assets/logo-200.png" />
+        <img src="~/assets/logo-200.png" alt="" />
       </nuxt-link>
       <ul class="pages container">
         <li><nuxt-link :to="localePath('index')">{{ $t('pages.about') }}</nuxt-link></li>

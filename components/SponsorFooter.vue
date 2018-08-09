@@ -11,7 +11,7 @@
           target="_blank"
           >
           <RatioBox ratio="1:1">
-            <img :src="sponsor.image" />
+            <img :src="sponsor.image" alt="" />
           </RatioBox>
           {{ sponsor.name }}
         </a>

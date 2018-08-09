@@ -9,7 +9,7 @@
           >
           <a class="logo" :href="sponsor.link" :title="sponsor.name" target="_blank">
             <RatioBox ratio="1:1" style="text-align: center;">
-              <img :src="sponsor.image" />
+              <img :src="sponsor.image" alt="" />
             </RatioBox>
           </a>
           <div class="description">

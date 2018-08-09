@@ -20,7 +20,7 @@
         >
           <ASpan v-if="speaker.avatar" class="avatar" :href="speaker.link" :title="speaker.name" target="_blank">
             <RatioBox ratio="1:1" style="text-align: center;">
-              <img :src="speaker.avatar" />
+              <img :src="speaker.avatar" alt="" />
             </RatioBox>
           </ASpan>
           <div class="description">
