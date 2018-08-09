@@ -9,6 +9,7 @@ import {
 } from '.'
 import {
   name as endpointStateName,
+  API_ROOT,
 } from './endpoints'
 import {
   name as i18nStateName,
@@ -107,6 +108,10 @@ export const mutations: MutationTree<State> = {
   },
 
   [types.UPDATE](state, datas) {
+    datas.area.images = Object.keys(datas.area.images).reduce((images, floor) => ({
+      ...images,
+      [floor]: `${API_ROOT}${datas.area.images[floor]}`,
+    }), {})
     Object.entries(datas)
       .forEach(([key, value]) => (state[key] = value))
   }
@@ -127,3 +132,4 @@ export const pluginHook: Plugin<any> = (store) => {
     store.dispatch(`${name}/fetchData`, { locale })
   })
 }
+

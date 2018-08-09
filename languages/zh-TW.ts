@@ -4,6 +4,7 @@ const language : Language = {
   pages: {
     about: '關於',
     programs: '議程',
+    floorplan: '會場地圖',
     venue: '交通',
     cohosts: '共同主辦',
     sponsors: '贊助',

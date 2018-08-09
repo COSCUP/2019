@@ -4,6 +4,7 @@ const language : Language = {
   pages: {
     about: 'About',
     programs: 'Schedules',
+    floorplan: 'Map',
     venue: 'Venue',
     cohosts: 'Co-Hosts',
     sponsors: 'Sponsors',
