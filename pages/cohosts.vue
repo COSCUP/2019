@@ -9,7 +9,7 @@
           >
           <a class="logo" :href="cohost.link" :title="cohost.name" target="_blank">
             <RatioBox ratio="1:1" style="text-align: center;">
-              <img :src="cohost.image" />
+              <img :src="cohost.image" alt="" />
             </RatioBox>
           </a>
           <div class="description">

@@ -4,7 +4,7 @@
       <h1>{{ team.title }}</h1>
       <ul>
         <li v-for="member in team.members" :key="member.name" :title="member.name">
-          <img :src="member.image" />
+          <img :src="member.image" alt="" />
           <div class="name">{{ member.name }}</div>
         </li>
       </ul>
