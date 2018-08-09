@@ -26,6 +26,7 @@
       <ul class="pages container">
         <li><nuxt-link :to="localePath('index')">{{ $t('pages.about') }}</nuxt-link></li>
         <li><nuxt-link :to="localePath('programs')">{{ $t('pages.programs') }}</nuxt-link></li>
+        <li><nuxt-link :to="localePath('floorplan')">{{ $t('pages.floorplan') }}</nuxt-link></li>
         <li><nuxt-link :to="localePath('venue')">{{ $t('pages.venue') }}</nuxt-link></li>
         <li><nuxt-link :to="localePath('cohosts')">{{ $t('pages.cohosts') }}</nuxt-link></li>
         <li><nuxt-link :to="localePath('sponsors')">{{ $t('pages.sponsors') }}</nuxt-link></li>

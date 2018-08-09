@@ -2,6 +2,7 @@ export default interface Language {
   pages: {
     about: string
     programs: string
+    floorplan: string
     venue: string
     cohosts: string
     sponsors: string
@@ -14,6 +15,7 @@ export default interface Language {
   about: {
     welcome: string
     register_now: string
+    show_live_cast: string
   }
 
   programs: {
