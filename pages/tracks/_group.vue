@@ -91,7 +91,7 @@ const ProgramsState = namespace(programsStoreName, State)
       ))
     },
     difficultyIcon(difficulty) {
-      const beginnerRegex = /Begineer|入門/i
+      const beginnerRegex = /Beginner|入門/i
       const skilledRegex = /Skilled|中階/i
       const advancedRegex = /Advanced|進階/i
 
