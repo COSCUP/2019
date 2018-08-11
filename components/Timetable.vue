@@ -157,7 +157,7 @@ export default class extends Vue {
     const preferedStartAt = nowAt - halfBoxSize
 
     const startAt = preferedStartAt < this.startAt ? this.startAt : preferedStartAt
-    const preferedEndAt = startAt + halfBoxSize
+    const preferedEndAt = startAt + boxSize
     const endAt = this.endAt < preferedEndAt ? this.endAt : preferedEndAt
 
     return {
