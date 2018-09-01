@@ -194,6 +194,12 @@ nav {
 .pages li:nth-child(6) {
   transition-delay: 550ms, 550ms;
 }
+.pages li:nth-child(7) {
+  transition-delay: 600ms, 600ms;
+}
+.pages li:nth-child(8) {
+  transition-delay: 650ms, 650ms;
+}
 
 #nav-menu-state:checked ~ .nav-body .pages li {
   opacity: 1;
