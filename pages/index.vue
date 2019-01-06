@@ -7,9 +7,7 @@
       </div>
       <div class="foreground">
         <h1>
-          COSCUP 2018<br />
-          <span class="the-x">x<br /></span>
-          <span class="co-title">openSUSE.Asia&nbsp; GNOME.Asia</span>
+          COSCUP 2019
         </h1>
         <h2>{{ description }}</h2>
         {{ place }}
