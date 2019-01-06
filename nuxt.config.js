@@ -11,7 +11,7 @@ const generateRoutesFromAPI = (function () {
   return async function () {
     if (_cache) return _cache
 
-    const API_ROOT = 'https://api2018.coscup.org'
+    const API_ROOT = 'https://api2019.coscup.org'
     const apiRootResponse = await fetch(API_ROOT)
     const { index: langs = {} } = await apiRootResponse.json()
 
@@ -50,14 +50,14 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'COSCUP x GNOME.Asia x openSUSE.Asia 2018',
+    title: 'COSCUP 2019',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
-      { hid: 'description', name: 'description', content: 'COSCUP x GNOME.Asia x openSUSE.Asia 2018' },
-      { hid: 'og:title', property: 'og:title', content: 'COSCUP x GNOME.Asia x openSUSE.Asia 2018' },
+      { hid: 'description', name: 'description', content: 'COSCUP 2019' },
+      { hid: 'og:title', property: 'og:title', content: 'COSCUP 2019' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:image', property: 'og:image', content: 'https://2018.coscup.org/logo-512.png' },
+      { hid: 'og:image', property: 'og:image', content: 'https://2019.coscup.org/logo-512.png' },
       { hid: 'og:image:width', property: 'og:image:width', content: '512' },
       { hid: 'og:image:height', property: 'og:image:height', content: '512' }
     ],
@@ -140,7 +140,7 @@ module.exports = {
     concurrency: 10,
   },
   sitemap: {
-    hostname: 'https://2018.coscup.org',
+    hostname: 'https://2019.coscup.org',
     generate: true,
     routes: async function () {
       const routes = await generateRoutesFromAPI()
