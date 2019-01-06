@@ -120,7 +120,7 @@ export default class extends Vue {
   }
 
   head () {
-    const title = `${this.tracks[0].title} - COSCUP x GNOME.Asia x openSUSE.Asia 2018`
+    const title = `${this.tracks[0].title} - COSCUP 2019`
 
     return {
       title,

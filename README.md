@@ -1,6 +1,6 @@
-# coscup-2018
+# COSCUP 2019
 
-> COSCUP 2018 website
+> COSCUP 2019 website
 
 ## Build Setup
 

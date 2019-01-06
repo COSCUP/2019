@@ -102,7 +102,7 @@ export default class extends Vue {
   }
 
   head () {
-    const title = `${this.talk.title} - ${this.talk.track.title} - COSCUP x GNOME.Asia x openSUSE.Asia 2018`
+    const title = `${this.talk.title} - ${this.talk.track.title} - COSCUP 2019`
 
     return {
       title,

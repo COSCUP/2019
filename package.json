@@ -1,7 +1,7 @@
 {
-  "name": "coscup-2018",
+  "name": "coscup-2019",
   "version": "1.0.0",
-  "description": "COSCUP 2018 website",
+  "description": "COSCUP 2019 website",
   "author": "David Kuo <me@davy.tw>",
   "license": "MIT",
   "scripts": {
