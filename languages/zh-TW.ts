@@ -26,6 +26,11 @@ const language : Language = {
   venue: {
     openInGoogleMaps: '在 Google Maps 中開啓',
   },
+
+  sponsorship: {
+    call_for_sponsorship: '贊助我們',
+    contact: '請聯絡',
+  },
 }
 
 export default language
