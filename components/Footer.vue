@@ -114,10 +114,13 @@ footer a {
 }
 
 .years {
+  background: rgba(255,255,255,.2);
+  border-radius: 4px;
   font-size: .9em;
 }
 
 .socials {
+  margin-top: 10px;
   font-size: 1.6em;
 }
 

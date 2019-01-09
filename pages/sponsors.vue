@@ -1,6 +1,6 @@
 <template>
   <main class="sponsors">
-    <Card>
+    <Card class="container">
     <h1>{{ $t('sponsorship.call_for_sponsorship') }}</h1>
     {{ $t('sponsorship.contact') }} <a :href="'mailto:' + sponsorship.contact.email">{{ sponsorship.contact.email }}</a>
     </Card>

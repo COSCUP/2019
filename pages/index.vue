@@ -14,6 +14,7 @@
       </div>
     </Card>
     <Card class="about container">
+      <h1>{{ $t('pages.about') }}</h1>
       <article>
         <p v-for="(paragraph, idx) in getParagraphs(aboutArticle)" :key=idx>
           {{ paragraph }}
