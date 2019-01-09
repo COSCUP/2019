@@ -25,12 +25,8 @@
       </nuxt-link>
       <ul class="pages container">
         <li><nuxt-link :to="localePath('index')">{{ $t('pages.about') }}</nuxt-link></li>
-        <li><nuxt-link :to="localePath('programs')">{{ $t('pages.programs') }}</nuxt-link></li>
-        <li><nuxt-link :to="localePath('floorplan')">{{ $t('pages.floorplan') }}</nuxt-link></li>
         <li><nuxt-link :to="localePath('venue')">{{ $t('pages.venue') }}</nuxt-link></li>
-        <li><nuxt-link :to="localePath('cohosts')">{{ $t('pages.cohosts') }}</nuxt-link></li>
         <li><nuxt-link :to="localePath('sponsors')">{{ $t('pages.sponsors') }}</nuxt-link></li>
-        <li><nuxt-link :to="localePath('staffs')">{{ $t('pages.staffs') }}</nuxt-link></li>
         <li><a href="https://blog.coscup.org" target="_blank">{{ $t('pages.blog') }}</a></li>
       </ul>
       <ul class="languages">

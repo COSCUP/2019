@@ -29,4 +29,9 @@ export default interface Language {
   venue: {
     openInGoogleMaps: string
   }
+
+  sponsorship: {
+    call_for_sponsorship: string
+    contact: string
+  }
 }

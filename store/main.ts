@@ -53,10 +53,6 @@ export type BaseState = {
   previous_websites: {
     [Year in COSCUPYears]: string
   }
-  webcast: {
-    main_cast: string
-    playlist: string
-  }
 }
 
 export type State = BaseState & {

@@ -11,30 +11,10 @@
         </h1>
         <h2>{{ description }}</h2>
         {{ place }}
-        <div class="show-live-cast">
-          <a class="btn" :href="webcast.playlist" target="_blank">
-            {{ $t('about.show_live_cast') }}
-            <Icon icon="external-link-alt" />
-          </a>
-        </div>
-      </div>
-    </Card>
-    <Card class="register container">
-      <h1>{{ $t('register') }}</h1>
-      <h3>
-        <span>{{ registration.start_at | moment }}</span> ~
-        <span>{{ registration.end_at | moment }}</span>
-      </h3>
-      <article>
-        <p v-for="(paragraph, idx) in getParagraphs($t('about.welcome'))" :key="idx">
-          {{ paragraph }}
-        </p>
-      </article>
-      <div class="register-now">
-        <a :href="registration.link" target="_blank">{{ $t('about.register_now') }}</a>
       </div>
     </Card>
     <Card class="about container">
+      <h1>{{ $t('pages.about') }}</h1>
       <article>
         <p v-for="(paragraph, idx) in getParagraphs(aboutArticle)" :key=idx>
           {{ paragraph }}
@@ -87,7 +67,6 @@ export default class extends Vue {
   @MainState description
   @MainState registration
   @MainState place
-  @MainState webcast
   @AboutState('article') aboutArticle
 
   sightWidth: Number = 0

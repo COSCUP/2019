@@ -26,6 +26,11 @@ const language : Language = {
   venue: {
     openInGoogleMaps: 'Open in Google Maps',
   },
+
+  sponsorship: {
+    call_for_sponsorship: 'Call for Sponsorship',
+    contact: 'Contact',
+  },
 }
 
 export default language

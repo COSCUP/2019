@@ -1,5 +1,9 @@
 <template>
   <main class="sponsors">
+    <Card class="container">
+    <h1>{{ $t('sponsorship.call_for_sponsorship') }}</h1>
+    {{ $t('sponsorship.contact') }} <a :href="'mailto:' + sponsorship.contact.email">{{ sponsorship.contact.email }}</a>
+    </Card>
     <Card class="level container" v-for="lv in sponsorsByLevel" :key="lv.title">
       <h1>{{ lv.title }}</h1>
       <div class="sponsors">
@@ -33,9 +37,14 @@ import {
 } from 'nuxt-property-decorator'
 import {
   Action,
+  State,
   Getter,
   namespace,
 } from 'vuex-class'
+
+import {
+  name as mainStoreName
+} from '~/store/main'
 
 import {
   name as sponsorsStoreName,
@@ -45,6 +54,7 @@ import {
 import Card from '~/components/Card.vue'
 import RatioBox from '~/components/RatioBox.vue'
 
+const MainState = namespace(mainStoreName, State)
 const SponsorsGetter = namespace(sponsorsStoreName, Getter)
 
 @Component({
@@ -54,6 +64,7 @@ const SponsorsGetter = namespace(sponsorsStoreName, Getter)
   },
 })
 export default class extends Vue {
+  @MainState sponsorship
   @SponsorsGetter('byLevel')
   sponsorsByLevel: SponsorsByLevel
 
