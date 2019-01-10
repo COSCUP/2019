@@ -126,6 +126,9 @@ module.exports = {
       linkify: true,
       breaks: true,
     }],
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-12923351-7'
+    }],
   ],
   plugins: [
     {
