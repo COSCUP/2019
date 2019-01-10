@@ -1,16 +1,19 @@
 <template>
   <main class="index">
     <Card class="topic">
-      <div class="background" ref="sightContainer">
-        <Sight :width="sightWidth" :height="sightHeight"
-          :spot="{ x: sightWidth / 2.0, y: sightHeight / 2.0 }" />
+      <div class="background">
       </div>
-      <div class="foreground">
-        <h1>
-          COSCUP 2019
-        </h1>
-        <h2>{{ description }}</h2>
-        {{ place }}
+      <div class="foreground container">
+        <div class="logo-box">
+          <RatioBox ratio="920:848" />
+        </div>
+        <div class="main-box">
+          <h1>
+            COSCUP 2019
+          </h1>
+          <h2>{{ description }}</h2>
+          {{ place }}
+        </div>
       </div>
     </Card>
     <Card class="about container">
@@ -45,8 +48,8 @@ import {
 } from '~/store/about'
 
 import Card from '~/components/Card.vue'
+import RatioBox from '~/components/RatioBox.vue'
 import SponsorFooter from '~/components/SponsorFooter.vue'
-import Sight from '~/components/Sight.vue'
 
 const MainState = namespace(mainStoreName, State)
 const AboutState = namespace(aboutStoreName, State)
@@ -54,8 +57,8 @@ const AboutState = namespace(aboutStoreName, State)
 @Component({
   components: {
     Card,
+    RatioBox,
     SponsorFooter,
-    Sight,
   },
   filters: {
     moment(val) {
@@ -69,31 +72,12 @@ export default class extends Vue {
   @MainState place
   @AboutState('article') aboutArticle
 
-  sightWidth: Number = 0
-  sightHeight: Number = 0
-
   mounted() {
     this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
-
-    this.$nextTick(() => {
-      this.measureSightSize()
-    })
-    window.addEventListener('resize', this.measureSightSize)
-  }
-
-  beforeDestroy() {
-    window.removeEventListener('resize', this.measureSightSize)
   }
 
   async fetch({ store: { dispatch } }) {
     await dispatch(`${aboutStoreName}/fetchData`)
-  }
-
-  measureSightSize() {
-    const sightContainer: any = this.$refs.sightContainer
-
-    this.sightWidth = sightContainer.clientWidth
-    this.sightHeight = sightContainer.clientHeight
   }
 
   getParagraphs(article) {
@@ -119,7 +103,6 @@ main.index {
   padding: 4em 2em !important;
   min-height: 80vh;
   height: 100%;
-  max-height: 80vh;
 
   display: flex;
   flex-direction: column;
@@ -139,9 +122,25 @@ main.index {
 
 .topic .foreground {
   z-index: 1;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 
   text-align: center;
+}
+
+.topic .logo-box {
+  background-image: url(~/assets/logo.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.topic .main-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  text-align: right;
 }
 
 .topic h1 {
@@ -149,17 +148,10 @@ main.index {
   font-size: 2.4em;
   line-height: 1.2em;
   padding-bottom: .4em;
-
-  text-align: center;
-}
-
-.topic .the-x {
-  display: none;
 }
 
 .topic h2 {
   font-size: 1.4em;
-  text-align: center;
 }
 
 .show-live-cast {
@@ -226,15 +218,27 @@ main.index {
 
 @media(min-width: 840px) {
   .topic {
+    max-height: 80vh;
+
     font-size: 1.2em;
   }
 
-  .topic .the-x {
-    display: block;
+  .topic .foreground {
+    flex-direction: row;
   }
 
-  .topic .co-title {
-    padding-right: 1.5em;
+  .topic .logo-box {
+    flex-basis: 50%;
+  }
+
+  .topic .main-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-basis: 50%;
+    margin-left: 1em;
+
+    text-align: right;
   }
 }
 </style>
