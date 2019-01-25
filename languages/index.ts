@@ -11,6 +11,7 @@ export default interface Language {
   }
 
   register: string
+  call_for_volunteers: string
 
   about: {
     welcome: string
