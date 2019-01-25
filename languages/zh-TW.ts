@@ -12,6 +12,7 @@ const language : Language = {
     blog: '部落格',
   },
   register: '報名',
+  call_for_volunteers: '工人招募',
   about: {
     welcome: ``,
     register_now: '點我報名',

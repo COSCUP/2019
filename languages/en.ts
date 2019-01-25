@@ -12,6 +12,7 @@ const language : Language = {
     blog: 'Blog',
   },
   register: 'Registration',
+  call_for_volunteers: 'Call for Volunteers',
   about: {
     welcome: ``,
     register_now: 'Register now!',

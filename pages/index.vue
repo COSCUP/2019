@@ -13,6 +13,7 @@
           </h1>
           <h2>{{ description }}</h2>
           {{ place }}
+          <a class="call-for-volunteers" href="https://goo.gl/forms/zmrIGTATfrUniwby2" target="_blank">{{ $t('call_for_volunteers') }}</a>
         </div>
       </div>
     </Card>
@@ -152,6 +153,25 @@ main.index {
 
 .topic h2 {
   font-size: 1.4em;
+}
+
+.call-for-volunteers {
+  margin: .3em 0 0 auto;
+  padding: .6em 1.5em .7em;
+  display: inline-block;
+
+  background-color: var(--accent);
+  color: #fff;
+  line-height: 1em;
+
+  transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    background-color .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.call-for-volunteers:hover,
+.call-for-volunteers:focus {
+  box-shadow: 0px .2em 12px rgba(0, 0, 0, 0.1);
+  background-color: color(var(--accent) a(90%));
 }
 
 .show-live-cast {
