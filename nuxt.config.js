@@ -46,6 +46,7 @@ const generateRoutesFromAPI = (function () {
 })()
 
 module.exports = {
+  router: { base :'/2019/'},
   /*
   ** Headers of the page
   */
