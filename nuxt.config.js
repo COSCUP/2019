@@ -63,7 +63,7 @@ module.exports = {
       { hid: 'og:image:height', property: 'og:image:height', content: '512' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/2019/favicon.ico' },
       /* Webfonts */
       { rel: 'stylesheet', type: 'text/css', href: '//fonts.googleapis.com/css?family=Noto+Sans' },
       { rel: 'stylesheet', type: 'text/css', href: '//fonts.googleapis.com/earlyaccess/notosanstc.css' },
