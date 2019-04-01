@@ -12,6 +12,8 @@ const language : Language = {
     blog: '部落格',
   },
   register: '報名',
+  osc_tickets_application: '開源貢獻者保留票申請',
+  call_for_proposal: '議程徵稿',
   call_for_volunteers: '工人招募',
   about: {
     welcome: ``,
