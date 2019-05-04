@@ -58,7 +58,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'COSCUP 2019' },
       { hid: 'og:title', property: 'og:title', content: 'COSCUP 2019' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:image', property: 'og:image', content: 'https://coscup.org/coscup/logo-512.png' },
+      { hid: 'og:image', property: 'og:image', content: 'https://coscup.org/2019/logo-512.png' },
       { hid: 'og:image:width', property: 'og:image:width', content: '512' },
       { hid: 'og:image:height', property: 'og:image:height', content: '512' }
     ],
