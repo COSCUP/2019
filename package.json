@@ -26,6 +26,8 @@
     "nuxt-fontawesome": "^0.3.0",
     "nuxt-i18n": "^3.2.3",
     "nuxt-property-decorator": "^1.2.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
     "vue2-google-maps": "^0.9.7",
     "vue2vis": "^0.0.15",
     "vuex-class": "^0.3.0",
