@@ -1,13 +1,25 @@
 <template>
-  <div class="container">
+  <div>
+    <div class="days">
+      <ul>
+        <template v-for="(day, index) in eventDates">
+          <li :key="index">{{ `Day ${index}` }} {{ getDateString(day) }}</li>
+        </template>
+      </ul>
+    </div>
     <div id="timetable" :style="`--table: ${gridTemplateRows}; --roomCount: ${locations.length}`">
       <ul id="locations">
         <template v-for="(location, index) in locations">
-          <li :key="index">Room <strong>{{ location }}</strong></li>
+          <li :key="index">
+            Room
+            <strong>{{ location }}</strong>
+          </li>
         </template>
       </ul>
       <ul id="programs">
-        <template v-for="(timeSlot, index) in programStarts.filter((v, i, a) => a.indexOf(v) === i)">
+        <template
+          v-for="(timeSlot, index) in programStarts.filter((v, i, a) => a.indexOf(v) === i)"
+        >
           <li
             class="time"
             :key="`time-${index}`"
@@ -48,85 +60,93 @@ export default class extends Vue {
       .filter((v, i, a) => a.indexOf(v) === i)
       .map(start => {
         return `[t${this.getTimeSlug(start)}] minmax(1em, auto)`;
-      }).join(" ");
+      })
+      .join(" ");
   }
 
   get eventDates() {
     return this.talks
       .map(talk => talk.start)
       .filter((v, i, a) => {
-        if (i === 0) return true
-        const previous = new Date(a[i - 1])
-        const current = new Date(v)
-        return previous.getFullYear() !== current.getFullYear()
-          || previous.getMonth() !== current.getMonth()
-          || previous.getDate() !== current.getDate()
+        const previous = a.slice(0, i).map(p => new Date(p).getDate());
+        const current = new Date(v).getDate();
+        return previous.indexOf(current) === -1;
       })
+      .sort();
   }
 
   get defaultShowDate() {
-    const today = new Date()
-    return this.eventDates.find(date => {
-      const eventDate = new Date(date)
-      return today.getFullYear() !== eventDate.getFullYear()
-          || today.getMonth() !== eventDate.getMonth()
-          || today.getDate() !== eventDate.getDate()
-    }) || (this.eventDates && this.eventDates[0])
+    const today = new Date();
+    return (
+      this.eventDates.find(date => {
+        const eventDate = new Date(date);
+        return (
+          today.getFullYear() === eventDate.getFullYear() &&
+          today.getMonth() === eventDate.getMonth() &&
+          today.getDate() === eventDate.getDate()
+        );
+      }) ||
+      (this.eventDates && this.eventDates[0])
+    );
   }
 
   get programStarts() {
-    const todayTalks = this.talks
-      .filter(talk => {
-          const talkDate = new Date(talk.start)
-          const showDate = new Date(this.defaultShowDate)
-          return talkDate.getFullYear() === showDate.getFullYear()
-            && talkDate.getMonth() === showDate.getMonth()
-            && talkDate.getDate() === showDate.getDate()
-        })
-    return todayTalks
-      .map(talk => talk.start)
-      .sort()
+    const todayTalks = this.talks.filter(talk => {
+      const talkDate = new Date(talk.start);
+      const showDate = new Date(this.defaultShowDate);
+      return (
+        talkDate.getFullYear() === showDate.getFullYear() &&
+        talkDate.getMonth() === showDate.getMonth() &&
+        talkDate.getDate() === showDate.getDate()
+      );
+    });
+    return todayTalks.map(talk => talk.start).sort();
   }
 
   get programTimeSlots() {
-    const todayTalks = this.talks
-      .filter(talk => {
-          const talkDate = new Date(talk.start)
-          const showDate = new Date(this.defaultShowDate)
-          return talkDate.getFullYear() === showDate.getFullYear()
-            && talkDate.getMonth() === showDate.getMonth()
-            && talkDate.getDate() === showDate.getDate()
-        })
+    const todayTalks = this.talks.filter(talk => {
+      const talkDate = new Date(talk.start);
+      const showDate = new Date(this.defaultShowDate);
+      return (
+        talkDate.getFullYear() === showDate.getFullYear() &&
+        talkDate.getMonth() === showDate.getMonth() &&
+        talkDate.getDate() === showDate.getDate()
+      );
+    });
     return todayTalks
       .reduce((timeSlots, talk) => timeSlots.concat(talk.start, talk.end), [])
-      .sort()
+      .sort();
   }
 
   get locations() {
     return this.talks
       .filter(talk => {
-        const talkDate = new Date(talk.start)
-        const showDate = new Date(this.defaultShowDate)
-        return talkDate.getFullYear() === showDate.getFullYear()
-          && talkDate.getMonth() === showDate.getMonth()
-          && talkDate.getDate() === showDate.getDate()
+        const talkDate = new Date(talk.start);
+        const showDate = new Date(this.defaultShowDate);
+        return (
+          talkDate.getFullYear() === showDate.getFullYear() &&
+          talkDate.getMonth() === showDate.getMonth() &&
+          talkDate.getDate() === showDate.getDate()
+        );
       })
       .map(talk => talk.track)
       .map(track => track.room)
       .filter((v, i, a) => a.indexOf(v) === i)
-      .sort()
+      .sort();
   }
 
   get programs() {
     return this.talks
       .filter(talk => {
-          const talkDate = new Date(talk.start)
-          const showDate = new Date(this.defaultShowDate)
-          return talkDate.getFullYear() === showDate.getFullYear()
-            && talkDate.getMonth() === showDate.getMonth()
-            && talkDate.getDate() === showDate.getDate()
-        })
-      .sort((a, b) => a.startAt - b.startAt)
+        const talkDate = new Date(talk.start);
+        const showDate = new Date(this.defaultShowDate);
+        return (
+          talkDate.getFullYear() === showDate.getFullYear() &&
+          talkDate.getMonth() === showDate.getMonth() &&
+          talkDate.getDate() === showDate.getDate()
+        );
+      })
+      .sort((a, b) => a.startAt - b.startAt);
   }
 
   mounted() {
@@ -139,85 +159,133 @@ export default class extends Vue {
 
   getTimeSlug(datetime, withColon = false) {
     const time = datetime instanceof Date ? datetime : new Date(datetime);
-    return `${this.padStartWithZero(time.getHours())}${withColon? ':' : ''}${this.padStartWithZero(
-      time.getMinutes()
-    )}`;
+    return `${this.padStartWithZero(time.getHours())}${
+      withColon ? ":" : ""
+    }${this.padStartWithZero(time.getMinutes())}`;
   }
 
   padStartWithZero(number) {
     return number < 10 ? `0${number}` : number.toString();
   }
+
+  getDateString(date) {
+    const dateObj = new Date(date);
+
+    return `${dateObj.getFullYear()}/${dateObj.getMonth()}/${dateObj.getDate()}`;
+  }
 }
 </script>
 
 <style lang="stylus">
-#timetable
-  max-width: 1200px
+#timetable {
+  position: relative;
 
-#programs
-  list-style: none
-  display: grid
-  li
-    a
-      display: block
-      height: 100%
-      contain: layout
+  @media only screen and (min-width: 1000px) {
+    // overflow-x: auto;
+    // max-width: 1200px;
+  }
+}
 
-    @media only screen and (min-width: 1000px)
-      position: relative
-      article
-        position: sticky
+#locations {
+  display: none;
+  list-style: none;
+  text-align: center;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 65px;
+  contain: layout;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 9;
+  margin: 0;
+
+  li {
+    flex: 1 0 calc(((100% - 7 * 0.5em) / 8));
+    font-size: smaller;
+    color: rgba(0, 0, 0, 0.4);
+
+    &:not(:first-child) {
+      margin-left: 0.5em;
+    }
+  }
+
+  strong {
+    display: block;
+    font-size: 2em;
+    margin: -0.3em 0 0.5em;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  @media only screen and (min-width: 1000px) {
+    display: flex;
+  }
+}
+
+.time {
+  font-size: 20px;
+  color: #009a79;
+  background-color: #ecf5f4;
+  padding: 0.5em;
+
+  @supports (position: -webkit-sticky) {
+    position: -webkit-sticky;
+    top: 69px;
+    z-index: 9;
+  }
+
+  @media only screen and (min-width: 720px) {
+    position: sticky;
+    margin: 0 -96px;
+    padding: 0.5em 64px;
+    border-top: 1px solid #b8d2cf;
+    grid-column: 1 / span 2;
+    top: 64px;
+  }
+
+  @media only screen and (min-width: 1000px) {
+    display: none;
+  }
+}
+
+#programs {
+  list-style: none;
+  display: grid;
+  grid-template-rows: var(--list);
+
+  li {
+    a {
+      display: block;
+      height: 100%;
+      contain: layout;
+      color: inherit;
+    }
+
+    @media only screen and (min-width: 1000px) {
+      position: relative;
+
+      article {
+        position: sticky;
         position: -webkit-sticky;
         top: 130px;
+      }
+    }
+  }
 
-  @media only screen and (min-width: 1000px)
-    grid-template-rows: var(--table)
-    grid-template-areas: 'roomIB101 roomIB201 roomIB202 roomIB301 roomIB302 roomIB304 roomIB305 roomIB306 roomIB307 roomIB308 roomIB401 roomIB501 roomIB502 roomIB503'
-    grid-column: var(--room)
-    grid-gap: 0 0.5em
+  @media only screen and (max-width: 719px) {
+    margin-top: -56px;
+  }
+
+  @media only screen and (min-width: 720px) {
+    grid-template-columns: 120px auto;
+    grid-column: 2;
+  }
+
+  @media only screen and (min-width: 1000px) {
+    grid-template-rows: var(--table);
+    grid-template-areas: 'roomIB101 roomIB201 roomIB202 roomIB301 roomIB302 roomIB304 roomIB305 roomIB306 roomIB307 roomIB308 roomIB401 roomIB501 roomIB502 roomIB503';
+    grid-column: var(--room);
+    grid-gap: 0 0.5em;
     grid-template-columns: repeat(var(--roomCount), calc(((100% - 7 * 0.5em) / 8)));
-    margin: 0 -32px
-
-.time
-  font-size: 20px
-  color: #009a79
-  background-color: #ecf5f4
-  padding: .5em
-
-  @supports(position: -webkit-sticky)
-    position: -webkit-sticky
-    top: 69px
-    z-index: 9
-
-  @media only screen and (min-width: 1000px)
-    display: none
-
-#locations
-  display: none
-  list-style: none
-  text-align: center
-  position: sticky
-  position: -webkit-sticky
-  top: 65px
-  contain: layout
-  background-color: rgba(255, 255, 255, .8)
-  z-index: 9
-  margin: 0 -32px
-  
-  li
-    flex: 1 0 calc(((100% - 7 * 0.5em) / 8))
-    font-size: smaller 
-    color: rgba(0, 0, 0, .4)
-
-    &:not(first-child)
-      margin-left: 0.5em
-
-  strong
-    display: block
-    font-size: 2em
-    margin: -.3em 0 .5em
-    color: rgba(0, 0, 0, .7)
-
-  @media only screen and (min-width: 1000px)
-    display: flex
+    margin: 0;
+  }
+}
 </style>
