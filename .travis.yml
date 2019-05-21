@@ -16,7 +16,6 @@ deploy:
     target-branch: gh-pages
     github-token: $GITHUB_TOKEN
     keep-history: true
-    fqdn: staging-2019.coscup.org
     on:
       branch:
         - dev
