@@ -28,6 +28,7 @@
         <li><nuxt-link :to="localePath('venue')">{{ $t('pages.venue') }}</nuxt-link></li>
         <li><nuxt-link :to="localePath('sponsors')">{{ $t('pages.sponsors') }}</nuxt-link></li>
         <li><a href="https://blog.coscup.org" target="_blank">{{ $t('pages.blog') }}</a></li>
+        <li><a href="https://hackmd.io/s/SyCQqip2N" target="_blank">{{ $t('pages.coc') }}</a></li>
       </ul>
       <ul class="languages">
         <li><nuxt-link :to="switchLocalePath('en')">En</nuxt-link></li>

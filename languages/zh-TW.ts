@@ -10,6 +10,7 @@ const language : Language = {
     sponsors: '贊助',
     staffs: '工作人員',
     blog: '部落格',
+    coc: '社群守則',
   },
   register: '報名',
   osc_tickets_application: '開源貢獻者保留票申請',

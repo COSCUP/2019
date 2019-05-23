@@ -10,6 +10,7 @@ const language : Language = {
     sponsors: 'Sponsors',
     staffs: 'Staff',
     blog: 'Blog',
+    coc: 'CoC',
   },
   register: 'Registration',
   osc_tickets_application: 'OSC Tickets Application',

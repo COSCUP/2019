@@ -8,6 +8,7 @@ export default interface Language {
     sponsors: string
     staffs: string
     blog: string
+    coc: string
   }
 
   register: string
