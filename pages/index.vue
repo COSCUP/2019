@@ -13,9 +13,6 @@
           </h1>
           <h2>{{ description }}</h2>
           {{ place }}
-          <a class="call-for-volunteers" href="https://blog.coscup.org/2019/01/coscup-2019-open-source-contributors.html" target="_blank">{{ $t('osc_tickets_application') }}</a>
-          <a class="call-for-volunteers" href="https://blog.coscup.org/2019/04/2019-cfp-open.html" target="_blank">{{ $t('call_for_proposal') }}</a>
-          <a class="call-for-volunteers" href="https://goo.gl/forms/zmrIGTATfrUniwby2" target="_blank">{{ $t('call_for_volunteers') }}</a>
         </div>
       </div>
     </Card>
