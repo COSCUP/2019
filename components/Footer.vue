@@ -41,7 +41,6 @@ const socialIconMapping = {
   blog: ['fab', 'blogger'],
   facebook: ['fab', 'facebook'],
   flickr: ['fab', 'flickr'],
-  google_plus: ['fab', 'google-plus'],
   plurk: ['ext', 'plurk'],
   twitter: ['fab', 'twitter'],
   youtube: ['fab', 'youtube'],
