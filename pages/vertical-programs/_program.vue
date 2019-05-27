@@ -39,7 +39,7 @@ export default class extends Vue {
   }
 
   get room() {
-    return `room${this.program.track.room}`;
+    return `room${this.toUnicode(this.program.track.room)}`;
   }
 
   get period() {
@@ -71,6 +71,16 @@ export default class extends Vue {
 
   padStartWithZero(number) {
     return number < 10 ? `0${number}` : number.toString();
+  }
+
+  toUnicode(str) {
+    return str.split('').map(function (value, index, array) {
+      var temp = value.charCodeAt(0).toString(16).toUpperCase();
+      if (temp.length > 2) {
+        return '-' + temp;
+      }
+        return value;
+      }).join('');
   }
 }
 </script>

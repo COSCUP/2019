@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="schedule">
     <div class="days">
       <ul>
         <template v-for="(day, index) in eventDates">
@@ -7,7 +7,7 @@
         </template>
       </ul>
     </div>
-    <div id="timetable" :style="`--table: ${gridTemplateRows}; --roomCount: ${locations.length}`">
+    <div id="timetable" :style="`--table: ${gridTemplateRows}; --list: ${listTemplateRow};--length: ${locations.length}`">
       <ul id="locations">
         <template v-for="(location, index) in locations">
           <li :key="index">
@@ -62,6 +62,12 @@ export default class extends Vue {
         return `[t${this.getTimeSlug(start)}] minmax(1em, auto)`;
       })
       .join(" ");
+  }
+
+  get listTemplateRow() {
+    return this.programTimeSlots.map((time, i, arr) => (
+      i > 0 && new Date(time).getTime() === new Date(arr[i - 1]).getTime()
+    ) ? 'auto' : `[t${this.getTimeSlug(time)}] auto auto`).join(" ")
   }
 
   get eventDates() {
@@ -177,13 +183,19 @@ export default class extends Vue {
 </script>
 
 <style lang="stylus">
+.days {
+  ul {
+    display: flex;
+    justify-content flex-end;
+    list-style: none;
+  }
+  li {
+    display: block;
+  }
+}
+
 #timetable {
   position: relative;
-
-  @media only screen and (min-width: 1000px) {
-    // overflow-x: auto;
-    // max-width: 1200px;
-  }
 }
 
 #locations {
@@ -234,7 +246,7 @@ export default class extends Vue {
 
   @media only screen and (min-width: 720px) {
     position: sticky;
-    margin: 0 -96px;
+    margin: 0;
     padding: 0.5em 64px;
     border-top: 1px solid #b8d2cf;
     grid-column: 1 / span 2;
@@ -281,10 +293,10 @@ export default class extends Vue {
 
   @media only screen and (min-width: 1000px) {
     grid-template-rows: var(--table);
-    grid-template-areas: 'roomIB101 roomIB201 roomIB202 roomIB301 roomIB302 roomIB304 roomIB305 roomIB306 roomIB307 roomIB308 roomIB401 roomIB501 roomIB502 roomIB503';
+    grid-template-areas: 'roomIB101 roomIB201 roomIB202 roomIB301 roomIB302 roomIB304 roomIB305 roomIB306 roomIB307 roomIB308 roomIB401 roomIB501 roomIB502 roomIB503 room-5927-7528-5DE5-574A';
     grid-column: var(--room);
     grid-gap: 0 0.5em;
-    grid-template-columns: repeat(var(--roomCount), calc(((100% - 7 * 0.5em) / 8)));
+    grid-template-columns: repeat(var(--length), calc(((100% - 7 * 0.5em) / 8)));
     margin: 0;
   }
 }
