@@ -78,7 +78,7 @@ const TransportationState = namespace(transportationStoreName, State)
     SponsorFooter
   }
 })
-class venue extends Vue {
+class Venue extends Vue {
   @TransportationState location
   @TransportationState address
   @TransportationState('transportation') transportations
@@ -107,7 +107,7 @@ class venue extends Vue {
     return article.split(/\r\n?|\n\r?/g)
   }
 }
-export default venue
+export default Venue
 </script>
 
 <style scoped>
