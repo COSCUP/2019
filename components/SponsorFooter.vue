@@ -40,7 +40,7 @@ const SponsorsGetter = namespace(sponsorsStoreName, Getter)
 })
 class SponsorFooter extends Vue {
   @SponsorsGetter('byLevel')
-  sponsorsByLevel: SponsorsByLevel = []
+  sponsorsByLevel: SponsorsByLevel
 }
 
 export default SponsorFooter
