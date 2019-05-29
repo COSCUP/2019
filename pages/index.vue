@@ -1,67 +1,268 @@
 <template>
-  <section class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        2019-chocolate
-      </h1>
-      <h2 class="subtitle">
-        Coscup 2019 refactoring nuxt 2
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
-          >Documentation</a
-        >
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-          >GitHub</a
-        >
+  <main class="index">
+    <Card class="topic">
+      <div class="background">
       </div>
-    </div>
-  </section>
+      <div class="foreground container">
+        <div class="logo-box">
+          <RatioBox ratio="920:848" />
+        </div>
+        <div class="main-box">
+          <h1>
+            COSCUP 2019
+          </h1>
+          <h2>{{ description }}</h2>
+          {{ place }}
+          <a class="call-for-volunteers" href="https://blog.coscup.org/2019/01/coscup-2019-open-source-contributors.html" target="_blank">{{ $t('osc_tickets_application') }}</a>
+          <a class="call-for-volunteers" href="https://blog.coscup.org/2019/04/2019-cfp-open.html" target="_blank">{{ $t('call_for_proposal') }}</a>
+          <a class="call-for-volunteers" href="https://goo.gl/forms/zmrIGTATfrUniwby2" target="_blank">{{ $t('call_for_volunteers') }}</a>
+        </div>
+      </div>
+    </Card>
+    <Card class="about container">
+      <h1>{{ $t('pages.about') }}</h1>
+      <article>
+        <p v-for="(paragraph, idx) in getParagraphs(aboutArticle)" :key=idx>
+          {{ paragraph }}
+        </p>
+      </article>
+    </Card>
+    <SponsorFooter />
+  </main>
 </template>
 
-<script>
-import Logo from '~/components/Logo.vue'
+<script lang="ts">
+import {
+  Component,
+  Vue,
+} from 'nuxt-property-decorator'
+import {
+  Action,
+  State,
+  namespace,
+} from 'vuex-class'
+import moment from 'moment'
 
-export default {
+import {
+  name as mainStoreName
+} from '~/store/main'
+import {
+  name as aboutStoreName,
+} from '~/store/about'
+
+import Card from '~/components/Card.vue'
+import RatioBox from '~/components/RatioBox.vue'
+import SponsorFooter from '~/components/SponsorFooter.vue'
+
+const MainState = namespace(mainStoreName, State)
+const AboutState = namespace(aboutStoreName, State)
+
+@Component({
   components: {
-    Logo
+    Card,
+    RatioBox,
+    SponsorFooter,
+  },
+  filters: {
+    moment(val) {
+      return moment(val).format('ll LT')
+    }
+  }
+})
+class Home extends Vue {
+  @MainState description
+  @MainState registration
+  @MainState place
+  @AboutState('article') aboutArticle
+
+  mounted() {
+    this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
+  }
+
+  async fetch({ store: { dispatch } }) {
+    await dispatch(`${aboutStoreName}/fetchData`)
+  }
+
+  getParagraphs(article) {
+    return article.trim().split(/\r\n?|\n\r?/g)
   }
 }
+
+export default Home
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
+<style scoped>
+:root {
+  --accent: rgb(59, 156, 96);
+}
+
+main.index {
+  width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topic {
+  width: 100%;
+  padding: 4em 2em !important;
+  min-height: 80vh;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.topic .background {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #fff;
+}
+
+.topic .foreground {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
   text-align: center;
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.topic .logo-box {
+  background-image: url(~assets/logo.png);
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.topic .main-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  text-align: right;
 }
 
-.links {
-  padding-top: 15px;
+.topic h1 {
+  color: var(--accent);
+  font-size: 2.4em;
+  line-height: 1.2em;
+  padding-bottom: .4em;
+}
+
+.topic h2 {
+  font-size: 1.4em;
+}
+
+.call-for-volunteers {
+  margin: .3em 0 0 auto;
+  padding: .6em 1.5em .7em;
+  display: inline-block;
+
+  background-color: var(--accent);
+  color: #fff;
+  line-height: 1em;
+
+  transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    background-color .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.call-for-volunteers:hover,
+.call-for-volunteers:focus {
+  box-shadow: 0px .2em 12px rgba(0, 0, 0, 0.1);
+  background-color: color(var(--accent) a(90%));
+}
+
+.show-live-cast {
+  text-align: center;
+  padding-top: 1em;
+}
+
+.show-live-cast a {
+  margin: 0 auto;
+  padding: .6em 1.5em .7em;
+  display: inline-block;
+
+  background-color: var(--accent);
+  color: #fff;
+  line-height: 1em;
+
+  transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    margin-top .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    font-size .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.show-live-cast a:hover,
+.show-live-cast a:focus {
+  box-shadow: 0px .2em 12px rgba(0, 0, 0, 0.1);
+}
+
+.register article,
+.about article {
+  margin-bottom: -1em;
+}
+
+.register article p,
+.about article p {
+  margin-bottom: 1em;
+
+  text-indent: 2.5em;
+}
+
+.register .register-now {
+  text-align: center;
+  padding-top: 1em;
+}
+
+.register .register-now a {
+  margin: 0 auto;
+  padding: .6em 1.5em .7em;
+  display: inline-block;
+
+  background-color: var(--accent);
+  color: #fff;
+  line-height: 1em;
+
+  transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    margin-top .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    font-size .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.register .register-now a:hover,
+.register .register-now a:focus {
+  box-shadow: 0px .2em 12px rgba(0, 0, 0, 0.1);
+  margin-top: -.2em;
+  font-size: 1.1em;
+}
+
+@media(min-width: 840px) {
+  .topic {
+    max-height: 80vh;
+
+    font-size: 1.2em;
+  }
+
+  .topic .foreground {
+    flex-direction: row;
+  }
+
+  .topic .logo-box {
+    flex-basis: 50%;
+  }
+
+  .topic .main-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-basis: 50%;
+    margin-left: 1em;
+
+    text-align: right;
+  }
 }
 </style>
