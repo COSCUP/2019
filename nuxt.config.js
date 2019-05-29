@@ -100,7 +100,6 @@ module.exports = {
   },
   modules: [
     "~/modules/fetch.js",
-    "~/modules/typescript.js",
     ['nuxt-i18n', {
       parsePages: false,
       locales: locales,

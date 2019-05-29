@@ -20,20 +20,29 @@ export const types = {
   UPDATE_API: "updateApi"
 };
 
+type Endpoints = {
+  [N in keyof typeof Apis]: string
+};
+
 export type APIEndpoints = {
-  [L in keyof typeof Languages]: { [N in keyof typeof Apis]?: string }
+  [L in keyof typeof Languages]: Endpoints
 };
 
 export type State = APIEndpoints & {
   __loaded: boolean;
 };
 
+const dummyEndpoints = Object.keys(Apis).reduce((collection, key) => {
+  collection[key as any] = "";
+  return collection;
+}, {}) as Endpoints;
+
 export const state = (): State => ({
   __loaded: false,
 
-  "zh-TW": {},
-  en: {},
-  ja: {}
+  "zh-TW": dummyEndpoints,
+  en: dummyEndpoints,
+  ja: dummyEndpoints
 });
 
 export interface Actions<S, R> extends ActionTree<S, R> {
@@ -52,7 +61,7 @@ export const actions: Actions<State, RootState> = {
 
             return apis;
           },
-          {}
+          {} as Endpoints
         );
 
         return langs;
