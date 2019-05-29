@@ -1,10 +1,6 @@
 <template>
   <main class="direction">
-    <Map
-      class="location"
-      :center="location"
-      :zoom="16"
-    >
+    <Map class="location" :center="location" :zoom="16">
       <MapInfoWindow
         ref="locationInfoWindow"
         :position="location"
@@ -12,8 +8,8 @@
         :options="{
           pixelOffset: {
             width: 0,
-            height: -42,
-          },
+            height: -42
+          }
         }"
       >
         <h4>{{ place }}</h4>
@@ -26,19 +22,25 @@
       />
       <template slot="visible">
         <div class="open-in-gm-controller">
-          <ExternalLink :href="googleMapsDirectionUrl">{{ $t('venue.openInGoogleMaps') }}</ExternalLink>
+          <ExternalLink :href="googleMapsDirectionUrl">{{
+            $t('venue.openInGoogleMaps')
+          }}</ExternalLink>
         </div>
       </template>
     </Map>
     <div class="transportations container">
-      <div class="method"
+      <div
         v-for="(direction, method) in transportations"
         :key="method"
+        class="method"
       >
         <Card>
           <h4>{{ direction.name }}</h4>
           <article>
-            <p v-for="(paragraph, idx) in getParagraphs(direction.description)" :key=idx>
+            <p
+              v-for="(paragraph, idx) in getParagraphs(direction.description)"
+              :key="idx"
+            >
               {{ paragraph }}
             </p>
           </article>
@@ -50,24 +52,15 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-} from 'nuxt-property-decorator'
-import {
-  Action,
-  State,
-  namespace,
-} from 'vuex-class'
+import { Component, Vue } from 'nuxt-property-decorator'
+import { State, namespace } from 'vuex-class'
 import {
   Map,
   Marker as MapMarker,
-  InfoWindow as MapInfoWindow,
+  InfoWindow as MapInfoWindow
 } from 'vue2-google-maps'
 
-import {
-  name as transportationStoreName,
-} from '~/store/transportation'
+import { name as transportationStoreName } from '~/store/transportation'
 
 import Card from '~/components/Card.vue'
 import SponsorFooter from '~/components/SponsorFooter.vue'
@@ -82,17 +75,17 @@ const TransportationState = namespace(transportationStoreName, State)
     Map,
     MapMarker,
     MapInfoWindow,
-    SponsorFooter,
-  },
+    SponsorFooter
+  }
 })
-export default class extends Vue {
+class venue extends Vue {
   @TransportationState location
   @TransportationState address
   @TransportationState('transportation') transportations
   @TransportationState place
 
   mounted() {
-    this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
+    this.$store.dispatch('clientsFirstFetch', this.$options.fetch)
   }
 
   async fetch({ store: { dispatch } }) {
@@ -106,7 +99,7 @@ export default class extends Vue {
   }
 
   openInfoWindow() {
-    const infoWindow : any = this.$refs.locationInfoWindow
+    const infoWindow: any = this.$refs.locationInfoWindow
     infoWindow._openInfoWindow()
   }
 
@@ -114,6 +107,7 @@ export default class extends Vue {
     return article.split(/\r\n?|\n\r?/g)
   }
 }
+export default venue
 </script>
 
 <style scoped>
@@ -139,7 +133,7 @@ main.direction {
   bottom: 13px;
   right: 38px;
   margin: 10px;
-  padding: 0 .5em;
+  padding: 0 0.5em;
 
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
@@ -165,7 +159,7 @@ main.direction {
   column-count: 1;
 }
 
-@media(min-width: 840px) {
+@media (min-width: 840px) {
   .transportations {
     column-count: 2;
   }

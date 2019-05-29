@@ -7,7 +7,14 @@
         </template>
       </ul>
     </div>
-    <div id="timetable" :style="`--table: ${gridTemplateRows}; --list: ${listTemplateRow};--length: ${locations.length}`">
+    <div
+      id="timetable"
+      :style="
+        `--table: ${gridTemplateRows}; --list: ${listTemplateRow};--length: ${
+          locations.length
+        }`
+      "
+    >
       <ul id="locations">
         <template v-for="(location, index) in locations">
           <li :key="index">
@@ -18,16 +25,48 @@
       </ul>
       <ul id="programs">
         <template
-          v-for="(timeSlot, index) in programStarts.filter((v, i, a) => a.indexOf(v) === i)"
+          v-for="(timeSlot, index) in programStarts.filter(
+            (v, i, a) => a.indexOf(v) === i
+          )"
         >
           <li
-            class="time"
             :key="`time-${index}`"
+            class="time"
             :style="`grid-row-start: t${getTimeSlug(timeSlot)}`"
-          >{{ getTimeSlug(timeSlot, true) }}</li>
+          >
+            {{ getTimeSlug(timeSlot, true) }}
+          </li>
         </template>
         <template v-for="(program, index) in programs">
-          <Program :program="program" :key="`program-${index}`"/>
+          <li
+            :key="`program-${index}`"
+            class="program"
+            :style="{
+              '--room': `room${toUnicode(program.track.room)}`,
+              '--start': `t${getTimeSlug(program.start)}`,
+              '--end': `t${getTimeSlug(program.end)}`
+            }"
+          >
+            <article>
+              <footer>
+                <span class="period">
+                  {{
+                    `${getTimeSlug(program.start, true)} ~ ${getTimeSlug(
+                      program.end,
+                      true
+                    )}`
+                  }}
+                </span>
+                <span class="track">{{ program.track.title }}</span>
+              </footer>
+              <header>
+                <h4>{{ program.title }}</h4>
+              </header>
+              <span class="location">{{ program.track.room }}</span>
+              <span class="length">{{ getLength(program) }}</span>
+              <span class="language">{{ program.language }}</span>
+            </article>
+          </li>
         </template>
       </ul>
     </div>
@@ -36,150 +75,180 @@
 
 <script lang="ts">
 // packages
-import { Component, Vue, Prop } from "nuxt-property-decorator";
-import { Action, State, Getter, namespace } from "vuex-class";
+import { Component, Vue } from 'nuxt-property-decorator'
+import { namespace } from 'vuex-class'
 
-//stores
-import { name as programsStoreName } from "~/store/programs";
+// stores
+import { name as programsStoreName } from '~/store/programs'
 
-import Program from "./_program.vue";
+import Program from './_program.vue'
 
-const ProgramsState = namespace(programsStoreName).State;
+const ProgramsState = namespace(programsStoreName).State
 
 @Component({
-  name: "Programs",
+  name: 'Programs',
   components: {
     Program
   }
 })
-export default class extends Vue {
-  @ProgramsState talks;
-  @ProgramsState tracks;
+class Programs extends Vue {
+  @ProgramsState talks
+  @ProgramsState tracks
   get gridTemplateRows() {
     return this.programTimeSlots
       .filter((v, i, a) => a.indexOf(v) === i)
       .map(start => {
-        return `[t${this.getTimeSlug(start)}] minmax(1em, auto)`;
+        return `[t${this.getTimeSlug(start)}] minmax(1em, auto)`
       })
-      .join(" ");
+      .join(' ')
   }
 
   get listTemplateRow() {
-    return this.programTimeSlots.map((time, i, arr) => (
-      i > 0 && new Date(time).getTime() === new Date(arr[i - 1]).getTime()
-    ) ? 'auto' : `[t${this.getTimeSlug(time)}] auto auto`).join(" ")
+    return this.programTimeSlots
+      .map((time, i, arr) =>
+        i > 0 && new Date(time).getTime() === new Date(arr[i - 1]).getTime()
+          ? 'auto'
+          : `[t${this.getTimeSlug(time)}] auto auto`
+      )
+      .join(' ')
   }
 
   get eventDates() {
     return this.talks
       .map(talk => talk.start)
       .filter((v, i, a) => {
-        const previous = a.slice(0, i).map(p => new Date(p).getDate());
-        const current = new Date(v).getDate();
-        return previous.indexOf(current) === -1;
+        const previous = a.slice(0, i).map(p => new Date(p).getDate())
+        const current = new Date(v).getDate()
+        return previous.indexOf(current) === -1
       })
-      .sort();
+      .sort()
   }
 
   get defaultShowDate() {
-    const today = new Date();
+    const today = new Date()
     return (
       this.eventDates.find(date => {
-        const eventDate = new Date(date);
+        const eventDate = new Date(date)
         return (
           today.getFullYear() === eventDate.getFullYear() &&
           today.getMonth() === eventDate.getMonth() &&
           today.getDate() === eventDate.getDate()
-        );
+        )
       }) ||
       (this.eventDates && this.eventDates[0])
-    );
+    )
   }
 
   get programStarts() {
     const todayTalks = this.talks.filter(talk => {
-      const talkDate = new Date(talk.start);
-      const showDate = new Date(this.defaultShowDate);
+      const talkDate = new Date(talk.start)
+      const showDate = new Date(this.defaultShowDate)
       return (
         talkDate.getFullYear() === showDate.getFullYear() &&
         talkDate.getMonth() === showDate.getMonth() &&
         talkDate.getDate() === showDate.getDate()
-      );
-    });
-    return todayTalks.map(talk => talk.start).sort();
+      )
+    })
+    return todayTalks.map(talk => talk.start).sort()
   }
 
   get programTimeSlots() {
     const todayTalks = this.talks.filter(talk => {
-      const talkDate = new Date(talk.start);
-      const showDate = new Date(this.defaultShowDate);
+      const talkDate = new Date(talk.start)
+      const showDate = new Date(this.defaultShowDate)
       return (
         talkDate.getFullYear() === showDate.getFullYear() &&
         talkDate.getMonth() === showDate.getMonth() &&
         talkDate.getDate() === showDate.getDate()
-      );
-    });
+      )
+    })
     return todayTalks
       .reduce((timeSlots, talk) => timeSlots.concat(talk.start, talk.end), [])
-      .sort();
+      .sort()
   }
 
   get locations() {
     return this.talks
       .filter(talk => {
-        const talkDate = new Date(talk.start);
-        const showDate = new Date(this.defaultShowDate);
+        const talkDate = new Date(talk.start)
+        const showDate = new Date(this.defaultShowDate)
         return (
           talkDate.getFullYear() === showDate.getFullYear() &&
           talkDate.getMonth() === showDate.getMonth() &&
           talkDate.getDate() === showDate.getDate()
-        );
+        )
       })
       .map(talk => talk.track)
       .map(track => track.room)
       .filter((v, i, a) => a.indexOf(v) === i)
-      .sort();
+      .sort()
   }
 
   get programs() {
     return this.talks
       .filter(talk => {
-        const talkDate = new Date(talk.start);
-        const showDate = new Date(this.defaultShowDate);
+        const talkDate = new Date(talk.start)
+        const showDate = new Date(this.defaultShowDate)
         return (
           talkDate.getFullYear() === showDate.getFullYear() &&
           talkDate.getMonth() === showDate.getMonth() &&
           talkDate.getDate() === showDate.getDate()
-        );
+        )
       })
-      .sort((a, b) => a.startAt - b.startAt);
+      .sort((a, b) => a.startAt - b.startAt)
   }
 
   mounted() {
-    this.$store.dispatch("clientsFirstFetch", this.$options["fetch"]);
+    this.$store.dispatch('clientsFirstFetch', this.$options.fetch)
   }
 
   async fetch({ store: { dispatch } }) {
-    await dispatch(`${programsStoreName}/fetchData`);
+    await dispatch(`${programsStoreName}/fetchData`)
   }
 
   getTimeSlug(datetime, withColon = false) {
-    const time = datetime instanceof Date ? datetime : new Date(datetime);
+    const time = datetime instanceof Date ? datetime : new Date(datetime)
     return `${this.padStartWithZero(time.getHours())}${
-      withColon ? ":" : ""
-    }${this.padStartWithZero(time.getMinutes())}`;
+      withColon ? ':' : ''
+    }${this.padStartWithZero(time.getMinutes())}`
   }
 
   padStartWithZero(number) {
-    return number < 10 ? `0${number}` : number.toString();
+    return number < 10 ? `0${number}` : number.toString()
   }
 
   getDateString(date) {
-    const dateObj = new Date(date);
+    const dateObj = new Date(date)
 
-    return `${dateObj.getFullYear()}/${dateObj.getMonth()}/${dateObj.getDate()}`;
+    return `${dateObj.getFullYear()}/${dateObj.getMonth()}/${dateObj.getDate()}`
+  }
+
+  toUnicode(str) {
+    return str
+      .split('')
+      .map(function(value) {
+        const temp = value
+          .charCodeAt(0)
+          .toString(16)
+          .toUpperCase()
+        if (temp.length > 2) {
+          return '-' + temp
+        }
+        return value
+      })
+      .join('')
+  }
+
+  getLength(program) {
+    const start =
+      program.start instanceof Date ? program.start : new Date(program.start)
+    const end =
+      program.end instanceof Date ? program.end : new Date(program.end)
+
+    return `${(end.getTime() - start.getTime()) / 1000 / 60} mins`
   }
 }
+export default Programs
 </script>
 
 <style lang="stylus">
@@ -207,6 +276,7 @@ export default class extends Vue {
   top: 65px;
   contain: layout;
   background-color: rgba(255, 255, 255, 0.8);
+  background-attachment: fixed;
   z-index: 9;
   margin: 0;
 
@@ -298,6 +368,75 @@ export default class extends Vue {
     grid-gap: 0 0.5em;
     grid-template-columns: repeat(var(--length), calc(((100% - 7 * 0.5em) / 8)));
     margin: 0;
+  }
+}
+
+.program {
+  padding: 0.5em;
+
+  h4 {
+    font-weight: normal;
+    margin: 0;
+    word-break: break-word;
+    font-size: 16px;
+  }
+
+  .track {
+    color: #009a79;
+  }
+
+  footer {
+    position: relative;
+  }
+
+  .period {
+    opacity: 0.8;
+    display: none;
+  }
+
+  .length {
+    &::before, &::after {
+      content: ' - ';
+    }
+  }
+
+  @media only screen and (max-width: 719px) {
+    border-bottom: 1px solid #e9e9e9;
+    padding: 1em;
+  }
+
+  @media only screen and (min-width: 720px) {
+    grid-column: 2;
+    margin-bottom: 1em;
+
+    h4 {
+      font-size: 24px;
+    }
+  }
+
+  @media only screen and (min-width: 1000px) {
+    grid-column: var(--room);
+    grid-row-start: var(--start);
+    grid-row-end: var(--end);
+    border: 1px dashed rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    margin-bottom: 0;
+
+    h4 {
+      font-size: large;
+    }
+
+    .period {
+      display: block;
+    }
+
+    .track {
+      font-size: smaller;
+    }
+
+    .length, .location, .language {
+      display: none;
+    }
   }
 }
 </style>

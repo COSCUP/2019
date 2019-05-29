@@ -1,9 +1,13 @@
 <template>
   <main class="staffs">
-    <Card class="container" v-for="team in teams" :key="team.key">
+    <Card v-for="team in teams" :key="team.key" class="container">
       <h1>{{ team.title }}</h1>
       <ul>
-        <li v-for="member in team.members" :key="member.name" :title="member.name">
+        <li
+          v-for="member in team.members"
+          :key="member.name"
+          :title="member.name"
+        >
           <img :src="member.image" alt="" />
           <div class="name">{{ member.name }}</div>
         </li>
@@ -14,19 +18,10 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-} from 'nuxt-property-decorator'
-import {
-  Action,
-  State,
-  namespace,
-} from 'vuex-class'
+import { Component, Vue } from 'nuxt-property-decorator'
+import { State, namespace } from 'vuex-class'
 
-import {
-  name as staffsStoreName,
-} from '~/store/staffs'
+import { name as staffsStoreName } from '~/store/staffs'
 
 import Card from '~/components/Card.vue'
 import SponsorFooter from '~/components/SponsorFooter.vue'
@@ -36,20 +31,21 @@ const StaffsState = namespace(staffsStoreName, State)
 @Component({
   components: {
     Card,
-    SponsorFooter,
-  },
+    SponsorFooter
+  }
 })
-export default class extends Vue {
+class staffs extends Vue {
   @StaffsState('teams') teams
 
   mounted() {
-    this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
+    this.$store.dispatch('clientsFirstFetch', this.$options.fetch)
   }
 
   async fetch({ store: { dispatch } }) {
     await dispatch(`${staffsStoreName}/fetchData`)
   }
 }
+export default staffs
 </script>
 
 <style scoped>
@@ -82,26 +78,23 @@ main.staffs li .name {
   right: 0;
   bottom: 0;
   left: 0;
-  padding-bottom: .8em;
+  padding-bottom: 0.8em;
 
   display: flex;
   filter: opacity(0);
   opacity: 0;
 
   color: #fff;
-  background: rgba(128, 128, 128, .6);
-  background: linear-gradient(to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.6)
-  );
-  font-size: .8em;
+  background: rgba(128, 128, 128, 0.6);
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6));
+  font-size: 0.8em;
   text-align: center;
   line-height: 1em;
   justify-content: center;
   align-items: flex-end;
 
-  transition: filter .2s cubic-bezier(0.4, 0.0, 0.2, 1),
-    opacity .2s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 main.staffs li:hover .name {

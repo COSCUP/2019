@@ -7,28 +7,26 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-} from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({
   inheritAttrs: false,
   props: {
     ratio: {
       type: String,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 })
-export default class extends Vue {
+class RatioBox extends Vue {
   get cssRatio() {
     const ratio: String = this.$props.ratio
     const [w, h = 1] = ratio.split(':')
 
-    return `${100.0 * Number(h) / Number(w)}%`
+    return `${(100.0 * Number(h)) / Number(w)}%`
   }
 }
+export default RatioBox
 </script>
 
 <style scoped>
@@ -38,7 +36,7 @@ export default class extends Vue {
 }
 
 .ratio-box:before {
-  content: "";
+  content: '';
   display: block;
   padding-top: 100%;
   padding-top: var(--ratio);

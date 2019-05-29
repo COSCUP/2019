@@ -11,46 +11,37 @@
 
 <script lang="ts">
 // packages
-import {
-  Component,
-  Vue,
-} from 'nuxt-property-decorator'
-import {
-  Action,
-  State,
-  namespace,
-} from 'vuex-class'
+import { Component, Vue } from 'nuxt-property-decorator'
+import { State, namespace } from 'vuex-class'
 
 // stores
-import {
-  name as mainStoreName
-} from '~/store/main'
+import { name as mainStoreName } from '~/store/main'
 
 // components
 import Card from '~/components/Card.vue'
 import SponsorFooter from '~/components/SponsorFooter.vue'
-import ExternalLink from '~/components/ExternalLink.vue'
 
 const MainState = namespace(mainStoreName, State)
 
 @Component({
   components: {
     Card,
-    SponsorFooter,
-  },
+    SponsorFooter
+  }
 })
-export default class extends Vue {
+class floorplan extends Vue {
   @MainState area
 
   mounted() {
-    this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
+    // this.$store.dispatch('clientsFirstFetch', this.$options.fetch)
   }
 
-  async fetch({ store: { dispatch } }) {
-    //await dispatch(`${transportationStoreName}/fetchData`)
+  async fetch({ store: { _ } }) {
+    // await dispatch(`${transportationStoreName}/fetchData`)
   }
-
 }
+
+export default floorplan
 </script>
 
 <style scoped>
@@ -66,6 +57,6 @@ img {
   margin: auto;
   max-width: 100%;
 }
-@media(min-width: 840px) {
+@media (min-width: 840px) {
 }
 </style>

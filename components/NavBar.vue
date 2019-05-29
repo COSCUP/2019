@@ -3,7 +3,7 @@
     <input id="nav-menu-state" type="checkbox" :checked="showMenu" />
     <ul class="nav-header">
       <li>
-        <label for="nav-menu-state" class="nav-trigger" >
+        <label for="nav-menu-state" class="nav-trigger">
           <Icon class="icon" icon="chevron-down" />
         </label>
       </li>
@@ -14,8 +14,12 @@
       </li>
       <li>
         <ul class="languages">
-          <li v-if="$i18n.locale != 'en'"><nuxt-link :to="switchLocalePath('en')">En</nuxt-link></li>
-          <li v-if="$i18n.locale != 'zh-TW'"><nuxt-link :to="switchLocalePath('zh-TW')">繁</nuxt-link></li>
+          <li v-if="$i18n.locale != 'en'">
+            <nuxt-link :to="switchLocalePath('en')">En</nuxt-link>
+          </li>
+          <li v-if="$i18n.locale != 'zh-TW'">
+            <nuxt-link :to="switchLocalePath('zh-TW')">繁</nuxt-link>
+          </li>
         </ul>
       </li>
     </ul>
@@ -24,10 +28,26 @@
         <img src="~/assets/logo-200.png" alt="" />
       </nuxt-link>
       <ul class="pages container">
-        <li><nuxt-link :to="localePath('index')">{{ $t('pages.about') }}</nuxt-link></li>
-        <li><nuxt-link :to="localePath('venue')">{{ $t('pages.venue') }}</nuxt-link></li>
-        <li><nuxt-link :to="localePath('sponsors')">{{ $t('pages.sponsors') }}</nuxt-link></li>
-        <li><a href="https://blog.coscup.org" target="_blank">{{ $t('pages.blog') }}</a></li>
+        <li>
+          <nuxt-link :to="localePath('index')">{{
+            $t('pages.about')
+          }}</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link :to="localePath('venue')">{{
+            $t('pages.venue')
+          }}</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link :to="localePath('sponsors')">{{
+            $t('pages.sponsors')
+          }}</nuxt-link>
+        </li>
+        <li>
+          <a href="https://blog.coscup.org" target="_blank">{{
+            $t('pages.blog')
+          }}</a>
+        </li>
       </ul>
       <ul class="languages">
         <li><nuxt-link :to="switchLocalePath('en')">En</nuxt-link></li>
@@ -43,18 +63,16 @@ import Vue from 'vue'
 export default Vue.extend({
   data() {
     return {
-      showMenu: false,
+      showMenu: false
     }
   },
   watch: {
     $route({ path: toPath }, { path: fromPath }) {
-      if (toPath !== fromPath)
-        this.showMenu = false
+      if (toPath !== fromPath) this.showMenu = false
     }
-  },
+  }
 })
 </script>
-
 
 <style scoped>
 :root {
@@ -65,7 +83,7 @@ export default Vue.extend({
 nav {
   background-color: #fff;
   box-shadow: 0px 2px 16px rgba(204, 204, 204, 0.5);
-  font-size: .9em;
+  font-size: 0.9em;
 
   display: block;
   height: 3.6rem;
@@ -81,7 +99,8 @@ nav {
   display: none;
 }
 
-.nav-header, .nav-header > li {
+.nav-header,
+.nav-header > li {
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -107,7 +126,7 @@ nav {
   color: var(--accent);
   cursor: pointer;
 
-  transition: 0.4s cubic-bezier(0.4, 0.0, 0.2, 1) transform;
+  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1) transform;
 }
 
 #nav-menu-state:checked ~ .nav-header .nav-trigger {
@@ -168,8 +187,7 @@ nav {
   opacity: 0;
 
   transform: scale(1.1) translateY(-1em);
-  transition: opacity 0.35s ease-out,
-    transform 0.35s ease-out;
+  transition: opacity 0.35s ease-out, transform 0.35s ease-out;
 }
 
 .pages li:nth-child(1) {
@@ -208,19 +226,19 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: .5em 0;
+  padding: 0.5em 0;
 
   color: var(--accent);
 
-  border-bottom: 1px solid color(var(--secondary) a(.4));
+  border-bottom: 1px solid color(var(--secondary) a(0.4));
 }
 
 .pages li a:hover {
-  color: color(var(--accent) a(.4));
+  color: color(var(--accent) a(0.4));
 }
 
 .pages li a.nuxt-link-exact-active {
-  color: color(var(--accent) a(.4));
+  color: color(var(--accent) a(0.4));
 }
 
 .languages {
@@ -239,7 +257,7 @@ nav {
 .languages li a {
   display: flex;
   align-items: center;
-  padding: 0 .5em;
+  padding: 0 0.5em;
 
   text-align: center;
 }
@@ -252,7 +270,7 @@ nav {
   padding-right: 1em;
 }
 
-@media(min-width: 840px) {
+@media (min-width: 840px) {
   .nav-header {
     display: none;
   }

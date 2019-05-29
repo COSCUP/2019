@@ -3,42 +3,44 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-} from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({
   props: {
     value: {
       type: String,
-      default: '',
+      default: ''
     },
     tag: {
       type: String,
-      default: 'div',
-    },
-  },
+      default: 'div'
+    }
+  }
 })
-export default class extends Vue {
+class Markdown extends Vue {
+  $md: any
   mounted() {
-    const $md = this['$md']
+    const $md = this.$md
 
-    const originalRender = $md.renderer.rules.link_open || function (tokens, idx, options, env, self) {
-      return self.renderToken(tokens, idx, options);
-    };
-
-    $md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
-      var targetIndex = tokens[idx].attrIndex('target');
-
-      if (targetIndex < 0) {
-        tokens[idx].attrPush(['target', '_blank']);
-      } else {
-        tokens[idx].attrs[targetIndex][1] = '_blank';
+    const originalRender =
+      $md.renderer.rules.link_open ||
+      function(tokens, idx, options, env, self) {
+        return self.renderToken(tokens, idx, options)
       }
 
-      return originalRender(tokens, idx, options, env, self);
-    };
+    $md.renderer.rules.link_open = function(tokens, idx, options, env, self) {
+      const targetIndex = tokens[idx].attrIndex('target')
+
+      if (targetIndex < 0) {
+        tokens[idx].attrPush(['target', '_blank'])
+      } else {
+        tokens[idx].attrs[targetIndex][1] = '_blank'
+      }
+
+      return originalRender(tokens, idx, options, env, self)
+    }
   }
 }
+
+export default Markdown
 </script>

@@ -5,8 +5,17 @@
   </a>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'nuxt-property-decorator'
+
+@Component
+class ExternalLink extends Vue {}
+
+export default ExternalLink
+</script>
+
 <style scoped>
 .external-link .external-link-icon {
-  margin-left: .3em;
+  margin-left: 0.3em;
 }
 </style>
