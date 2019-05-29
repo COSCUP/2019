@@ -54,7 +54,7 @@ const CohostsGetter = namespace(cohostsStoreName, Getter)
 })
 class cohosts extends Vue {
   @CohostsGetter('byLevel')
-  cohostsByLevel: CohostsByLevel = []
+  cohostsByLevel: CohostsByLevel
 
   mounted() {
     this.$store.dispatch('clientsFirstFetch', this.$options.fetch)

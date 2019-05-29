@@ -65,7 +65,7 @@ const SponsorsGetter = namespace(sponsorsStoreName, Getter)
 class sponsors extends Vue {
   @MainState sponsorship
   @SponsorsGetter('byLevel')
-  sponsorsByLevel: SponsorsByLevel = []
+  sponsorsByLevel: SponsorsByLevel
 
   mounted() {
     this.$store.dispatch('clientsFirstFetch', this.$options.fetch)
