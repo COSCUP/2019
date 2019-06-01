@@ -129,6 +129,7 @@ module.exports = {
     ['@nuxtjs/google-analytics', {
       id: 'UA-12923351-7'
     }],
+    '@nuxtjs/proxy',
   ],
   plugins: [
     {
@@ -205,5 +206,13 @@ module.exports = {
   ],
   markdownit: {
     injected: true
+  },
+  proxy: {
+    '/api': {
+      target: 'http://192.168.11.134:8000',
+      pathRewrite: {
+        '^/api' : '/'
+      }
+    }
   },
 }
