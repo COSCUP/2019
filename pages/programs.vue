@@ -59,6 +59,7 @@
 				</template>
 			</ul>
 		</div>
+		<nuxt-child :key="$route.params.id" :program="programs.find((program) => program.id === $route.params.id)" />
 	</div>
 </template>
 
@@ -73,7 +74,7 @@ import { name as programsStoreName, DateTime, Program } from "~/store/programs";
 const ProgramsState = namespace(programsStoreName).State;
 
 @Component({
-	name: "Programs"
+	name: "Programs",
 })
 class Programs extends Vue {
 	@ProgramsState programs;
@@ -81,6 +82,7 @@ class Programs extends Vue {
 	@ProgramsState tags;
 	@ProgramsState types;
 	@ProgramsState eventDay;
+
 	mounted() {
 		this.$store.dispatch("clientsFirstFetch", this.$options.fetch);
 	}
