@@ -67,7 +67,6 @@ export default Footer
 <style scoped>
 :root {
   --accent: rgb(59, 156, 96);
-  --secondary: rgb(177, 215, 191);
 }
 
 footer {
@@ -76,7 +75,7 @@ footer {
   width: 100%;
   margin-top: 6em;
 
-  background-color: var(--secondary);
+  background-color: rgb(177, 215, 191);
   box-shadow: inset 0px 6px 12px -12px rgba(0, 0, 0, 0.5);
   color: var(--accent);
 
