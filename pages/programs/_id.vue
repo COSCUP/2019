@@ -1,6 +1,6 @@
 <template>
   <div class="modal" v-if="program">
-    <span class="close">×</span>
+    <nuxt-link to="/programs"><span class="close">×</span></nuxt-link>
     <article>
       <header>
         <div class="track" v-if="program.tags.length && program.tags[1]">
@@ -18,7 +18,6 @@
       <footer>
         <template v-for="(speaker, index) in program.speakers">
           <div class="speaker" :key="`speaker-${index}`">
-            <img :src="speaker.avatar" alt="">
             <strong>{{ speaker.name }}</strong>
             <p>{{ speaker.bio }}</p>
           </div>
@@ -69,7 +68,6 @@ export default Program
         cursor: pointer;
         font-size: 3em;
         font-weight: bolder;
-        pointer-events: none;
     }
     article {
         background-color: #ecf5f4;
@@ -104,58 +102,20 @@ export default Program
 
 .speaker {
   margin-bottom: 2em;
-  img {
-        display: block;
-        margin: 0 auto;
-        width: 96px;
-        height: 96px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 3px solid #009a79;
-        grid-row: 1 / span 2;
-        align-self: center;
-    }
-    strong, p {
-        grid-column: 2;
-    }
+  background-color: #fff;
     strong {
         display: block;
         text-align: center;
-        grid-row: 1;
         font-size: larger;
         padding: .5em;
     }
     p {
-        grid-row: 2;
         padding: 1em;
         margin: 0;
         word-break: break-word;
-        background-color: #fff;
         border-radius: .5em;
-    }
-    &::before, &::after {
-        content: ' '
-        background-color: #fff;
-        grid-column: 2;
-        grid-row: 1 / span 3;
-    }
-    &::before {
-        border-radius: .5em;
-    }
-    &::after {
-        width: 16px;
-        height: 16px;
-        margin-left: -8px;
-        transform: rotate(45deg);
-        align-self: center;
     }
     @media only screen and (min-width: 720px) {
-        display: grid;
-        grid-template-columns: 120px 1fr;
-        grid-template-rows: auto 1fr;
-        img {
-            margin: 0;
-        }
         strong {
             text-align: left;
             padding: 1em 1em 0;

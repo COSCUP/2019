@@ -2,7 +2,7 @@
 	<div id="schedule">
 		<nav class="days">
 			<template v-for="(day, index) in eventDay">
-				<a :key="index">{{ `Day ${index}` }} {{ `${day.year}/${day.month}/${day.date}` }}</a>
+				<nuxt-link :key="index" to="/programs/#" @click="pickDay = day">{{ `${day.month}/${day.date}` }}</nuxt-link>
 			</template>
 		</nav>
 		<div
@@ -22,7 +22,7 @@
 					<li
 						:key="`time-${index}`"
 						class="time"
-						:style="`grid-row-start: t${getTimeSlug(start)}`"
+						:style="`grid-row-start: t${getTimeSlugWithoutColon(start)}`"
 					>{{ getTimeSlug(start) }}</li>
 				</template>
 
@@ -33,28 +33,30 @@
 						class="program"
 						:style="{
             '--room': `${program.room.id}`,
-            '--start': `t${getTimeSlug(program.start)}`,
-            '--end': `t${getTimeSlug(program.end)}`
+            '--start': `t${getTimeSlugWithoutColon(program.start)}`,
+            '--end': `t${getTimeSlugWithoutColon(program.end)}`
           }"
 					>
-						<article>
-							<footer>
-								<span class="period">{{ `${getTimeSlug(program.start)} ~ ${getTimeSlug(program.end)}` }}</span>
-								<span
-									class="track"
-									v-if="program.tags.length && program.tags[1]"
-								>{{ `${program.tags[1].name}` }}</span>
-								<header>
-									<h4>{{ program.title }}</h4>
-								</header>
-								<span class="room">{{ program.room.name }}</span>
-								<span class="length">{{ `${program.period} mins` }}</span>
-								<span
-									class="language"
-									v-if="program.tags.length && program.tags[0]"
-								>{{ `${program.tags[0].name}` }}</span>
-							</footer>
-						</article>
+						<nuxt-link :to="`/programs/${program.id}`">
+							<article>
+								<footer>
+									<span class="period">{{ `${getTimeSlug(program.start)} ~ ${getTimeSlug(program.end)}` }}</span>
+									<span
+										class="track"
+										v-if="program.tags.length && program.tags[1]"
+									>{{ `${program.tags[1].name}` }}</span>
+									<header>
+										<h4>{{ program.title }}</h4>
+									</header>
+									<span class="room">{{ program.room.name }}</span>
+									<span class="length">{{ `${program.period} mins` }}</span>
+									<span
+										class="language"
+										v-if="program.tags.length && program.tags[0]"
+									>{{ `${program.tags[0].name}` }}</span>
+								</footer>
+							</article>
+						</nuxt-link>
 					</li>
 				</template>
 			</ul>
@@ -82,6 +84,7 @@ class Programs extends Vue {
 	@ProgramsState tags;
 	@ProgramsState types;
 	@ProgramsState eventDay;
+	pickDay: DateTime|null = null;
 
 	mounted() {
 		this.$store.dispatch("clientsFirstFetch", this.$options.fetch);
@@ -92,16 +95,21 @@ class Programs extends Vue {
 	}
 
 	get currentDay(): DateTime {
-		const today = new Date();
 
-		const day = this.eventDay.find(
-			(current: DateTime) =>
-				current.year === today.getFullYear() &&
-				current.month === today.getMonth() &&
-				current.date === today.getDate()
-		);
+		if (this.pickDay === null) {
+			const today = new Date();
 
-		return day !== undefined ? day : this.eventDay[0];
+			const day = this.eventDay.find(
+				(current: DateTime) =>
+					current.year === today.getFullYear() &&
+					current.month === today.getMonth() &&
+					current.date === today.getDate()
+			);
+
+			return day !== undefined ? day : this.eventDay[0];
+		} else {
+			return this.pickDay;
+		}
 	}
 
 	get todayPrograms(): Program[] {
@@ -146,7 +154,7 @@ class Programs extends Vue {
 			)
 			.sort((a: DateTime, b: DateTime) => a.timestamp - b.timestamp)
 			.map((time: DateTime) => {
-				return `[t${this.getTimeSlug(time)}] minmax(1em, auto)`;
+				return `[t${this.getTimeSlugWithoutColon(time)}] minmax(1em, auto)`;
 			})
 			.join(" ");
 	}
@@ -160,7 +168,7 @@ class Programs extends Vue {
 			.map((current: DateTime, index: number, arr: DateTime[]) =>
 				index > 0 && current.timestamp === arr[index - 1].timestamp
 					? "auto"
-					: `[t${this.getTimeSlug(current)}] auto auto`
+					: `[t${this.getTimeSlugWithoutColon(current)}] auto auto`
 			)
 			.join(" ");
 	}
@@ -169,7 +177,13 @@ class Programs extends Vue {
 		const hours = this.padStartWithZero(dateTime.hour);
 		const minutes = this.padStartWithZero(dateTime.minute);
 		return `${hours}:${minutes}`;
-	};
+	}
+
+	getTimeSlugWithoutColon = (dateTime: DateTime): string => {
+		const hours = this.padStartWithZero(dateTime.hour);
+		const minutes = this.padStartWithZero(dateTime.minute);
+		return `${hours}${minutes}`;
+	}
 
 	padStartWithZero(number) {
 		return number < 10 ? `0${number}` : number.toString();
@@ -180,6 +194,7 @@ export default Programs;
 
 <style lang="stylus">
 .days {
+
 	a {
 		display: inline-block;
 		text-decoration: none;
@@ -219,7 +234,6 @@ export default Programs;
 	}
 
 	@media only screen and (min-width: 1000px) {
-		margin: 0 -32px 1em;
 		font-size: 3em;
 		position: static;
 
@@ -230,7 +244,9 @@ export default Programs;
 }
 
 #timetable {
-	position: relative;
+	.wrapper {
+		position: relative;
+	}
 }
 
 #rooms {
@@ -341,6 +357,7 @@ export default Programs;
 	padding: 0.5em;
 
 	h4 {
+		line-height: 1.5rem;
 		font-weight: normal;
 		margin: 0;
 		word-break: break-word;
