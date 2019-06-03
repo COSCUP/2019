@@ -96,8 +96,10 @@ class Programs extends Vue {
 	}
 
 	get currentDay(): DateTime {
-
-		if (this.pickDay === null) {
+		const matched = this.$route.params.id && this.$route.params.id.match(/day([12])/);
+		if (matched && matched[1]) {
+			return this.eventDay[Number.parseInt(matched[1], 10) - 1]
+		} else if (this.pickDay === null) {
 			const today = new Date();
 
 			const day = this.eventDay.find(
