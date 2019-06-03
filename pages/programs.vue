@@ -2,7 +2,7 @@
 	<div id="schedule">
 		<nav class="days">
 			<template v-for="(day, index) in eventDay">
-				<nuxt-link :key="index" to="/programs/#" @click="pickDay = day">{{ `${day.month}/${day.date}` }}</nuxt-link>
+				<a :key="index" href="programs/#" @click="(pickDay = day)" :class="{ 'active': day  === currentDay }">{{ `${day.month}/${day.date}` }}</a>
 			</template>
 		</nav>
 		<div
@@ -26,9 +26,8 @@
 					>{{ getTimeSlug(start) }}</li>
 				</template>
 
-				<template v-for="(program, index) in programs">
+				<template v-for="(program, index) in todayPrograms">
 					<li
-						v-if="program.start && program.end && program.room"
 						:key="`program-${index}`"
 						class="program"
 						:style="{
@@ -115,11 +114,11 @@ class Programs extends Vue {
 	get todayPrograms(): Program[] {
 		return this.programs.filter(
 			(program: Program): boolean => {
-				return program.start
+				return program.start && program.end && program.room
 					? program.start.date === this.currentDay.date
 					: false;
 			}
-		);
+		).sort((a: Program, b: Program) => a.start.timestamp - b.start.timestamp);
 	}
 
 	get programTimeSlot(): DateTime[] {
@@ -165,6 +164,7 @@ class Programs extends Vue {
 
 	get cssListTemplateRow() {
 		return this.programStartTime
+			.sort((a: DateTime, b: DateTime) => a.timestamp - b.timestamp)
 			.map((current: DateTime, index: number, arr: DateTime[]) =>
 				index > 0 && current.timestamp === arr[index - 1].timestamp
 					? "auto"
@@ -193,6 +193,10 @@ export default Programs;
 </script>
 
 <style lang="stylus">
+#schedule {
+	width: auto;
+}
+
 .days {
 
 	a {
@@ -212,7 +216,7 @@ export default Programs;
 		position: fixed;
 		top: 0;
 		width: 100%;
-		background: linear-gradient(-315deg, #f9fea5, #20e2d7);
+		background: #fff;
 		display: flex;
 		z-index: 999;
 
@@ -238,15 +242,12 @@ export default Programs;
 		position: static;
 
 		a {
-			margin-right: 0.5em;
+			margin: 1em 0 0.5em;
 		}
 	}
 }
 
 #timetable {
-	.wrapper {
-		position: relative;
-	}
 }
 
 #rooms {
@@ -335,7 +336,7 @@ export default Programs;
 	}
 
 	@media only screen and (max-width: 719px) {
-		margin-top: -56px;
+		grid-template-columns: none;
 	}
 
 	@media only screen and (min-width: 720px) {
