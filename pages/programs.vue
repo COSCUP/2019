@@ -2,9 +2,9 @@
 	<div id="schedule">
 		<nav class="days">
 			<template v-for="(day, index) in eventDay">
-				<a :key="index" href="programs/#" @click="(pickDay = day)" :class="{ 'active': day  === currentDay }">
+				<nuxt-link :key="index" :to="`/programs/day${index + 1}`" @click.native="(pickDay = day)" :class="{ 'active': day  === currentDay }">
 				{{ `Day ${index + 1} (${day.month}/${day.date})` }}
-				</a>
+				</nuxt-link>
 			</template>
 		</nav>
 		<div
