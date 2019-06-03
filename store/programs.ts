@@ -86,8 +86,8 @@ type APIResSession = {
     title: string,
     description: string,
   },
-  speakers: APIResSpeaker[],
-  tag: APIResTag[],
+  speakers: string[],
+  tag: string[],
 }
 
 type APIResSpeaker = {
@@ -103,36 +103,50 @@ type APIResSpeaker = {
   }
 }
 
-type APIResTag = {
+type APIResType = {
   id: string,
-  name_zh: string,
-  name_en: string,
+  zh: {
+    name: string
+  },
+  en: {
+    name: string
+  },
 }
 
 type APIResRoom = {
   id: string,
-  name_zh: string,
-  name_en: string,
+  zh: {
+    name: string
+  },
+  en: {
+    name: string
+  },
 }
 
-type APIResType = {
+type APIResTag = {
   id: string,
-  name_zh: string,
-  name_en: string,
+  zh: {
+    name: string
+  },
+  en: {
+    name: string
+  },
 }
 
 type APIResponse = {
   sessions: APIResSession[],
   rooms: APIResRoom[],
   tags: APIResTag[],
-  types: APIResType[],
+  session_types: APIResType[],
+  speakers: APIResSpeaker[]
 }
 
 export type State = {
   programs: Program[],
   rooms: Room[],
   tags: Tag[],
-  types: Type[],
+  sessionTypes: Type[],
+  speakers: Speaker[],
   eventDay: DateTime[],
 }
 
@@ -140,7 +154,8 @@ export const state = (): State => ({
   programs: [],
   rooms: [],
   tags: [],
-  types: [],
+  sessionTypes: [],
+  speakers: [],
   eventDay: [],
 } as State)
 
@@ -156,18 +171,23 @@ export const actions: Actions<State, RootState> = {
     const data = await response.json() as APIResponse
 
     const localeKey = locale.substr(0, 2)
-
-    const pTypes = data.types.map((resType) => ({
+    const sessionTypes = data.session_types.map((resType: APIResType) :Type => ({
       id: resType.id,
-      name: resType['name_' + localeKey] || resType.name_en,
+      name: (resType[localeKey] && resType[localeKey].name) || resType.en.name,
     }))
-    const rooms = data.rooms.map((resRoom) => ({
+    const rooms = data.rooms.map((resRoom: APIResRoom) :Room => ({
       id: resRoom.id,
-      name: resRoom['name_' + localeKey] || resRoom.name_en,
+      name: (resRoom[localeKey] && resRoom[localeKey].name) || resRoom.en.name,
     }))
-    const tags = data.tags.map((resTag) => ({
+    const tags = data.tags.map((resTag: APIResTag) :Tag => ({
       id: resTag.id,
-      name: resTag['name_' + localeKey] || resTag.name_en,
+      name: (resTag[localeKey] && resTag[localeKey].name) || resTag.en.name,
+    }))
+    const speakerList = data.speakers.map(({id, avatar, ...profile}: APIResSpeaker) :Speaker => ({
+      id: id,
+      avatar: avatar,
+      name: (profile[localeKey] && profile[localeKey].name) || profile.en.name,
+      bio: (profile[localeKey] && profile[localeKey].bio) || profile.en.bio,
     }))
 
     const createDateTime = (timeString: string): DateTime => {
@@ -184,13 +204,6 @@ export const actions: Actions<State, RootState> = {
       }
     }
 
-    const createSpeaker = (speaker: APIResSpeaker): Speaker => ({
-      id: speaker.id,
-      avatar: speaker.avatar,
-      name: (speaker[localeKey] && speaker[localeKey].name) || speaker.en.name,
-      bio: (speaker[localeKey] && speaker[localeKey].bio) || speaker.en.bio,
-    })
-
     const getProgramPeriod = (start: string, end: string): number => {
       if (!start || !end) return 0
       const s = Date.parse(start)
@@ -202,7 +215,7 @@ export const actions: Actions<State, RootState> = {
       id, type, room, broadcast, start, end, qa, slide, live, record, zh, en, speakers, tag
     }) => ({
       id,
-      type: pTypes.find((candidate: Type) => candidate.id === type) || null,
+      type: sessionTypes.find((candidate: Type) => candidate.id === type) || null,
       room: rooms.find((candidate: Room) => candidate.id === room) || null,
       broadcast,
       start: start && createDateTime(start) || null,
@@ -214,25 +227,27 @@ export const actions: Actions<State, RootState> = {
       record_link: record,
       title: localeKey === 'zh' ? zh.title : en.title,
       description: localeKey === 'zh' ? zh.description: en.title,
-      speakers: speakers.map(createSpeaker),
-      tags: tag.map(
-        (resTag :APIResTag) => (
-          tags.find((candidate) => candidate.id === resTag.id)
-        )).filter(tag => tag !== undefined),
+      speakers: speakers.map((speakersKey) => speakerList.find((candidate) => speakersKey === candidate.id)),
+      tags: tag.map((tagKey) => tags.find((candidate) => tagKey === candidate.id)),
     }));
-
+    
     commit(types.UPDATE, {
       programs: programs,
       rooms: rooms,
       tags: tags,
-      types: pTypes,
+      sessionTypes: sessionTypes,
+      speakers: speakerList,
       eventDay: programs.map((program) => program.start)
-                        .filter((current: DateTime, index: number, arr: Array<DateTime>) => 
-                          {
-                            return current &&
-                            arr.findIndex((exists: DateTime) => (exists.year === current.year && exists.month === current.month && exists.date === current.date)) === index
-                          }
-                        ).sort((a: DateTime, b: DateTime) => a.timestamp - b.timestamp)
+                        .filter((current: DateTime, index: number, arr: Array<DateTime>) => current !== null
+                            && arr.findIndex((exists: DateTime) => 
+                              exists !== null && (exists.year === current.year && exists.month === current.month && exists.date === current.date)) === index
+                          )
+                        .sort((a: DateTime, b: DateTime) => a.timestamp - b.timestamp)
+                        .map(({ year, month, date}: DateTime) => ({
+                          year: year,
+                          month: month,
+                          date: date
+                        }))
     })
   }
 }
