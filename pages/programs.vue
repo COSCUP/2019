@@ -2,7 +2,9 @@
 	<div id="schedule">
 		<nav class="days">
 			<template v-for="(day, index) in eventDay">
-				<a :key="index" href="programs/#" @click="(pickDay = day)" :class="{ 'active': day  === currentDay }">{{ `${day.month}/${day.date}` }}</a>
+				<a :key="index" href="programs/#" @click="(pickDay = day)" :class="{ 'active': day  === currentDay }">
+				{{ `Day ${index + 1} (${day.month}/${day.date})` }}
+				</a>
 			</template>
 		</nav>
 		<div
