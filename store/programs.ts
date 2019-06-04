@@ -166,7 +166,7 @@ export interface Actions<S, R> extends ActionTree<S, R> {
 export const actions: Actions<State, RootState> = {
   async fetchData({ commit, rootState }) {
     const locale = rootState.i18n.locale
-    const endpoint = rootState[endpointStateName][locale].programs
+    const endpoint = `${API_ROOT}/programs.json`
     const response = await fetch(endpoint)
     const data = await response.json() as APIResponse
 
@@ -179,7 +179,7 @@ export const actions: Actions<State, RootState> = {
       id: resRoom.id,
       name: (resRoom[localeKey] && resRoom[localeKey].name) || resRoom.en.name,
     }))
-    const tags = data.tags.map((resTag: APIResTag) :Tag => ({
+    const tagList = data.tags.map((resTag: APIResTag) :Tag => ({
       id: resTag.id,
       name: (resTag[localeKey] && resTag[localeKey].name) || resTag.en.name,
     }))
@@ -212,7 +212,7 @@ export const actions: Actions<State, RootState> = {
     }
 
     const programs = data.sessions.map(({
-      id, type, room, broadcast, start, end, qa, slide, live, record, zh, en, speakers, tag
+      id, type, room, broadcast, start, end, qa, slide, live, record, zh, en, speakers, tags
     }) => ({
       id,
       type: sessionTypes.find((candidate: Type) => candidate.id === type) || null,
@@ -228,13 +228,13 @@ export const actions: Actions<State, RootState> = {
       title: localeKey === 'zh' ? zh.title : en.title,
       description: localeKey === 'zh' ? zh.description: en.title,
       speakers: speakers.map((speakersKey) => speakerList.find((candidate) => speakersKey === candidate.id)),
-      tags: tag.map((tagKey) => tags.find((candidate) => tagKey === candidate.id)),
+      tags: tags.map((tagKey) => tagList.find((candidate) => tagKey === candidate.id)),
     }));
     
     commit(types.UPDATE, {
       programs: programs,
       rooms: rooms,
-      tags: tags,
+      tags: tagList,
       sessionTypes: sessionTypes,
       speakers: speakerList,
       eventDay: programs.map((program) => program.start)
