@@ -216,36 +216,30 @@ export default Programs;
         border-bottom: 5px solid;
     }
 
-	@media only screen and (max-width: 719px) {
+	@media only screen and (max-width: 1200px) {
 		position: fixed;
-		top: 0;
+		bottom: 0;
 		width: 100%;
 		background: #fff;
 		display: flex;
-		z-index: 999;
+		z-index: 11;
 
 		a {
 			height: 64px;
 			flex: 1 0 auto;
 			text-align: center;
 			line-height: 64px;
+			color: #b8d2cf;
 		}
 	}
 
-	@media only screen and (min-width: 720px) {
+	@media only screen and (min-width: 1200px) {
 		text-align: right;
-
+		font-size: 3em;
+		position: static;
 		a {
 			color: #b8d2cf;
 			padding: 0.5em;
-		}
-	}
-
-	@media only screen and (min-width: 1000px) {
-		font-size: 3em;
-		position: static;
-
-		a {
 			margin: 1em 0 0.5em;
 		}
 	}
@@ -263,7 +257,7 @@ export default Programs;
 	top: 65px;
 	contain: layout;
 	background-color: rgba(255, 255, 255, 0.8);
-	background-attachment: fixed;
+	width: calc(100%) ;
 	z-index: 9;
 	margin: 0;
 
@@ -271,7 +265,6 @@ export default Programs;
 		flex: 1 0 calc(((100% - 7 * 0.5em) / 8));
 		font-size: smaller;
 		color: rgba(0, 0, 0, 0.4);
-
 		&:not(:first-child) {
 			margin-left: 0.5em;
 		}
@@ -284,7 +277,7 @@ export default Programs;
 		color: rgba(0, 0, 0, 0.7);
 	}
 
-	@media only screen and (min-width: 1000px) {
+	@media only screen and (min-width: 1200px) {
 		display: flex;
 	}
 }
@@ -310,7 +303,7 @@ export default Programs;
 		top: 64px;
 	}
 
-	@media only screen and (min-width: 1000px) {
+	@media only screen and (min-width: 1200px) {
 		display: none;
 	}
 }
@@ -328,7 +321,7 @@ export default Programs;
 			color: inherit;
 		}
 
-		@media only screen and (min-width: 1000px) {
+		@media only screen and (min-width: 1200px) {
 			position: relative;
 
 			article {
@@ -348,7 +341,7 @@ export default Programs;
 		grid-column: 2;
 	}
 
-	@media only screen and (min-width: 1000px) {
+	@media only screen and (min-width: 1200px) {
 		grid-template-rows: var(--table);
 		grid-template-areas: var(--areas);
 		grid-column: var(--room);
@@ -402,7 +395,7 @@ export default Programs;
 		}
 	}
 
-	@media only screen and (min-width: 1000px) {
+	@media only screen and (min-width: 1200px) {
 		grid-column: var(--room);
 		grid-row-start: var(--start);
 		grid-row-end: var(--end);
