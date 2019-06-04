@@ -46,7 +46,7 @@ const generateRoutesFromAPI = (function () {
 })()
 
 module.exports = {
-  router: { base :'/2019/'},
+  router: { base : process.env.NODE_ENV === 'staging' ? '/' : '/2019/'},
   /*
   ** Headers of the page
   */

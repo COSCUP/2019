@@ -6,7 +6,8 @@ before_install:
   - npm install -g npm@latest
 
 script:
-  - npm run generate
+  - if [ "$TRAVIS_BRANCH" = "dev" ]; then NODE_ENV=staging npm run generate; fi
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then npm run generate; fi
 
 deploy:
   - provider: pages
