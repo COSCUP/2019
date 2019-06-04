@@ -87,7 +87,7 @@ type APIResSession = {
     description: string,
   },
   speakers: string[],
-  tag: string[],
+  tags: string[],
 }
 
 type APIResSpeaker = {
