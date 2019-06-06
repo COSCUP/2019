@@ -29,13 +29,38 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "nuxt-property-decorator";
-import { Program as Session, DateTime } from "~/store/programs";
+import { Program as Session, DateTime, name as ProgramStoreName } from "~/store/programs";
 @Component({
-  name: "Program"
+  name: 'Program',
+  async asyncData({ store: { dispatch, state : { programs } }, params}): Promise<{program: Session} | never> {
+    return dispatch(`${ProgramStoreName}/fetchData`).then(() => {
+      const program = programs.programs.find((program) => program.id === params.id)
+      return {
+        program: program
+      }
+    });
+  }
 })
 class Program extends Vue {
-  @Prop()
   program: Session
+
+  get title() {
+    const speakerNames = this.program.speakers.map(speaker => speaker.name).join('/')
+
+    return `${this.program.title} by ${speakerNames} | COSCUP 2019`
+  }
+
+  head() {
+    return {
+      title: this.title,
+      meta: [
+        { hid: `og:description`, name: 'og:description', content: this.program.description },
+        { hid: `og:title`, property: 'og:title', content: this.title },
+        { hid: `og:type`, property: 'og:type', content: 'article' },
+        { hid: `og:url`, property: 'og:url', content: `https://coscup.org/2019${this.$route.path}`},
+      ],
+    }
+  }
 
   getTimeSlug = (dateTime: DateTime): string => {
 		const hours = this.padStartWithZero(dateTime.hour);
@@ -45,7 +70,7 @@ class Program extends Vue {
 
   padStartWithZero(number) {
 		return number < 10 ? `0${number}` : number.toString();
-	}
+  }
 }
 
 export default Program
