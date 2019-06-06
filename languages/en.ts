@@ -17,7 +17,10 @@ const language : Language = {
   call_for_proposal: 'Call for Proposal',
   call_for_volunteers: 'Call for Volunteers',
   about: {
-    welcome: ``,
+    welcome: `
+      COSCUP celebrates its 14th anniversary this year. Over the past decade, the event has co-operated with communities all over the world. With everyone's involvement, COSCUP grows up. This year, COSCUP will co-host in National Taiwan University of Science and Technology on 8/17-18. And several communities will be the program partners to provide diversified topics and talks.
+      Whoever you are an Open Source coder, a devoted Open Source promoter, a user familiar with Open Source, or even a newcomer, we sincerely welcome you to be a part of COSCUP 2019!
+    `,
     register_now: 'Register now!',
     show_live_cast: 'Live Cast',
   },
