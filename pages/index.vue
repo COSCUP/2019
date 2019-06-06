@@ -13,6 +13,7 @@
           </h1>
           <h2>{{ description }}</h2>
           {{ place }}
+		  <a class="call-for-volunteers" href="https://coscup2019.kktix.cc/events/coscup2019regist" target="_blank">{{ $t('register') }}</a>
         </div>
       </div>
     </Card>
