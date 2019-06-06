@@ -2,7 +2,7 @@
 	<div id="schedule">
 		<nav class="days">
 			<template v-for="(day, index) in eventDay">
-				<nuxt-link :key="index" :to="`/programs/day${index + 1}`" @click.native="(pickDay = day)" :class="{ 'active': day  === currentDay }">
+				<nuxt-link :key="index" :to="`/programs/day${index + 1}`" :class="{ 'active': day  === currentDay }">
 				{{ `Day ${index + 1} (${day.month}/${day.date})` }}
 				</nuxt-link>
 			</template>
@@ -85,8 +85,6 @@ class Programs extends Vue {
 	@ProgramsState tags;
 	@ProgramsState types;
 	@ProgramsState eventDay;
-	pickDay: DateTime|null = null;
-
 	mounted() {
 		this.$store.dispatch("clientsFirstFetch", this.$options.fetch);
 	}
@@ -99,19 +97,8 @@ class Programs extends Vue {
 		const matched = this.$route.params.id && this.$route.params.id.match(/day([12])/);
 		if (matched && matched[1]) {
 			return this.eventDay[Number.parseInt(matched[1], 10) - 1]
-		} else if (this.pickDay === null) {
-			const today = new Date();
-
-			const day = this.eventDay.find(
-				(current: DateTime) =>
-					current.year === today.getFullYear() &&
-					current.month === today.getMonth() &&
-					current.date === today.getDate()
-			);
-
-			return day !== undefined ? day : this.eventDay[0];
 		} else {
-			return this.pickDay;
+			return this.eventDay[0]
 		}
 	}
 
