@@ -12,3 +12,5 @@ dist
 
 # Generated sitemap
 static/sitemap.xml
+
+*.swp
