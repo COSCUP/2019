@@ -4,6 +4,7 @@ const locales = [
   { code: 'en',    iso: 'en-US', file: 'en.ts' },
   { code: 'zh-TW', iso: 'zh-TW', file: 'zh-TW.ts' },
 ]
+const defaultLocale = 'zh-TW'
 
 const generateRoutesFromAPI = (function () {
   var _cache = null
@@ -20,21 +21,24 @@ const generateRoutesFromAPI = (function () {
 
     const routes = []
 
-    Object.values(programs.sessions)
-      .forEach(function ({ id }) {
+    const pushLocaledRoute = function (route) {
+      locales.forEach(function ({ code }) {
         routes.push({
-          route: `/programs/${id}`,
+          route: `${code === defaultLocale ? '' : `/${code}`}${route}`,
           payload: null,
         })
+      })
+    }
+
+    Object.values(programs.sessions)
+      .forEach(function ({ id }) {
+        pushLocaledRoute(`/programs/${id}`)
       })
 
     // EventDay (Workaround)
     ;[1, 2].forEach(function (day) {
-        routes.push({
-          route: `/programs/day${day}`,
-          payload: null,
-        })
-      })
+      pushLocaledRoute(`/programs/day${day}`)
+    })
 
     return _cache = routes
   }
@@ -99,7 +103,7 @@ module.exports = {
     ['nuxt-i18n', {
       parsePages: false,
       locales: locales,
-      defaultLocale: 'zh-TW',
+      defaultLocale: defaultLocale,
       langDir: 'languages/',
       lazy: true,
     }],
@@ -110,10 +114,6 @@ module.exports = {
     ]],
     ['~/modules/google-maps.js', {
       key: 'AIzaSyBXDjcMb0gqT_UwYSYSsA6WlJr3tu1uRyc',
-    }],
-    ['~/modules/static-route.js', {
-      locales: locales,
-      defaultLocale: 'zh-TW',
     }],
     '@nuxtjs/sitemap',
     'nuxt-fontawesome',
