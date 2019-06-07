@@ -15,28 +15,15 @@ const generateRoutesFromAPI = (function () {
     const apiRootResponse = await fetch(API_ROOT)
     const { index: langs = {} } = await apiRootResponse.json()
 
-    const firstLangProgramsResponse = await fetch(`${API_ROOT}${Object.values(langs)[0].programs}`)
+    const firstLangProgramsResponse = await fetch(`${API_ROOT}/programs.json`)
     const programs = await firstLangProgramsResponse.json()
 
     const routes = []
-    Object.keys(
-      Object.values(programs.tracks)
-        .reduce((collection, { group }) => {
-          collection[group] = true
 
-          return collection
-        }, {})
-    ).forEach(function (group) {
-      routes.push({
-        route: `/tracks/${group}`,
-        payload: null,
-      })
-    })
-
-    Object.values(programs.talks)
-      .forEach(function ({ talk }) {
+    Object.values(programs.sessions)
+      .forEach(function ({ id }) {
         routes.push({
-          route: `/programs/${talk}`,
+          route: `/programs/${id}`,
           payload: null,
         })
       })

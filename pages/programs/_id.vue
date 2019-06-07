@@ -29,20 +29,32 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "nuxt-property-decorator";
+import { State, namespace } from 'vuex-class'
 import { Program as Session, DateTime, name as ProgramStoreName } from "~/store/programs";
+
+const ProgramsState = namespace(ProgramStoreName, State)
+
 @Component({
   name: 'Program',
-  async asyncData({ store: { dispatch, state : { programs } }, params}): Promise<{program: Session} | never> {
-    return dispatch(`${ProgramStoreName}/fetchData`).then(() => {
-      const program = programs.programs.find((program) => program.id === params.id)
-      return {
-        program: program
-      }
-    });
-  }
 })
 class Program extends Vue {
-  program: Session
+  @ProgramsState programs
+
+  mounted() {
+    this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
+  }
+
+  async fetch({ store: { dispatch, state }, params, error}) {
+    await dispatch(`${ProgramStoreName}/fetchData`);
+    const program = state[ProgramStoreName].programs.find((program) => program.id === params.id)
+    if (!program) {
+      error({ statusCode: 404, message: 'Page not found.'})
+    }
+  }
+
+  get program() {
+    return this.programs.find((program) => program.id === this.$route.params.id)
+  }
 
   get title() {
     const speakerNames = this.program.speakers.map(speaker => speaker.name).join('/')
@@ -54,7 +66,7 @@ class Program extends Vue {
     return {
       title: this.title,
       meta: [
-        { hid: `og:description`, name: 'og:description', content: this.program.description },
+        { hid: `og:description`, property: 'og:description', content: this.program.description },
         { hid: `og:title`, property: 'og:title', content: this.title },
         { hid: `og:type`, property: 'og:type', content: 'article' },
         { hid: `og:url`, property: 'og:url', content: `https://coscup.org/2019${this.$route.path}`},

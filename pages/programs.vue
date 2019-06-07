@@ -62,7 +62,7 @@
 				</template>
 			</ul>
 		</div>
-		<nuxt-child :key="$route.params.id" :program="programs.find((program) => program.id === $route.params.id)" />
+		<nuxt-child :key="$route.params.id" />
 	</div>
 </template>
 
