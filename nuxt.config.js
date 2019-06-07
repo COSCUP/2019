@@ -29,7 +29,7 @@ const generateRoutesFromAPI = (function () {
       })
 
     // EventDay (Workaround)
-    [1, 2].forEach(function (day) {
+    ;[1, 2].forEach(function (day) {
         routes.push({
           route: `/programs/day${day}`,
           payload: null,
