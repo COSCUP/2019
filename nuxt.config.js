@@ -141,7 +141,6 @@ module.exports = {
   },
   sitemap: {
     hostname: 'https://coscup.org/2019',
-    generate: true,
     routes: async function () {
       const routes = await generateRoutesFromAPI()
 
