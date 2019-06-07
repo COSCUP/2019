@@ -2,7 +2,7 @@
 	<div id="schedule">
 		<nav class="days">
 			<template v-for="(day, index) in eventDay">
-				<nuxt-link :key="index" :to="`/programs/day${index + 1}`" :class="{ 'active': day  === currentDay }">
+				<nuxt-link :key="index" :to="`${$i18n.locale !== 'zh-TW' ? $i18n.locale : ''}/programs/day${index + 1}`" :class="{ 'active': day  === currentDay }">
 				{{ `Day ${index + 1} (${day.month}/${day.date})` }}
 				</nuxt-link>
 			</template>
@@ -53,8 +53,12 @@
 									<span class="length">{{ `${program.period} mins` }}</span>
 									<span
 										class="language"
-										v-if="program.tags.length && program.tags[0]"
+										v-if="program.tags.length && program.tags[0].name.trim().length"
 									>{{ `${program.tags[0].name}` }}</span>
+									<span
+										class="difficult"
+										v-if="program.tags.length && program.tags[2] && program.tags[2].name.trim().length"
+									>{{ `${program.tags[2].name}` }}</span>
 								</footer>
 							</article>
 						</nuxt-link>
@@ -340,9 +344,9 @@ export default Programs;
 
 .program {
 	padding: 0.5em;
+	line-height: 1.5rem;
 
 	h4 {
-		line-height: 1.5rem;
 		font-weight: normal;
 		margin: 0;
 		word-break: break-word;
@@ -362,9 +366,13 @@ export default Programs;
 		display: none;
 	}
 
-	.length {
-		&::before, &::after {
-			content: ' - ';
+	article {
+		footer {
+			span {
+				&:not(.period):not(.track):not(:last-child):after {
+					content: ' - '
+				}
+			}
 		}
 	}
 

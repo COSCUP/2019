@@ -6,6 +6,10 @@
         <div class="track" v-if="program.tags.length && program.tags[1]">
           {{ `${program.tags[1].name}` }}
         </div>
+        <div
+          class="difficult"
+          v-if="program.tags.length && program.tags[2]"
+        >{{ `${program.tags[2].name}` }}</div>
         <h4>{{ program.title }}</h4>
         <span class="room">{{ program.room.name }}</span>
         <span class="period">{{ `${getTimeSlug(program.start)} ~ ${getTimeSlug(program.end)}` }}</span>
@@ -130,6 +134,10 @@ export default Program
     }
     .period {
         margin: 0 .5em;
+    }
+    .difficult {
+      font-weight: bold;
+      text-align: right;
     }
     .track {
         text-align: right;
