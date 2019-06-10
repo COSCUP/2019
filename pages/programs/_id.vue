@@ -1,6 +1,6 @@
 <template>
   <div class="modal" v-if="program">
-    <nuxt-link :to="`/programs/day${programDay}`"><span class="close">×</span></nuxt-link>
+    <nuxt-link :to="`${$i18n.locale !== 'zh-TW' ? '/' + $i18n.locale : ''}/programs/day${programDay}`"><span class="close">×</span></nuxt-link>
     <article>
       <header>
         <div class="track" v-if="program.tags.length && program.tags[1]">

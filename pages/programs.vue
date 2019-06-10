@@ -2,7 +2,7 @@
 	<div id="schedule">
 		<nav class="days">
 			<template v-for="(day, index) in eventDay">
-				<nuxt-link :key="index" :to="`${$i18n.locale !== 'zh-TW' ? $i18n.locale : ''}/programs/day${index + 1}`" :class="{ 'active': day  === currentDay }">
+				<nuxt-link :key="index" :to="`${$i18n.locale !== 'zh-TW' ? '/' + $i18n.locale : ''}/programs/day${index + 1}`" :class="{ 'active': day  === currentDay }">
 				{{ `Day ${index + 1} (${day.month}/${day.date})` }}
 				</nuxt-link>
 			</template>
@@ -38,7 +38,7 @@
             '--end': `t${getTimeSlugWithoutColon(program.end)}`
           }"
 					>
-						<nuxt-link :to="`/programs/${program.id}`">
+						<nuxt-link :to="`${$i18n.locale !== 'zh-TW' ? '/' + $i18n.locale : ''}/programs/${program.id}`">
 							<article>
 								<footer>
 									<span class="period">{{ `${getTimeSlug(program.start)} ~ ${getTimeSlug(program.end)}` }}</span>
