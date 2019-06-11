@@ -1,6 +1,6 @@
 <template>
   <div class="modal" v-if="program">
-    <nuxt-link to="/programs"><span class="close">×</span></nuxt-link>
+    <nuxt-link :to="`${$i18n.locale !== 'zh-TW' ? '/' + $i18n.locale : ''}/programs/day${programDay}`"><span class="close">×</span></nuxt-link>
     <article>
       <header>
         <div class="track" v-if="program.tags.length && program.tags[1]">
@@ -44,12 +44,16 @@ const ProgramsState = namespace(ProgramStoreName, State)
 class Program extends Vue {
   @ProgramsState programs
 
+  @Prop({ default: 1 })
+  programDay: number
+
   mounted() {
     this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
   }
 
   async fetch({ store: { dispatch, state }, params, error}) {
     await dispatch(`${ProgramStoreName}/fetchData`);
+    if (/^day[12]$/.test(params.id)) return
     const program = state[ProgramStoreName].programs.find((program) => program.id === params.id)
     if (!program) {
       error({ statusCode: 404, message: 'Page not found.'})

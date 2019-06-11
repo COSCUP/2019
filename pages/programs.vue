@@ -2,7 +2,7 @@
 	<div id="schedule">
 		<nav class="days">
 			<template v-for="(day, index) in eventDay">
-				<nuxt-link :key="index" :to="`${$i18n.locale !== 'zh-TW' ? $i18n.locale : ''}/programs/day${index + 1}`" :class="{ 'active': day  === currentDay }">
+				<nuxt-link :key="index" :to="`${$i18n.locale !== 'zh-TW' ? '/' + $i18n.locale : ''}/programs/day${index + 1}`" :class="{ 'active': day  === currentDay }">
 				{{ `Day ${index + 1} (${day.month}/${day.date})` }}
 				</nuxt-link>
 			</template>
@@ -38,7 +38,7 @@
             '--end': `t${getTimeSlugWithoutColon(program.end)}`
           }"
 					>
-						<nuxt-link :to="`/programs/${program.id}`">
+						<nuxt-link :to="`${$i18n.locale !== 'zh-TW' ? '/' + $i18n.locale : ''}/programs/${program.id}`">
 							<article>
 								<footer>
 									<span class="period">{{ `${getTimeSlug(program.start)} ~ ${getTimeSlug(program.end)}` }}</span>
@@ -66,7 +66,7 @@
 				</template>
 			</ul>
 		</div>
-		<nuxt-child :key="$route.params.id" />
+		<nuxt-child :key="$route.params.id" :program-day="currentDayIndex + 1" v-if="shouldShowProgramDetail" />
 	</div>
 </template>
 
@@ -97,13 +97,31 @@ class Programs extends Vue {
 		await dispatch(`${programsStoreName}/fetchData`);
 	}
 
-	get currentDay(): DateTime {
-		const matched = this.$route.params.id && this.$route.params.id.match(/day([12])/);
-		if (matched && matched[1]) {
-			return this.eventDay[Number.parseInt(matched[1], 10) - 1]
-		} else {
-			return this.eventDay[0]
+	get currentDayIndex(): number {
+		const id = this.$route.params.id
+		if (id) {
+			const matched = id.match(/^day([12])$/);
+			if (matched && matched[1]) {
+				return Number.parseInt(matched[1], 10) - 1
+			}
+
+			const program = this.programs.find(program => program.id == id)
+			if (program) {
+				const day = this.eventDay.findIndex(day => day.date == program.start.date)
+				if (day) return day
+			}
 		}
+		return 0
+	}
+
+	get currentDay(): DateTime {
+		return this.eventDay[this.currentDayIndex]
+	}
+
+	get shouldShowProgramDetail() : boolean {
+		const pattern = /^day[12]$/
+		const id = this.$route.params.id
+		return Boolean(id) && !pattern.test(id)
 	}
 
 	get todayPrograms(): Program[] {
