@@ -6,6 +6,7 @@ module.exports = function (options) {
 
     // This instructs Webpack to include `vue2-google-maps`'s Vue files
     // for server-side rendering
+    config.externals = config.externals || []
     config.externals.splice(0, 0, (context, request, callback) => {
       if (/^vue2-google-maps($|\/)/.test(request)) {
         callback(null, false)

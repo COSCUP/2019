@@ -1,215 +1,174 @@
 <template>
-  <main class="programs">
-    <Card class="talk container">
-      <h1>{{ talk.title }}</h1>
-      <h4><Icon class="icon" icon="columns" /><nuxt-link :to="localePath({ name: 'tracks-group', params: { group: talk.track.group } })">{{ talk.track.title }}</nuxt-link></h4>
-      <h4><Icon class="icon" icon="map-marker-alt" />{{ talk.track.room }}</h4>
-      <h4><Icon class="icon" icon="clock" />{{ talk | getDatetime }}</h4>
-      <h4 v-if="talk.language"><Icon class="icon" icon="comment" />{{ talk.language }}</h4>
-      <h4 v-if="talk.difficulty"><Icon class="icon" :icon="talk.difficulty | difficultyIcon" />{{ talk.difficulty }}</h4>
-      <h4 v-if="talk.audience"><Icon class="icon" icon="user-friends" />{{ talk.audience }}</h4>
-
-      <Markdown tag="article" :value="talk.intro"></Markdown>
-
-      <Markdown tag="article" class="addition" :value="talk.addition"></Markdown>
-    </Card>
-    <Card class="container">
-      <div class="speakers">
-        <div v-for="speaker in talk.speakers" :key="speaker.id"
-          class="speaker"
-        >
-          <ASpan v-if="speaker.avatar" class="avatar" :href="speaker.link" :title="speaker.name" target="_blank">
-            <RatioBox ratio="1:1" style="text-align: center;">
-              <img :src="speaker.avatar" alt="" />
-            </RatioBox>
-          </ASpan>
-          <div class="description">
-            <h1><ASpan :href="speaker.link" :title="speaker.name" target="_blank">{{ speaker.name }}</ASpan></h1>
-            <Markdown tag="article" :value="speaker.intro"></Markdown>
-          </div>
+  <div class="modal" v-if="program">
+    <nuxt-link :to="`${$i18n.locale !== 'zh-TW' ? '/' + $i18n.locale : ''}/programs/day${programDay}`"><span class="close">×</span></nuxt-link>
+    <article>
+      <header>
+        <div class="track" v-if="program.tags.length && program.tags[1]">
+          {{ `${program.tags[1].name}` }}
         </div>
-      </div>
-    </Card>
-    <SponsorFooter />
-  </main>
+        <div
+          class="difficult"
+          v-if="program.tags.length && program.tags[2]"
+        >{{ `${program.tags[2].name}` }}</div>
+        <h4>{{ program.title }}</h4>
+        <span class="room">{{ program.room.name }}</span>
+        <span class="period">{{ `${getTimeSlug(program.start)} ~ ${getTimeSlug(program.end)}` }}</span>
+        <span
+          class="language"
+          v-if="program.tags.length && program.tags[0]"
+        >{{ `${program.tags[0].name}` }}</span>
+      </header>
+      <p>{{ program.description }}</p>
+      <footer>
+        <template v-for="(speaker, index) in program.speakers">
+          <div class="speaker" :key="`speaker-${index}`">
+            <strong>{{ speaker.name }}</strong>
+            <p>{{ speaker.bio }}</p>
+          </div>
+        </template>
+      </footer>
+    </article>
+  </div>
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-} from 'nuxt-property-decorator'
-import {
-  Action,
-  State,
-  namespace,
-} from 'vuex-class'
+import { Component, Vue, Prop } from "nuxt-property-decorator";
+import { State, namespace } from 'vuex-class'
+import { Program as Session, DateTime, name as ProgramStoreName } from "~/store/programs";
 
-import {
-  name as programsStoreName,
-} from '~/store/programs'
-
-import ASpan from '~/components/ASpan.vue'
-import Card from '~/components/Card.vue'
-import RatioBox from '~/components/RatioBox.vue'
-import SponsorFooter from '~/components/SponsorFooter.vue'
-import Markdown from '~/components/Markdown.vue'
-
-const ProgramsState = namespace(programsStoreName, State)
+const ProgramsState = namespace(ProgramStoreName, State)
 
 @Component({
-  components: {
-    ASpan,
-    Card,
-    RatioBox,
-    SponsorFooter,
-    Markdown,
-  },
-  filters: {
-    getDatetime({ start, end }) {
-      const [_, month, day, startTime] = start.match(/\d{4}-(\d{2})-(\d{2})T(\d+:\d+):00\+08:00/)
-
-      return end.replace(/\d{4}-\d{2}-\d{2}T(\d+:\d+):00\+08:00/, (_, endTime) => (
-        `${month}/${day} ${startTime} - ${endTime}`
-      ))
-    },
-    difficultyIcon(difficulty) {
-      const beginnerRegex = /Beginner|入門/i
-      const skilledRegex = /Skilled|中階/i
-      const advancedRegex = /Advanced|進階/i
-
-      const mapping = [
-        [beginnerRegex, ['far', 'star']],
-        [skilledRegex, 'star-half-alt'],
-        [advancedRegex, 'star'],
-      ]
-
-      for (const [regex, icon] of mapping) {
-        if (difficulty.match(regex)) {
-          return icon
-        }
-      }
-
-      return 'star-half-alt'
-    },
-  }
+  name: 'Program',
 })
-export default class extends Vue {
-  @ProgramsState('talks') allTalks
+class Program extends Vue {
+  @ProgramsState programs
+
+  @Prop({ default: 1 })
+  programDay: number
 
   mounted() {
     this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
   }
 
-  head () {
-    const title = `${this.talk.title} - ${this.talk.track.title} - COSCUP 2019`
+  async fetch({ store: { dispatch, state }, params, error}) {
+    await dispatch(`${ProgramStoreName}/fetchData`);
+    if (/^day[12]$/.test(params.id)) return
+    const program = state[ProgramStoreName].programs.find((program) => program.id === params.id)
+    if (!program) {
+      error({ statusCode: 404, message: 'Page not found.'})
+    }
+  }
 
+  get program() {
+    return this.programs.find((program) => program.id === this.$route.params.id)
+  }
+
+  get title() {
+    const speakerNames = this.program.speakers.map(speaker => speaker.name).join('/')
+
+    return `${this.program.title} by ${speakerNames} | COSCUP 2019`
+  }
+
+  head() {
     return {
-      title,
+      title: this.title,
       meta: [
-        { hid: 'og:title', property: 'og:title', content: title },
-        { hid: 'description', name: 'description', content: this.talk.intro },
-        { hid: 'twitter:label1', property: 'twitter:label1', content: this.$t('programs.track') },
-        { hid: 'twitter:data1', property: 'twitter:data1', content: this.talk.track.title },
-        { hid: 'twitter:label2', property: 'twitter:label2', content: this.$t('programs.speakers') },
-        { hid: 'twitter:data2', property: 'twitter:data2', content: this.talk.speakers.map(({ name }) => (name)).join(', ') },
-      ]
+        { hid: `og:description`, property: 'og:description', content: this.program.description },
+        { hid: `og:title`, property: 'og:title', content: this.title },
+        { hid: `og:type`, property: 'og:type', content: 'article' },
+        { hid: `og:url`, property: 'og:url', content: `https://coscup.org/2019${this.$route.path}`},
+      ],
     }
   }
 
-  async fetch({ store: { state, dispatch }, params, error }) {
-    await dispatch(`${programsStoreName}/fetchData`)
-
-    const talk = state[programsStoreName].talks.filter(({ id }) => (id === params.id))[0]
-    if (!talk) {
-      error({ statusCode: 404, message: 'Page not found.' })
-    }
+  getTimeSlug = (dateTime: DateTime): string => {
+		const hours = this.padStartWithZero(dateTime.hour);
+		const minutes = this.padStartWithZero(dateTime.minute);
+		return `${hours}:${minutes}`
   }
 
-  get talk() {
-    return this.allTalks.filter(({ id }) => (id === this.$route.params.id))[0]
+  padStartWithZero(number) {
+		return number < 10 ? `0${number}` : number.toString();
   }
 }
+
+export default Program
 </script>
 
-<style scoped>
-main.programs {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 2em;
-}
-
-.talk .icon {
-  display: inline-block;
-  width: 1em;
-  text-align: center;
-  margin-right: .5em;
-}
-
-.talk article {
-  margin-top: 1em;
-  word-wrap: break-word;
-}
-
-.talk .addition {
-  font-size: .8em;
-  margin-left: .8em;
-  margin-right: .8em;
-}
-
-.speakers {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: column;
+<style lang="stylus">
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, .9);
+    z-index: 999;
+    padding-top: 3em;
+    .close {
+        position: absolute;
+        right: .2em;
+        top: .2em;
+        cursor: pointer;
+        font-size: 3em;
+        font-weight: bolder;
+    }
+    article {
+        background-color: #ecf5f4;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 1000px;
+        padding: 2em;
+        border-radius: 5px;
+        max-height: calc(100vh - 4em);
+        overflow: auto;
+    }
+    h4 {
+        font-size: 2em;
+        line-height: 1.3em;
+        margin: .3em 0;
+    }
+    p {
+        margin: 2em 0;
+    }
+    .room, .period, .language {
+        font-weight: bold;
+    }
+    .period {
+        margin: 0 .5em;
+    }
+    .difficult {
+      font-weight: bold;
+      text-align: right;
+    }
+    .track {
+        text-align: right;
+        color: #009a79;
+    }
 }
 
 .speaker {
-  display: flex;
-  flex-direction: column;
-
-  padding: 0;
-  margin: .5em 0;
-}
-
-.speaker .description {
-  padding: 0;
-}
-
-.speaker .avatar + .description {
-  flex-basis: 80%;
-}
-
-.speaker .description h1 {
-  font-size: 1.2em;
-}
-
-.speaker article {
-  word-wrap: break-word;
-}
-
-.speaker .avatar {
-  flex-basis: 20%;
-  margin-right: 1em;
-}
-
-.speaker .avatar img {
-  max-height: 100%;
-  max-width: 100%;
-  margin: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-
-@media(min-width: 840px) {
-  .speaker {
-    flex-direction: row;
-
-    padding: 1em;
-  }
+  margin-bottom: 2em;
+  background-color: #fff;
+    strong {
+        display: block;
+        text-align: center;
+        font-size: larger;
+        padding: .5em;
+    }
+    p {
+        padding: 1em;
+        margin: 0;
+        word-break: break-word;
+        border-radius: .5em;
+    }
+    @media only screen and (min-width: 720px) {
+        strong {
+            text-align: left;
+            padding: 1em 1em 0;
+        }
+    }
 }
 </style>

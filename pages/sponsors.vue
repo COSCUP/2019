@@ -1,25 +1,37 @@
 <template>
   <main class="sponsors">
     <Card class="container">
-    <h1>{{ $t('sponsorship.call_for_sponsorship') }}</h1>
-    {{ $t('sponsorship.contact') }} <a :href="'mailto:' + sponsorship.contact.email">{{ sponsorship.contact.email }}</a>
+      <h1>{{ $t('sponsorship.call_for_sponsorship') }}</h1>
+      {{ $t('sponsorship.contact') }}
+      <a :href="'mailto:' + sponsorship.contact.email">{{
+        sponsorship.contact.email
+      }}</a>
     </Card>
-    <Card class="level container" v-for="lv in sponsorsByLevel" :key="lv.title">
+    <Card v-for="lv in sponsorsByLevel" :key="lv.title" class="level container">
       <h1>{{ lv.title }}</h1>
       <div class="sponsors">
-        <div v-for="sponsor in lv.sponsors"
-          :key="sponsor.name"
-          class="sponsor"
+        <div v-for="sponsor in lv.sponsors" :key="sponsor.name" class="sponsor">
+          <a
+            class="logo"
+            :href="sponsor.link"
+            :title="sponsor.name"
+            target="_blank"
           >
-          <a class="logo" :href="sponsor.link" :title="sponsor.name" target="_blank">
             <RatioBox ratio="1:1" style="text-align: center;">
               <img :src="sponsor.image" alt="" />
             </RatioBox>
           </a>
           <div class="description">
-            <h1><a :href="sponsor.link" :title="sponsor.name" target="_blank">{{ sponsor.name }}</a></h1>
+            <h1>
+              <a :href="sponsor.link" :title="sponsor.name" target="_blank">{{
+                sponsor.name
+              }}</a>
+            </h1>
             <article>
-              <p v-for="(paragraph, idx) in getParagraphs(sponsor.intro)" :key="idx">
+              <p
+                v-for="(paragraph, idx) in getParagraphs(sponsor.intro)"
+                :key="idx"
+              >
                 {{ paragraph }}
               </p>
             </article>
@@ -31,25 +43,12 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-} from 'nuxt-property-decorator'
-import {
-  Action,
-  State,
-  Getter,
-  namespace,
-} from 'vuex-class'
+import { Component, Vue } from 'nuxt-property-decorator'
+import { State, Getter, namespace } from 'vuex-class'
 
-import {
-  name as mainStoreName
-} from '~/store/main'
+import { name as mainStoreName } from '~/store/main'
 
-import {
-  name as sponsorsStoreName,
-  SponsorsByLevel,
-} from '~/store/sponsors'
+import { name as sponsorsStoreName, SponsorsByLevel } from '~/store/sponsors'
 
 import Card from '~/components/Card.vue'
 import RatioBox from '~/components/RatioBox.vue'
@@ -60,16 +59,16 @@ const SponsorsGetter = namespace(sponsorsStoreName, Getter)
 @Component({
   components: {
     Card,
-    RatioBox,
-  },
+    RatioBox
+  }
 })
-export default class extends Vue {
+class sponsors extends Vue {
   @MainState sponsorship
   @SponsorsGetter('byLevel')
   sponsorsByLevel: SponsorsByLevel
 
   mounted() {
-    this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
+    this.$store.dispatch('clientsFirstFetch', this.$options.fetch)
   }
 
   async fetch({ store: { dispatch } }) {
@@ -80,6 +79,7 @@ export default class extends Vue {
     return article.split(/\r\n?|\n\r?/g)
   }
 }
+export default sponsors
 </script>
 
 <style scoped>
@@ -102,7 +102,7 @@ main.sponsors div.sponsors {
   flex-direction: column;
 
   padding: 0;
-  margin: .5em 0;
+  margin: 0.5em 0;
 }
 
 .sponsors .sponsor .description {
@@ -129,14 +129,14 @@ main.sponsors div.sponsors {
   right: 0;
 }
 
-@media(min-width: 840px) {
+@media (min-width: 840px) {
   .sponsors .sponsor {
     flex-direction: row;
 
     padding: 1em;
 
-    transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
-      transform .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .sponsors .sponsor:hover {

@@ -4,6 +4,7 @@ const locales = [
   { code: 'en',    iso: 'en-US', file: 'en.ts' },
   { code: 'zh-TW', iso: 'zh-TW', file: 'zh-TW.ts' },
 ]
+const defaultLocale = 'zh-TW'
 
 const generateRoutesFromAPI = (function () {
   var _cache = null
@@ -15,38 +16,36 @@ const generateRoutesFromAPI = (function () {
     const apiRootResponse = await fetch(API_ROOT)
     const { index: langs = {} } = await apiRootResponse.json()
 
-    const firstLangProgramsResponse = await fetch(`${API_ROOT}${Object.values(langs)[0].programs}`)
+    const firstLangProgramsResponse = await fetch(`${API_ROOT}/programs.json`)
     const programs = await firstLangProgramsResponse.json()
 
     const routes = []
-    Object.keys(
-      Object.values(programs.tracks)
-        .reduce((collection, { group }) => {
-          collection[group] = true
 
-          return collection
-        }, {})
-    ).forEach(function (group) {
-      routes.push({
-        route: `/tracks/${group}`,
-        payload: null,
-      })
-    })
-
-    Object.values(programs.talks)
-      .forEach(function ({ talk }) {
+    const pushLocaledRoute = function (route) {
+      locales.forEach(function ({ code }) {
         routes.push({
-          route: `/programs/${talk}`,
+          route: `${code === defaultLocale ? '' : `/${code}`}${route}`,
           payload: null,
         })
       })
+    }
+
+    Object.values(programs.sessions)
+      .forEach(function ({ id }) {
+        pushLocaledRoute(`/programs/${id}`)
+      })
+
+    // EventDay (Workaround)
+    ;[1, 2].forEach(function (day) {
+      pushLocaledRoute(`/programs/day${day}`)
+    })
 
     return _cache = routes
   }
 })()
 
 module.exports = {
-  router: { base :'/2019/'},
+  router: { base : process.env.NODE_ENV === 'staging' ? '/' : '/2019/'},
   /*
   ** Headers of the page
   */
@@ -55,9 +54,10 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
-      { hid: 'description', name: 'description', content: 'COSCUP 2019' },
+      { hid: 'og:description', property: 'og:description', content: 'COSCUP 2019' },
       { hid: 'og:title', property: 'og:title', content: 'COSCUP 2019' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:site_name', property: 'og:site_name', content: 'COSCUP 2019' },
       { hid: 'og:image', property: 'og:image', content: 'https://coscup.org/2019/logo-512.png' },
       { hid: 'og:image:width', property: 'og:image:width', content: '512' },
       { hid: 'og:image:height', property: 'og:image:height', content: '512' }
@@ -100,11 +100,10 @@ module.exports = {
   },
   modules: [
     "~/modules/fetch.js",
-    "~/modules/typescript.js",
     ['nuxt-i18n', {
       parsePages: false,
       locales: locales,
-      defaultLocale: 'zh-TW',
+      defaultLocale: defaultLocale,
       langDir: 'languages/',
       lazy: true,
     }],
@@ -116,10 +115,6 @@ module.exports = {
     ['~/modules/google-maps.js', {
       key: 'AIzaSyBXDjcMb0gqT_UwYSYSsA6WlJr3tu1uRyc',
     }],
-    ['~/modules/static-route.js', {
-      locales: locales,
-      defaultLocale: 'zh-TW',
-    }],
     '@nuxtjs/sitemap',
     'nuxt-fontawesome',
     ['@nuxtjs/markdownit', {
@@ -130,6 +125,7 @@ module.exports = {
     ['@nuxtjs/google-analytics', {
       id: 'UA-12923351-7'
     }],
+    '@nuxtjs/proxy',
   ],
   plugins: [
     {
@@ -145,7 +141,6 @@ module.exports = {
   },
   sitemap: {
     hostname: 'https://coscup.org/2019',
-    generate: true,
     routes: async function () {
       const routes = await generateRoutesFromAPI()
 
@@ -206,5 +201,13 @@ module.exports = {
   ],
   markdownit: {
     injected: true
+  },
+  proxy: {
+    '/api': {
+      target: 'http://192.168.11.134:8000',
+      pathRewrite: {
+        '^/api' : '/'
+      }
+    }
   },
 }

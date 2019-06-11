@@ -1,21 +1,30 @@
 <template>
   <main class="cohosts">
-    <Card class="level container" v-for="lv in cohostsByLevel" :key="lv.title">
+    <Card v-for="lv in cohostsByLevel" :key="lv.title" class="level container">
       <h1>{{ lv.title }}</h1>
       <div class="cohosts">
-        <div v-for="cohost in lv.cohosts"
-          :key="cohost.name"
-          class="cohost"
+        <div v-for="cohost in lv.cohosts" :key="cohost.name" class="cohost">
+          <a
+            class="logo"
+            :href="cohost.link"
+            :title="cohost.name"
+            target="_blank"
           >
-          <a class="logo" :href="cohost.link" :title="cohost.name" target="_blank">
             <RatioBox ratio="1:1" style="text-align: center;">
               <img :src="cohost.image" alt="" />
             </RatioBox>
           </a>
           <div class="description">
-            <h1><a :href="cohost.link" :title="cohost.name" target="_blank">{{ cohost.name }}</a></h1>
+            <h1>
+              <a :href="cohost.link" :title="cohost.name" target="_blank">{{
+                cohost.name
+              }}</a>
+            </h1>
             <article>
-              <p v-for="(paragraph, idx) in getParagraphs(cohost.intro)" :key="idx">
+              <p
+                v-for="(paragraph, idx) in getParagraphs(cohost.intro)"
+                :key="idx"
+              >
                 {{ paragraph }}
               </p>
             </article>
@@ -27,20 +36,10 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-} from 'nuxt-property-decorator'
-import {
-  Action,
-  Getter,
-  namespace,
-} from 'vuex-class'
+import { Component, Vue } from 'nuxt-property-decorator'
+import { Getter, namespace } from 'vuex-class'
 
-import {
-  name as cohostsStoreName,
-  CohostsByLevel,
-} from '~/store/cohosts'
+import { name as cohostsStoreName, CohostsByLevel } from '~/store/cohosts'
 
 import Card from '~/components/Card.vue'
 import RatioBox from '~/components/RatioBox.vue'
@@ -50,15 +49,15 @@ const CohostsGetter = namespace(cohostsStoreName, Getter)
 @Component({
   components: {
     Card,
-    RatioBox,
-  },
+    RatioBox
+  }
 })
-export default class extends Vue {
+class cohosts extends Vue {
   @CohostsGetter('byLevel')
   cohostsByLevel: CohostsByLevel
 
   mounted() {
-    this.$store.dispatch('clientsFirstFetch', this.$options['fetch'])
+    this.$store.dispatch('clientsFirstFetch', this.$options.fetch)
   }
 
   async fetch({ store: { dispatch } }) {
@@ -69,6 +68,8 @@ export default class extends Vue {
     return article.split(/\r\n?|\n\r?/g)
   }
 }
+
+export default cohosts
 </script>
 
 <style scoped>
@@ -91,7 +92,7 @@ main.cohosts div.cohosts {
   flex-direction: column;
 
   padding: 0;
-  margin: .5em 0;
+  margin: 0.5em 0;
 }
 
 .cohosts .cohost .description {
@@ -118,14 +119,14 @@ main.cohosts div.cohosts {
   right: 0;
 }
 
-@media(min-width: 840px) {
+@media (min-width: 840px) {
   .cohosts .cohost {
     flex-direction: row;
 
     padding: 1em;
 
-    transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
-      transform .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .cohosts .cohost:hover {

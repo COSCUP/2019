@@ -21,13 +21,15 @@ import Footer from '~/components/Footer.vue'
     Footer,
   },
 })
-export default class extends Vue {
+class defaultLayout extends Vue {
   appMode = false
 
   mounted () {
     this.appMode = window.location.search.match('mode=app') !== null
   }
 }
+
+export default defaultLayout
 </script>
 
 <style>

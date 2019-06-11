@@ -17,6 +17,13 @@
         </div>
       </div>
     </Card>
+    <Card class="register container">
+      <h1>{{ $t('register') }}</h1>
+      <h3>{{ `${registration.start_at} ~ ${registration.end_at}` }}</h3>
+      <div class="register-now">
+        <a :href="registration.link" target="_blank">{{ $t('about.register_now') }}</a>
+      </div>
+    </Card>
     <Card class="about container">
       <h1>{{ $t('pages.about') }}</h1>
       <article>
@@ -67,7 +74,7 @@ const AboutState = namespace(aboutStoreName, State)
     }
   }
 })
-export default class extends Vue {
+class Home extends Vue {
   @MainState description
   @MainState registration
   @MainState place
@@ -85,6 +92,8 @@ export default class extends Vue {
     return article.trim().split(/\r\n?|\n\r?/g)
   }
 }
+
+export default Home
 </script>
 
 <style scoped>
@@ -131,7 +140,7 @@ main.index {
 }
 
 .topic .logo-box {
-  background-image: url(~/assets/logo.png);
+  background-image: url(~assets/logo.png);
   background-repeat: no-repeat;
   background-size: contain;
 }

@@ -1,15 +1,16 @@
 <template>
   <section class="sponsors container">
-    <Card class="level" v-for="lv in sponsorsByLevel" :key="lv.title">
+    <Card v-for="lv in sponsorsByLevel" :key="lv.title" class="level">
       <h1>{{ lv.title }}</h1>
       <div class="sponsors">
-        <a v-for="sponsor in lv.sponsors"
+        <a
+          v-for="sponsor in lv.sponsors"
           :key="sponsor.name"
           :href="sponsor.link"
           :title="sponsor.name"
           class="sponsor"
           target="_blank"
-          >
+        >
           <RatioBox ratio="1:1">
             <img :src="sponsor.image" alt="" />
           </RatioBox>
@@ -21,20 +22,10 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-} from 'nuxt-property-decorator'
-import {
-  Action,
-  Getter,
-  namespace,
-} from 'vuex-class'
+import { Component, Vue } from 'nuxt-property-decorator'
+import { Getter, namespace } from 'vuex-class'
 
-import {
-  name as sponsorsStoreName,
-  SponsorsByLevel,
-} from '~/store/sponsors'
+import { name as sponsorsStoreName, SponsorsByLevel } from '~/store/sponsors'
 
 import Card from '~/components/Card.vue'
 import RatioBox from '~/components/RatioBox.vue'
@@ -44,13 +35,15 @@ const SponsorsGetter = namespace(sponsorsStoreName, Getter)
 @Component({
   components: {
     Card,
-    RatioBox,
-  },
+    RatioBox
+  }
 })
-export default class extends Vue {
+class SponsorFooter extends Vue {
   @SponsorsGetter('byLevel')
   sponsorsByLevel: SponsorsByLevel
 }
+
+export default SponsorFooter
 </script>
 
 <style scoped>
@@ -60,7 +53,7 @@ section.sponsors {
 
   grid-template-columns: 1fr;
   grid-gap: 2em;
-  font-size: .8em;
+  font-size: 0.8em;
 }
 
 .sponsors .level {
@@ -80,7 +73,7 @@ section.sponsors div.sponsors {
   flex-direction: column;
   align-items: center;
 
-  padding: .5em;
+  padding: 0.5em;
 }
 
 .sponsors .sponsor img {
@@ -95,10 +88,10 @@ section.sponsors div.sponsors {
 }
 
 .sponsors .sponsor:hover img {
-  filter: opacity(.6);
+  filter: opacity(0.6);
 }
 
-@media(min-width: 840px) {
+@media (min-width: 840px) {
   section.sponsors {
     grid-template-columns: 1fr 1fr;
     font-size: 1em;

@@ -17,97 +17,146 @@ export const types = {
   UPDATE: 'update',
 }
 
-type Community = {
-  id: string
-  name: string
-  intro: string
-  link: string
-  image: string
+export type Speaker = {
+  id: string,
+  avatar: string,
+  name: string,
+  bio: string,
 }
 
-type Track = {
-  id: string
-  room: string
-  communities: Community[]
-  title: string
-  group: string
+export type Room = {
+  id: string,
+  name: string,
 }
 
-type Speaker = {
-  id: string
-  name: string
-  intro: string
-  link: string
-  avatar: string
+export type Tag = {
+  id: string,
+  name: string,
 }
 
-type Talk = {
-  id: string
-  track: Track
-  speakers: Speaker[]
-  begin: Date
-  end: Date
-  title: string
-  intro: string
-  addition: string
-  language: string
-  difficulty: string
-  audience: string
+export type Type = {
+  id: string,
+  name: string,
+}
+
+export type DateTime = {
+  year: number,
+  month: number,
+  date: number,
+  hour: number,
+  minute: number,
+  second: number,
+  timezoneOffset: number,
+  timestamp: number,
+}
+
+export type Program = {
+  id: string,
+  type: Type,
+  room: Room,
+  broadcast: string,
+  start: DateTime,
+  end: DateTime,
+  qa_link: string,
+  slide_link: string,
+  live_link: string,
+  record_link: string,
+  title: string,
+  description: string,
+  speakers: Speaker[],
+  tags: Tag[],
+}
+
+type APIResSession = {
+  id: string,
+  type: string,
+  room: string,
+  broadcast: string,
+  start: string,
+  end: string,
+  qa: string,
+  slide: string,
+  live: string,
+  record: string,
+  zh: {
+    title: string,
+    description: string,
+  },
+  en: {
+    title: string,
+    description: string,
+  },
+  speakers: string[],
+  tags: string[],
+}
+
+type APIResSpeaker = {
+  id: string,
+  avatar: string,
+  zh: {
+    name: string,
+    bio: string,
+  },
+  en: {
+    name: string,
+    bio: string,
+  }
+}
+
+type APIResType = {
+  id: string,
+  zh: {
+    name: string
+  },
+  en: {
+    name: string
+  },
+}
+
+type APIResRoom = {
+  id: string,
+  zh: {
+    name: string
+  },
+  en: {
+    name: string
+  },
+}
+
+type APIResTag = {
+  id: string,
+  zh: {
+    name: string
+  },
+  en: {
+    name: string
+  },
 }
 
 type APIResponse = {
-  communities: {
-    [Id: string]: {
-      community: string
-      name: string
-      intro: string
-      link: string
-      image: string
-    }
-  }
-  tracks: {
-    [Id: string]: {
-      track: string
-      room: string
-      communities: string[]
-      title: string
-      group: string
-    }
-  }
-  speakers: {
-    [Id: string]: {
-      speaker: string
-      name: string
-      intro: string
-      link: string
-      avatar: string
-    }
-  }
-  talks: {
-    [Id: string]: {
-      talk: string
-      track: string
-      speakers: string[]
-      begin: string
-      end: string
-      title: string
-      intro: string
-      addition: string
-      language: string
-      difficulty: string
-      audience: string
-    }
-  }
+  sessions: APIResSession[],
+  rooms: APIResRoom[],
+  tags: APIResTag[],
+  session_types: APIResType[],
+  speakers: APIResSpeaker[]
 }
 
 export type State = {
-  talks: Talk[]
-  tracks: Track[]
+  programs: Program[],
+  rooms: Room[],
+  tags: Tag[],
+  sessionTypes: Type[],
+  speakers: Speaker[],
+  eventDay: DateTime[],
 }
 
 export const state = (): State => ({
-  talks: [],
-  tracks: [],
+  programs: [],
+  rooms: [],
+  tags: [],
+  sessionTypes: [],
+  speakers: [],
+  eventDay: [],
 } as State)
 
 export interface Actions<S, R> extends ActionTree<S, R> {
@@ -117,52 +166,89 @@ export interface Actions<S, R> extends ActionTree<S, R> {
 export const actions: Actions<State, RootState> = {
   async fetchData({ commit, rootState }) {
     const locale = rootState.i18n.locale
-    const endpoint = rootState[endpointStateName][locale].programs
+    const endpoint = `${API_ROOT}/programs.json`
     const response = await fetch(endpoint)
-    const datas = await response.json() as APIResponse
+    const data = await response.json() as APIResponse
 
-    const tracks = Object.entries(datas.tracks).reduce((collection, [id, { communities, track: _id, ...track }]) => {
-      collection[id] = {
-        id,
-        ...track,
+    const localeKey = locale.substr(0, 2)
+    const sessionTypes = data.session_types.map((resType: APIResType) :Type => ({
+      id: resType.id,
+      name: (resType[localeKey] && resType[localeKey].name) || resType.en.name,
+    }))
+    const rooms = data.rooms.map((resRoom: APIResRoom) :Room => ({
+      id: resRoom.id,
+      name: (resRoom[localeKey] && resRoom[localeKey].name) || resRoom.en.name,
+    }))
+    const tagList = data.tags.map((resTag: APIResTag) :Tag => ({
+      id: resTag.id,
+      name: (resTag[localeKey] && resTag[localeKey].name) || resTag.en.name,
+    }))
+    const speakerList = data.speakers.map(({id, avatar, ...profile}: APIResSpeaker) :Speaker => ({
+      id: id,
+      avatar: avatar,
+      name: (profile[localeKey] && profile[localeKey].name) || profile.en.name,
+      bio: (profile[localeKey] && profile[localeKey].bio) || profile.en.bio,
+    }))
 
-        communities: communities.map((community) => (datas.communities[community]))
-          .filter((community) => (community))
-          .map(({ image, community: id, ...community }) => ({
-            id,
-            ...community,
-
-            image: image ? `${API_ROOT}${image}` : null,
-          })),
+    const createDateTime = (timeString: string): DateTime => {
+      const dateObject = new Date(Date.parse(timeString))
+      return {
+        year: dateObject.getFullYear(),
+        month: dateObject.getMonth() + 1,
+        date: dateObject.getDate(),
+        hour: dateObject.getHours(),
+        minute: dateObject.getMinutes(),
+        second: dateObject.getSeconds(),
+        timezoneOffset: dateObject.getTimezoneOffset(),
+        timestamp: dateObject.getTime(),
       }
+    }
 
-      return collection
-    }, {})
-    const talks = Object.entries(datas.talks)
-      .filter(([id, _talk]) => (id))
-      .map(([id, { track, speakers, begin, end, talk: _id, ...talk }]) => ({
-        id,
-        ...talk,
+    const getProgramPeriod = (start: string, end: string): number => {
+      if (!start || !end) return 0
+      const s = Date.parse(start)
+      const e = Date.parse(end)
+      return (e - s) / 1000 / 60
+    }
 
-        track: tracks[track],
-        speakers: speakers.map((speaker) => (datas.speakers[speaker]))
-          .filter((speaker) => (speaker))
-          .map(({ avatar, speaker: id, ...speaker }) => ({
-            id,
-            ...speaker,
-
-            avatar: avatar ? `${API_ROOT}${avatar}` : null,
-          })),
-        start: begin,
-        end,
-        startAt: Date.parse(begin),
-        endAt: Date.parse(end),
-      }))
-
-      commit(types.UPDATE, {
-        tracks: Object.values(tracks),
-        talks,
-      })
+    const programs = data.sessions.map(({
+      id, type, room, broadcast, start, end, qa, slide, live, record, zh, en, speakers, tags
+    }) => ({
+      id,
+      type: sessionTypes.find((candidate: Type) => candidate.id === type) || null,
+      room: rooms.find((candidate: Room) => candidate.id === room) || null,
+      broadcast,
+      start: start && createDateTime(start) || null,
+      end: end && createDateTime(end) || null,
+      period: getProgramPeriod(start, end),
+      qa_link: qa,
+      slide_link: slide,
+      live_link: live,
+      record_link: record,
+      title: localeKey === 'zh' ? zh.title : en.title,
+      description: localeKey === 'zh' ? zh.description: en.title,
+      speakers: speakers.map((speakersKey) => speakerList.find((candidate) => speakersKey === candidate.id)),
+      tags: tags.map((tagKey) => tagList.find((candidate) => tagKey === candidate.id)),
+    }));
+    
+    commit(types.UPDATE, {
+      programs: programs,
+      rooms: rooms,
+      tags: tagList,
+      sessionTypes: sessionTypes,
+      speakers: speakerList,
+      eventDay: programs.map((program) => program.start)
+                        .filter((current: DateTime, index: number, arr: Array<DateTime>) => current !== null
+                            && arr.findIndex((exists: DateTime) => 
+                              exists !== null && (exists.year === current.year && exists.month === current.month && exists.date === current.date)) === index
+                          )
+                        .sort((a: DateTime, b: DateTime) => a.timestamp - b.timestamp)
+                        .map(({ year, month, date}: DateTime) => ({
+                          year: year,
+                          month: month,
+                          date: date
+                        }))
+    })
   }
 }
 

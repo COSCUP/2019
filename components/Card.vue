@@ -3,6 +3,11 @@
     <slot />
   </section>
 </template>
+<script lang="ts">
+import { Vue } from 'nuxt-property-decorator'
+class Card extends Vue {}
+export default Card
+</script>
 
 <style scoped>
 .card {

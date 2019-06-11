@@ -5,7 +5,7 @@ module.exports = function() {
   this.extendBuild(({ plugins, ...config }, { isClient }) => {
     if (isClient) {
       plugins.push(new webpack.ProvidePlugin({
-        'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
+        'fetch': 'exports-loader?self.fetch!whatwg-fetch/dist/fetch.umd',
       }))
     } else {
       plugins.push(new webpack.ProvidePlugin({
