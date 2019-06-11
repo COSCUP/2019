@@ -207,11 +207,10 @@ export default Programs;
 
 <style lang="stylus">
 #schedule {
-	width: auto;
+	width: 100%;
 }
 
 .days {
-
 	a {
 		display: inline-block;
 		text-decoration: none;
@@ -221,11 +220,11 @@ export default Programs;
 	}
 
   .active {
-        color: #009a79;
-        border-bottom: 5px solid;
-    }
+		color: #009a79;
+		border-bottom: 5px solid;
+	}
 
-	@media only screen and (max-width: 1200px) {
+	@media only screen and (max-width: 1279px) {
 		position: fixed;
 		bottom: 0;
 		width: 100%;
@@ -242,14 +241,14 @@ export default Programs;
 		}
 	}
 
-	@media only screen and (min-width: 1200px) {
-		text-align: right;
+	@media only screen and (min-width: 1280px) {
+		text-align: center;
 		font-size: 3em;
 		position: static;
 		a {
 			color: #b8d2cf;
 			padding: 0.5em;
-			margin: 1em 0 0.5em;
+			margin: 1em 0.5em;
 		}
 	}
 }
@@ -286,7 +285,7 @@ export default Programs;
 		color: rgba(0, 0, 0, 0.7);
 	}
 
-	@media only screen and (min-width: 1200px) {
+	@media only screen and (min-width: 1280px) {
 		display: flex;
 	}
 }
@@ -296,23 +295,22 @@ export default Programs;
 	color: #009a79;
 	background-color: #ecf5f4;
 	padding: 0.5em;
+	position: sticky;
+	top: 65px;
+	z-index: 9;
 
 	@supports (position: -webkit-sticky) {
 		position: -webkit-sticky;
-		top: 69px;
-		z-index: 9;
 	}
 
 	@media only screen and (min-width: 720px) {
-		position: sticky;
 		margin: 0;
 		padding: 0.5em 64px;
 		border-top: 1px solid #b8d2cf;
 		grid-column: 1 / span 2;
-		top: 64px;
 	}
 
-	@media only screen and (min-width: 1200px) {
+	@media only screen and (min-width: 1280px) {
 		display: none;
 	}
 }
@@ -321,7 +319,6 @@ export default Programs;
 	list-style: none;
 	display: grid;
 	grid-template-rows: var(--list);
-
 	li {
 		a {
 			display: block;
@@ -330,13 +327,13 @@ export default Programs;
 			color: inherit;
 		}
 
-		@media only screen and (min-width: 1200px) {
+		@media only screen and (min-width: 1280px) {
 			position: relative;
 
 			article {
 				position: sticky;
 				position: -webkit-sticky;
-				top: 130px;
+				top: 143px;
 			}
 		}
 	}
@@ -350,7 +347,7 @@ export default Programs;
 		grid-column: 2;
 	}
 
-	@media only screen and (min-width: 1200px) {
+	@media only screen and (min-width: 1280px) {
 		grid-template-rows: var(--table);
 		grid-template-areas: var(--areas);
 		grid-column: var(--room);
@@ -363,7 +360,6 @@ export default Programs;
 .program {
 	padding: 0.5em;
 	line-height: 1.5rem;
-
 	h4 {
 		font-weight: normal;
 		margin: 0;
@@ -408,7 +404,7 @@ export default Programs;
 		}
 	}
 
-	@media only screen and (min-width: 1200px) {
+	@media only screen and (min-width: 1280px) {
 		grid-column: var(--room);
 		grid-row-start: var(--start);
 		grid-row-end: var(--end);
