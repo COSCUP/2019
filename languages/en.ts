@@ -13,6 +13,7 @@ const language : Language = {
     coc: 'CoC',
   },
   register: 'Registration',
+  individual_sponsor: 'Individual Sponsor',
   osc_tickets_application: 'OSC Tickets Application',
   call_for_proposal: 'Call for Proposal',
   call_for_volunteers: 'Call for Volunteers',

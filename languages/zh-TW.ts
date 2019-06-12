@@ -13,6 +13,7 @@ const language : Language = {
     coc: '社群守則',
   },
   register: '報名',
+  individual_sponsor: '個人贊助',
   osc_tickets_application: '開源貢獻者保留票申請',
   call_for_proposal: '議程徵稿',
   call_for_volunteers: '工人招募',
