@@ -270,7 +270,7 @@ export default Programs;
 	margin: 0;
 
 	li {
-		flex: 1 0 calc(((100% - 7 * 0.5em) / 8));
+		flex: 1 0 calc(((100% - (var(--length) - 1) * 0.5em) / var(--length)));
 		font-size: smaller;
 		color: rgba(0, 0, 0, 0.4);
 		&:not(:first-child) {
@@ -287,6 +287,7 @@ export default Programs;
 
 	@media only screen and (min-width: 1280px) {
 		display: flex;
+		width: calc((100% - 7 * 0.5em) / 8 * var(--length) + (var(--length) - 1) * 0.5em);
 	}
 }
 
