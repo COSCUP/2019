@@ -226,11 +226,11 @@ export const actions: Actions<State, RootState> = {
       live_link: live,
       record_link: record,
       title: localeKey === 'zh' ? zh.title : en.title,
-      description: localeKey === 'zh' ? zh.description: en.title,
+      description: localeKey === 'zh' ? zh.description: en.description,
       speakers: speakers.map((speakersKey) => speakerList.find((candidate) => speakersKey === candidate.id)),
       tags: tags.map((tagKey) => tagList.find((candidate) => tagKey === candidate.id)),
     }));
-    
+
     commit(types.UPDATE, {
       programs: programs,
       rooms: rooms,
@@ -239,7 +239,7 @@ export const actions: Actions<State, RootState> = {
       speakers: speakerList,
       eventDay: programs.map((program) => program.start)
                         .filter((current: DateTime, index: number, arr: Array<DateTime>) => current !== null
-                            && arr.findIndex((exists: DateTime) => 
+                            && arr.findIndex((exists: DateTime) =>
                               exists !== null && (exists.year === current.year && exists.month === current.month && exists.date === current.date)) === index
                           )
                         .sort((a: DateTime, b: DateTime) => a.timestamp - b.timestamp)
