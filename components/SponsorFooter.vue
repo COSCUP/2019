@@ -100,15 +100,5 @@ section.sponsors div.sponsors {
   section.sponsors div.sponsors {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   }
-
-  .sponsors .level:nth-child(1),
-  .sponsors .level:nth-child(2) {
-    grid-column: initial;
-  }
-
-  .sponsors .level:nth-child(1) .sponsors,
-  .sponsors .level:nth-child(2) .sponsors {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 </style>
