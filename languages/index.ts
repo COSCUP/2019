@@ -12,6 +12,7 @@ export default interface Language {
   }
 
   register: string
+  individual_sponsor: string
   osc_tickets_application: string
   call_for_proposal: string
   call_for_volunteers: string
