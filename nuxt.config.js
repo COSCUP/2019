@@ -50,7 +50,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'COSCUP 2019',
+    title: 'COSCUP 2019 | Conference for Open Source Coders, Users, and Promoters',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
