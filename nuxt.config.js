@@ -54,10 +54,10 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
-      { hid: 'og:description', property: 'og:description', content: 'COSCUP 2019' },
-      { hid: 'og:title', property: 'og:title', content: 'COSCUP 2019' },
+      { hid: 'og:description', property: 'og:description', content: 'Conference for Open Source Coders, Users, and Promoters is a free annual conference providing a platform to connect FLOSS folks across Asia since 2006. It\'s a major force of free software movement advocacy in Taiwan.' },
+      { hid: 'og:title', property: 'og:title', content: 'COSCUP 2019, Conference for Open Source Coders, Users, and Promoters' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:site_name', property: 'og:site_name', content: 'COSCUP 2019' },
+      { hid: 'og:site_name', property: 'og:site_name', content: 'Conference for Open Source Coders, Users, and Promoters is a free annual conference providing a platform to connect FLOSS folks across Asia since 2006. It\'s a major force of free software movement advocacy in Taiwan.' },
       { hid: 'og:image', property: 'og:image', content: 'https://coscup.org/2019/logo-512.png' },
       { hid: 'og:image:width', property: 'og:image:width', content: '512' },
       { hid: 'og:image:height', property: 'og:image:height', content: '512' }
