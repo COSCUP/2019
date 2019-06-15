@@ -41,6 +41,22 @@ class staffs extends Vue {
     this.$store.dispatch('clientsFirstFetch', this.$options.fetch)
   }
 
+  get title() {
+    return `${this.$t('pages.staffs')} | COSCUP 2019 | Conference for Open Source Coders, Users, and Promoters`
+  }
+
+  head() {
+    return {
+      title: this.title,
+      meta: [
+        { hid: `og:description`, property: 'og:description', content: this.title },
+        { hid: `og:title`, property: 'og:title', content: this.title },
+        { hid: `og:type`, property: 'og:type', content: 'article' },
+        { hid: `og:url`, property: 'og:url', content: `https://coscup.org/2019${this.$route.path}`},
+      ],
+    }
+  }
+
   async fetch({ store: { dispatch } }) {
     await dispatch(`${staffsStoreName}/fetchData`)
   }

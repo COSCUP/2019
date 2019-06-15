@@ -67,7 +67,7 @@ class Program extends Vue {
   get title() {
     const speakerNames = this.program.speakers.map(speaker => speaker.name).join('/')
 
-    return `${this.program.title} by ${speakerNames} | COSCUP 2019`
+    return `${this.program.title} by ${speakerNames} | COSCUP 2019 | Conference for Open Source Coders, Users, and Promoters`
   }
 
   head() {
