@@ -56,7 +56,7 @@
 										v-if="program.tags.length && program.tags[0].name.trim().length"
 									>{{ `${program.tags[0].name}` }}</span>
 									<span
-										class="difficult"
+										:class="`difficulity ${program.tags[2].id}`"
 										v-if="program.tags.length && program.tags[2] && program.tags[2].name.trim().length"
 									>{{ `${program.tags[2].name}` }}</span>
 								</footer>
@@ -395,6 +395,28 @@ export default Programs;
 	.period {
 		opacity: 0.8;
 		display: none;
+	}
+
+	.difficulity {
+		display: inline-block;
+		border-radius: 10px;
+		padding: 3px 12px 4px;
+		font-size: 12px;
+		line-height: 13px;
+		color: #fff;
+		background-color: #009a79;
+
+		&.beginner {
+			background-color: #00cca0;
+		}
+
+	  &.skilled {
+			background-color: #009a79;
+		}
+
+		&.advanced {
+			background-color: #006650;
+		}
 	}
 
 	article {
