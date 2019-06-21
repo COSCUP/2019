@@ -303,7 +303,7 @@ export default Programs;
 
 	@media only screen and (min-width: 1280px) {
 		display: flex;
-		width: calc((100% - 7 * 0.5em) / 8 * var(--length) + (var(--length) - 1) * 0.5em);
+		width: calc((100% - 7 * 0.5em) / 7.5 * var(--length) + (var(--length) - 1) * 0.5em);
 	}
 }
 
@@ -369,7 +369,7 @@ export default Programs;
 		grid-template-areas: var(--areas);
 		grid-column: var(--room);
 		grid-gap: 0 0.5em;
-		grid-template-columns: repeat(var(--length), calc(((100% - 7 * 0.5em) / 8)));
+		grid-template-columns: repeat(var(--length), calc(((100% - 7 * 0.5em) / 7.5)));
 		margin: 0;
 	}
 }
