@@ -12,7 +12,7 @@
         >{{ `${program.tags[2].name}` }}</div>
         <h4>{{ program.title }}</h4>
         <span class="room">{{ program.room.name }}</span>
-        <span class="period">{{ `${getTimeSlug(program.start)} ~ ${getTimeSlug(program.end)}` }}</span>
+        <span class="period">{{ `${getTimeSlug(program.start)} ~ ${getTimeSlug(program.end)}` }} {{ new Date().getTimezoneOffset() === -480 ? '' : ' (UTC + 8)' }}</span>
         <span
           class="language"
           v-if="program.tags.length && program.tags[0]"

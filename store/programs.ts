@@ -11,6 +11,8 @@ import {
   API_ROOT,
 } from './endpoints'
 
+import momentTZ from 'moment-timezone'
+
 export const name = 'programs'
 
 export const types = {
@@ -46,7 +48,6 @@ export type DateTime = {
   hour: number,
   minute: number,
   second: number,
-  timezoneOffset: number,
   timestamp: number,
 }
 
@@ -191,16 +192,15 @@ export const actions: Actions<State, RootState> = {
     }))
 
     const createDateTime = (timeString: string): DateTime => {
-      const dateObject = new Date(Date.parse(timeString))
+      const dateObject = momentTZ.tz(Date.parse(timeString), 'Asia/Taipei')
       return {
-        year: dateObject.getFullYear(),
-        month: dateObject.getMonth() + 1,
-        date: dateObject.getDate(),
-        hour: dateObject.getHours(),
-        minute: dateObject.getMinutes(),
-        second: dateObject.getSeconds(),
-        timezoneOffset: dateObject.getTimezoneOffset(),
-        timestamp: dateObject.getTime(),
+        year: dateObject.year(),
+        month: dateObject.month() + 1,
+        date: dateObject.date(),
+        hour: dateObject.hours(),
+        minute: dateObject.minutes(),
+        second: dateObject.seconds(),
+        timestamp: Date.parse(timeString),
       }
     }
 

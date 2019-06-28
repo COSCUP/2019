@@ -25,7 +25,7 @@
 						:key="`time-${index}`"
 						class="time"
 						:style="`grid-row-start: t${getTimeSlugWithoutColon(start)}`"
-					>{{ getTimeSlug(start) }}</li>
+					>{{ getTimeSlug(start) }} {{ new Date().getTimezoneOffset() === -480 ? '' : ' (UTC + 8)' }}</li>
 				</template>
 
 				<template v-for="(program, index) in todayPrograms">
