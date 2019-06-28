@@ -2,12 +2,10 @@ language: node_js
 node_js:
   - "11"
 
-before_install:
-  - npm install -g npm@latest
-
 script:
-  - if [ "$TRAVIS_BRANCH" = "dev" ]; then NODE_ENV=staging TZ=Asia/Taipei npm run generate; fi
-  - if [ "$TRAVIS_BRANCH" = "master" ]; then TZ=Asia/Taipei npm run generate; fi
+  - export TZ=Asia/Taipei
+  - if [ "$TRAVIS_BRANCH" = "dev" ]; then export NODE_ENV=staging; fi
+  - travis_wait 20 yarn generate
 
 deploy:
   - provider: pages
