@@ -30,3 +30,13 @@ deploy:
       branch:
         - master
         - production
+
+after_deploy:
+  - git remote set-url origin https://$GITHUB_TOKEN@github.com/COSCUP/2019.git
+  - git fetch origin gh-pages:refs/remotes/origin/gh-pages
+  - git config --global user.name "Deployment Bot (from Travis CI)"
+  - git config --global user.email "deploy@travis-ci.org"
+  - git checkout --orphan gh-pages origin/gh-pages~2
+  - git commit -m "Deploy COSCUP/2019 to github.com/COSCUP/2019.git:gh-pages"
+  - git cherry-pick origin/gh-pages~2..origin/gh-pages
+  - git push -f origin gh-pages
