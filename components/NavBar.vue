@@ -53,6 +53,11 @@
             $t('pages.blog')
           }}</a>
         </li>
+        <li>
+          <a href="https://hackmd.io/s/SyCQqip2N" target="_blank">{{
+            $t('pages.coc')
+          }}</a>
+        </li>
       </ul>
       <ul class="languages">
         <li><nuxt-link :to="switchLocalePath('en')">En</nuxt-link></li>
