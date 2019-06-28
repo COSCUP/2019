@@ -49,7 +49,7 @@ html {
 }
 
 html[lang=zh-TW] {
-  font-family: 'Noto Sans', '微軟正黑體', 'Microsoft JhengHei', '蘋方-繁', sans-serif;
+  font-family: 'Noto Sans TC', 'Noto Sans SC', '微軟正黑體', 'Microsoft JhengHei', '蘋方-繁', sans-serif;
 }
 
 *, *:before, *:after {
