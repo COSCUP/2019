@@ -48,6 +48,11 @@
 									>{{ `${program.tags[1].name}` }}</span>
 									<header>
 										<h4>{{ program.title }}</h4>
+										<ul class="speakers">
+										<template v-for="(speaker, index) in program.speakers">
+						          <li :key="`speaker-${index}`">{{ speaker.name }}</li>
+						        </template>
+										</ul>
 									</header>
 									<span class="room">{{ program.room.name }}</span>
 									<span class="length">{{ `${program.period} mins` }}</span>
@@ -384,8 +389,26 @@ export default Programs;
 		font-size: 16px;
 	}
 
+	.speaker, .speakers li{
+	  display: inline-block;
+	  font-size: small;
+	  color: #009a79;
+		font-weight: bold;
+		line-height: 1rem;
+	}
+
+	.speakers li:first-child:before{
+	  content: "by ";
+	}
+
+	.speakers li:not(:first-child):before{
+	  content: ", ";
+	}
+
 	.track {
 		color: #009a79;
+		font-size: smaller;
+		line-height: 1rem;
 	}
 
 	footer {
@@ -457,10 +480,6 @@ export default Programs;
 
 		.period {
 			display: block;
-		}
-
-		.track {
-			font-size: smaller;
 		}
 
 		.length, .room, .language {
