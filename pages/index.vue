@@ -236,16 +236,24 @@ main.index {
   line-height: 1em;
 
   transition: box-shadow .3s cubic-bezier(0.4, 0.0, 0.2, 1),
-    margin-top .3s cubic-bezier(0.4, 0.0, 0.2, 1),
-    font-size .3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    background-color .3s cubic-bezier(0.4, 0.0, 0.2, 1),
+    transform .3s cubic-bezier(0.4, 0.0, 0.2, 1),
 }
 
 .register .register-now a:hover,
 .register .register-now a:focus {
   box-shadow: 0px .2em 12px rgba(0, 0, 0, 0.1);
-  margin-top: -.2em;
-  font-size: 1.1em;
+  background-color: var(--hover-accent);
 }
+
+@supports (transform: scale(1.1)) {
+  .register .register-now a:hover,
+  .register .register-now a:focus {
+    transform: scale(1.1);
+    background-color: var(--accent);
+  }
+}
+
 
 @media(min-width: 840px) {
   .topic {
