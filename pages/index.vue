@@ -100,6 +100,7 @@ export default Home
 <style scoped>
 :root {
   --accent: rgb(59, 156, 96);
+  --hover-accent: rgba(59, 156, 96, 0.4);
 }
 
 main.index {
@@ -181,7 +182,7 @@ main.index {
 .call-for-volunteers:hover,
 .call-for-volunteers:focus {
   box-shadow: 0px .2em 12px rgba(0, 0, 0, 0.1);
-  background-color: color(var(--accent) a(90%));
+  background-color: var(--hover-accent);
 }
 
 .show-live-cast {

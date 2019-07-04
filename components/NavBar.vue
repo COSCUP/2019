@@ -88,6 +88,8 @@ export default Vue.extend({
 :root {
   --accent: rgb(59, 156, 96);
   --secondary: rgb(177, 215, 191);
+  --hover-accent: rgba(59, 156, 96, 0.4);
+  --hover-secondary: rgba(177, 215, 191, 0.4);
 }
 
 nav {
@@ -240,15 +242,15 @@ nav {
 
   color: var(--accent);
 
-  border-bottom: 1px solid color(var(--secondary) a(0.4));
+  border-bottom: var(--hover-secondary);
 }
 
 .pages li a:hover {
-  color: color(var(--accent) a(0.4));
+  color: var(--hover-accent);
 }
 
 .pages li a.nuxt-link-exact-active {
-  color: color(var(--accent) a(0.4));
+  color: var(--hover-accent);
 }
 
 .languages {
