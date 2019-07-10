@@ -124,7 +124,7 @@ module.exports = {
       breaks: true,
     }],
     ['@nuxtjs/google-analytics', {
-      id: 'UA-12923351-7'
+      id: 'UA-12923351-1'
     }],
     '@nuxtjs/proxy',
   ],
