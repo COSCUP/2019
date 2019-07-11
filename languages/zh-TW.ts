@@ -17,6 +17,7 @@ const language : Language = {
   osc_tickets_application: '開源貢獻者保留票申請',
   call_for_proposal: '議程徵稿',
   call_for_volunteers: '工人招募',
+  lpi_certifications: 'LPI 證照考試',
   about: {
     welcome: ``,
     register_now: '點我報名',

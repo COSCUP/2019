@@ -16,7 +16,7 @@ export default interface Language {
   osc_tickets_application: string
   call_for_proposal: string
   call_for_volunteers: string
-
+  lpi_certifications: string
   about: {
     welcome: string
     register_now: string
