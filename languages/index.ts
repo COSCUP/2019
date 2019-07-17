@@ -8,6 +8,7 @@ export default interface Language {
     sponsors: string
     staffs: string
     blog: string
+	press_release: string
     coc: string
   }
 

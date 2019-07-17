@@ -54,6 +54,11 @@
           }}</a>
         </li>
         <li>
+          <a href="https://blog.coscup.org/p/press-release.html" target="_blank">{{
+            $t('pages.press_release')
+          }}</a>
+        </li>
+        <li>
           <a href="https://hackmd.io/s/SyCQqip2N" target="_blank">{{
             $t('pages.coc')
           }}</a>

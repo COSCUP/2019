@@ -10,6 +10,7 @@ const language : Language = {
     sponsors: '贊助',
     staffs: '工作人員',
     blog: '部落格',
+	press_release: '媒體專區',
     coc: '社群守則',
   },
   register: '報名',

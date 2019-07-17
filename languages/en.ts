@@ -10,6 +10,7 @@ const language : Language = {
     sponsors: 'Sponsors',
     staffs: 'Staff',
     blog: 'Blog',
+	press_release: 'Press Release',
     coc: 'CoC',
   },
   register: 'Registration',
