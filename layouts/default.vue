@@ -35,6 +35,7 @@ export default defaultLayout
 <style>
 :root {
   --accent: rgb(59, 156, 96);
+  --hover-accent: rgba(59, 156, 96, 0.4);
 }
 
 html {
@@ -64,10 +65,10 @@ body {
 a {
   text-decoration: none;
   color: var(--accent);
+}
 
-  &:hover, &:focus {
-    color: color(var(--accent) a(40%))
-  }
+a:hover, a:focus {
+  color: var(--hover-accent);
 }
 
 ul {
