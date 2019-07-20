@@ -226,7 +226,7 @@ export const actions: Actions<State, RootState> = {
       live_link: live,
       record_link: record,
       title: localeKey === 'zh' ? zh.title : en.title,
-      description: localeKey === 'zh' ? zh.description: en.description,
+      description: (localeKey === 'zh' ? zh.description: en.description).split('\n\n').map((paragraph) => paragraph.split('\n')),
       speakers: speakers.map((speakersKey) => speakerList.find((candidate) => speakersKey === candidate.id)),
       tags: tags.map((tagKey) => tagList.find((candidate) => tagKey === candidate.id)),
     }));

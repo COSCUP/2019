@@ -18,7 +18,13 @@
           v-if="program.tags.length && program.tags[0]"
         >{{ `${program.tags[0].name}` }}</span>
       </header>
-      <p>{{ program.description }}</p>
+      <template v-for="(paragraph, index) in program.description">
+        <p :key="`paragraph-${index}`">
+          <template v-for="(line, index) in paragraph">
+            <span :key="index">{{ line }}<br/></span>
+          </template>
+        </p>
+      </template>
       <footer>
         <template v-for="(speaker, index) in program.speakers">
           <div class="speaker" :key="`speaker-${index}`">
