@@ -49,6 +49,11 @@
           }}</nuxt-link>
         </li>
         <li>
+          <nuxt-link :to="localePath('staffs')">{{
+            $t('pages.staffs')
+          }}</nuxt-link>
+        </li>
+        <li>
           <a href="https://blog.coscup.org" target="_blank">{{
             $t('pages.blog')
           }}</a>
