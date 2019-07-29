@@ -1,7 +1,7 @@
 <template>
-  <div class="modal" v-if="program">
-    <nuxt-link :to="`${$i18n.locale !== 'zh-TW' ? '/' + $i18n.locale : ''}/programs/day${programDay}`"><span class="close">×</span></nuxt-link>
-    <article>
+  <div class="modal" v-if="program" @click="$router.push(closeUrl)">
+    <nuxt-link @click.stop :to="closeUrl"><span class="close">×</span></nuxt-link>
+    <article @click.stop>
       <header>
         <div class="track" v-if="program.tags.length && program.tags[1]">
           {{ `${program.tags[1].name}` }}
@@ -74,6 +74,11 @@ class Program extends Vue {
     const speakerNames = this.program.speakers.map(speaker => speaker.name).join('/')
 
     return `${this.program.title} by ${speakerNames} | COSCUP 2019 | Conference for Open Source Coders, Users, and Promoters`
+  }
+
+  get closeUrl() {
+    const langPrefix = this.$i18n.locale !== 'zh-TW' ? '/' + this.$i18n.locale : ''
+    return `${langPrefix}/programs/day${this.programDay}`;
   }
 
   head() {
