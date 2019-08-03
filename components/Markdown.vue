@@ -17,7 +17,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
     }
   }
 })
-export default class Markdown extends Vue {
+class Markdown extends Vue {
   $md: any
   mounted() {
     const $md = this.$md
@@ -41,6 +41,8 @@ export default class Markdown extends Vue {
     }
   }
 }
+
+export default Markdown
 </script>
 <style lang="stylus">
 p
