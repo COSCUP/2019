@@ -18,18 +18,16 @@
           v-if="program.tags.length && program.tags[0]"
         >{{ `${program.tags[0].name}` }}</span>
       </header>
-      <template v-for="(paragraph, index) in program.description">
-        <p :key="`paragraph-${index}`">
-          <template v-for="(line, index) in paragraph">
-            <span :key="index">{{ line }}<br/></span>
-          </template>
-        </p>
-      </template>
+      <markdown
+        :value="program.description"
+      />
       <footer>
         <template v-for="(speaker, index) in program.speakers">
           <div class="speaker" :key="`speaker-${index}`">
             <strong>{{ speaker.name }}</strong>
-            <p>{{ speaker.bio }}</p>
+            <markdown
+              :value="speaker.bio"
+            />
           </div>
         </template>
       </footer>
@@ -40,12 +38,16 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "nuxt-property-decorator";
 import { State, namespace } from 'vuex-class'
-import { Program as Session, DateTime, name as ProgramStoreName } from "~/store/programs";
+import { Program as Session, DateTime, name as ProgramStoreName } from "~/store/programs"
+import Markdown from '~/components/Markdown.vue'
 
 const ProgramsState = namespace(ProgramStoreName, State)
 
 @Component({
   name: 'Program',
+  components: {
+    Markdown
+  }
 })
 class Program extends Vue {
   @ProgramsState programs
@@ -140,9 +142,6 @@ export default Program
         font-size: 2em;
         line-height: 1.3em;
         margin: .3em 0;
-    }
-    p {
-        margin: 2em 0;
     }
     .room, .period, .language {
         font-weight: bold;

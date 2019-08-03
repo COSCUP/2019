@@ -122,6 +122,10 @@ module.exports = {
       xhtmlOut: true,
       linkify: true,
       breaks: true,
+      typographer: true,
+      use: [
+        'markdown-it-highlightjs'
+      ]
     }],
     ['@nuxtjs/google-analytics', {
       id: 'UA-12923351-1'
@@ -198,7 +202,8 @@ module.exports = {
     ],
   },
   css: [
-    'vue2vis/dist/vue2vis.css'
+    'vue2vis/dist/vue2vis.css',
+    { src: '~/node_modules/highlight.js/styles/hopscotch.css', lang: 'css' }
   ],
   markdownit: {
     injected: true

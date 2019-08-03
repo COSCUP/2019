@@ -44,3 +44,14 @@ class Markdown extends Vue {
 
 export default Markdown
 </script>
+<style lang="stylus">
+p
+  margin 1em 0
+code
+  border-radius 4px
+code:not(.hljs)
+  background-color rgba(0, 0, 0, 0.06)
+  padding 2px
+  border-radius 4px
+</style>
+
