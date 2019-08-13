@@ -39,6 +39,11 @@
           }}</nuxt-link>
         </li>
         <li>
+          <nuxt-link :to="localePath('floorplan')">{{
+            $t('pages.floorplan')
+          }}</nuxt-link>
+        </li>
+        <li>
           <nuxt-link :to="localePath('venue')">{{
             $t('pages.venue')
           }}</nuxt-link>
