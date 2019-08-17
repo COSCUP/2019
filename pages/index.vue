@@ -14,7 +14,7 @@
           <h2>{{ description }}</h2>
           {{ place }}
 		  <a class="call-for-volunteers" href="https://coscup2019.kktix.cc/events/coscup2019regist" target="_blank">{{ $t('register') }}</a>
-		  <a class="call-for-volunteers" href="https://blog.coscup.org/2019/07/lpi-x-coscup-2019.html" target="_blank">{{ $t('lpi_certifications') }}</a>
+		  <a class="call-for-volunteers" href="https://coscup.org/2019/guidebook2019.pdf" target="_blank">{{ $t('guidebook') }}</a>
         </div>
       </div>
     </Card>

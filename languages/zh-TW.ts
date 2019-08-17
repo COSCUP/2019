@@ -19,6 +19,7 @@ const language : Language = {
   call_for_proposal: '議程徵稿',
   call_for_volunteers: '工人招募',
   lpi_certifications: 'LPI 證照考試',
+  guidebook: '大會手冊',
   about: {
     welcome: ``,
     register_now: '點我報名',

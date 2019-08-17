@@ -19,6 +19,7 @@ const language : Language = {
   call_for_proposal: 'Call for Proposal',
   call_for_volunteers: 'Call for Volunteers',
   lpi_certifications: 'Certification exam',
+  guidebook: 'guidebook',
   about: {
     welcome: ``,
     register_now: 'Register now!',
