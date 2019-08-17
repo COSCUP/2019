@@ -10,6 +10,10 @@
         <div class="main-box">
           <h1>
             COSCUP 2019
+            <div style="color: red; font-weight: bold;">
+                8/18 緊急更換至研揚大樓
+                8/18 All EVENT change to 研揚 Building (TR Building)
+            </div>
           </h1>
           <h2>{{ description }}</h2>
           {{ place }}
