@@ -258,11 +258,14 @@ main.index {
   }
 }
 
-
-@media(min-width: 840px) {
+@media (orientation: portrait) and (min-width: 840px)  {
   .topic {
     max-height: 80vh;
+  }
+}
 
+@media (min-width: 840px) {
+  .topic {
     font-size: 1.2em;
   }
 
