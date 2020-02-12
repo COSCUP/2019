@@ -30,6 +30,8 @@ const language : Language = {
     talks: 'Talks',
     track: 'Track',
     speakers: 'Speaker(s)',
+    slide: 'Slide',
+    record: 'Video',
   },
   venue: {
     openInGoogleMaps: 'Open in Google Maps',

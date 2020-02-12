@@ -30,6 +30,8 @@ const language : Language = {
     talks: '議程列表',
     track: '議程軌',
     speakers: '講者',
+    slide: '投影片',
+    record: '錄影',
   },
   venue: {
     openInGoogleMaps: '在 Google Maps 中開啓',

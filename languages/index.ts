@@ -31,6 +31,9 @@ export default interface Language {
 
     track: string
     speakers: string
+
+    slide: string
+    record: string
   }
 
   venue: {

@@ -18,6 +18,8 @@
           v-if="program.tags.length && program.tags[0]"
         >{{ `${program.tags[0].name}` }}</span>
       </header>
+      <span class="record" v-if="program.record_link"><a :href="program.record_link" target="_blank"><Icon icon="video" /> {{ $t('programs.record') }}</a></span>
+        <span class="slide" v-if="program.slide_link"><a :href="program.slide_link" target="_blank"><Icon :icon="['fab', 'slideshare']" /> {{ $t('programs.slide') }}</a></span>
       <markdown
         :value="program.description"
       />
@@ -180,5 +182,14 @@ export default Program
             padding: 1em 1em 0;
         }
     }
+}
+
+.record, .slide {
+  a {
+    text-decoration: underline;
+  }
+  svg {
+    margin: 0 5px;
+  }
 }
 </style>

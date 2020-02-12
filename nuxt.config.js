@@ -161,6 +161,7 @@ module.exports = {
       {
         set: '@fortawesome/free-solid-svg-icons',
         icons: [
+          'faVideo',
           'faExternalLinkAlt',
           'faBullhorn',
           'faChevronDown',
@@ -183,6 +184,7 @@ module.exports = {
       {
         set: '@fortawesome/free-brands-svg-icons',
         icons: [
+          'faSlideshare',
           /* Social networks */
           'faBlogger',
           'faFacebook',
