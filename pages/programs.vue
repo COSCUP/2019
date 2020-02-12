@@ -58,8 +58,8 @@
 									<span class="length">{{ `${program.period} mins` }}</span>
 									<span
 										class="language"
-										v-if="program.tags.length && program.tags[0].name.trim().length"
-									>{{ `${program.tags[0].name}` }}</span>
+										v-if="program.tags.length && program.tags[0] && program.tags[0].name && program.tags[0].name.trim().length"
+									>{{ `${program.tags[0].name.trim()}` }}</span>
 									<span
 										:class="`difficulity ${program.tags[2].id}`"
 										v-if="program.tags.length && program.tags[2] && program.tags[2].name.trim().length"
