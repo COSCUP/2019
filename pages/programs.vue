@@ -9,10 +9,10 @@
 		</nav>
 		<div
 			id="timetable"
-			:style="`--table: ${cssGridTemplateRows}; --list: ${cssListTemplateRow}; --length: ${rooms.length}; --areas: '${cssGridAreas}'`"
+			:style="`--table: ${cssGridTemplateRows}; --list: ${cssListTemplateRow}; --length: ${todayRooms.length}; --areas: '${cssGridAreas}'`"
 		>
 			<ul id="rooms">
-				<template v-for="(room, index) in rooms">
+				<template v-for="(room, index) in todayRooms">
 					<li :key="index">
 						Room
 						<strong>{{ room.name }}</strong>
@@ -33,7 +33,7 @@
 						:key="`program-${index}`"
 						class="program"
 						:style="{
-            '--room': `${program.room.id}`,
+            '--room': `${program.room.id.replace(/^[0-9]+/, '')}`,
             '--start': `t${getTimeSlugWithoutColon(program.start)}`,
             '--end': `t${getTimeSlugWithoutColon(program.end)}`
           }"
@@ -81,7 +81,7 @@ import { Component, Vue } from "nuxt-property-decorator";
 import { namespace } from "vuex-class";
 
 // stores
-import { name as programsStoreName, DateTime, Program } from "~/store/programs";
+import { name as programsStoreName, DateTime, Program, Room } from "~/store/programs";
 
 const ProgramsState = namespace(programsStoreName).State;
 
@@ -116,7 +116,7 @@ class Programs extends Vue {
         { hid: `og:url`, property: 'og:url', content: `https://coscup.org/2019${this.$route.path}`},
       ],
     }
-  }
+	}
 
 	get currentDayIndex(): number {
 		const id = this.$route.params.id
@@ -153,6 +153,12 @@ class Programs extends Vue {
 					: false;
 			}
 		).sort((a: Program, b: Program) => a.start.timestamp - b.start.timestamp);
+	}
+
+	get todayRooms(): Room[] {
+		return this.todayPrograms.map(p => p.room).filter((p, i, arr) => arr.indexOf(p) === i)
+		.sort(({ id: idA }, { id: idB }) => idA < idB ? -1: idA > idB ? 1: 0)
+		.map(({id, name}) => ({id: id.replace(/^[0-9]+/, ''), name}))
 	}
 
 	get programTimeSlot(): DateTime[] {
@@ -193,7 +199,7 @@ class Programs extends Vue {
 	}
 
 	get cssGridAreas() {
-		return this.rooms.map(room => room.id).join(" ");
+		return this.todayRooms.map(room => room.id).join(" ");
 	}
 
 	get cssListTemplateRow() {
